@@ -1,18 +1,9 @@
 defmodule Pled do
   @moduledoc """
-  Documentation for `Pled`.
+  Pled - Bubble.io Plugin Development Tool
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Pled.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def main(args) do
+    Pled.CLI.main(args)
   end
 end
