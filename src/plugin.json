@@ -1,0 +1,2094 @@
+{
+  "assets": {
+    "AFp": {
+      "name": "2.8",
+      "url": "//meta-q.cdn.bubble.io/f1729069176273x135609299418327100/dist.js"
+    },
+    "AFr": {
+      "name": "2.10.3",
+      "url": "//meta-q.cdn.bubble.io/f1732874199313x135749546184598340/dist.js"
+    },
+    "AFs": {
+      "name": "2.10.3-fille-handler",
+      "url": "//meta-q.cdn.bubble.io/f1732876391434x542806054989120960/dist.js"
+    },
+    "AGF": {
+      "name": "2.11.2-ida",
+      "url": "//meta-q.cdn.bubble.io/f1737559867068x234949295295092680/dist.js"
+    },
+    "AGL": {
+      "name": "2.11.2-resize_image",
+      "url": "//meta-q.cdn.bubble.io/f1740299743780x981628697617822600/dist.js"
+    },
+    "AGQ": {
+      "name": "2.11.2-preserve",
+      "url": "//meta-q.cdn.bubble.io/f1751452274360x126917333554564580/dist.js"
+    },
+    "AGR": {
+      "name": "2.11.2-preserve",
+      "url": "//meta-q.cdn.bubble.io/f1751454052316x514680040614802240/dist.js"
+    }
+  },
+  "dependencies": {
+    "alpha_opt_in": false,
+    "plugin_api_version": "4",
+    "use_jquery": true
+  },
+  "editor_counter": 329,
+  "html_header": {
+    "snippet": "<script src=\"//meta-q.cdn.bubble.io/f1751454052316x514680040614802240/dist.js\" ></script>\n\n\n<script src=\"https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js\" integrity=\"sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=\" crossorigin=\"anonymous\"></script>\n\n<!-- Tippy styles -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/themes/light-border.min.css\" integrity=\"sha512-DiG+GczLaoJczcpFjhVy4sWA1rheh0I6zmlEc+ax7vrq2y/qTg80RtxDOueLcwBrC80IsiQapIgTi++lcGHPLg==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/themes/light.min.css\" integrity=\"sha512-zpbTFOStBclqD3+SaV5Uz1WAKh9d2/vOtaFYpSLkosymyJKnO+M4vu2CK2U4ZjkRCJ7+RvLnISpNrCfJki5JXA==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/themes/material.min.css\" integrity=\"sha512-R8oUfFYCO11afzYKUhovrP+cajy9JF0iRRHbuk16gPYstVj9McxsE/D8wnH2l0aBKuhnkAd6VMLiTFV1Bp+zKA==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/themes/translucent.min.css\" integrity=\"sha512-MkXwkRGjkxAMeA0Kma3nhRs2CxojMPMv5kgP+y9OcIQkXOTPGyxmjPPddHPov59evYXjcC5B5hM4yUQ5n49Yog==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />"
+  },
+  "human": "🤌 Rich text editor (Tiptap.dev)",
+  "meta_data": {
+    "categories": {
+      "0": "blog",
+      "1": "productivity"
+    },
+    "data_tracked": false,
+    "data_tracked_description": null,
+    "demo_page": "https://tiptap-plugin.bubbleapps.io/version-test/doc-nobind/demo",
+    "description": "✅ AUTOBINDING works\n\n---\n\ndonate · support · request\n\nhttp://rico.wtf/donate\n\n\n---\n\n\n𝗦𝗢𝗠𝗘𝗧𝗛𝗜𝗡𝗚 𝗠𝗜𝗦𝗦𝗜𝗡𝗚? \n𝗥𝗘𝗤𝗨𝗘𝗦𝗧 𝗔 𝗙𝗘𝗔𝗧𝗨𝗥𝗘 𝗢𝗡 𝗧𝗛𝗘 𝗙𝗢𝗥𝗨𝗠 \n(service URL below)\n\n---\n\nTiptap 🩰 is a rich text editor that gives you control over of your text editor. \n\n\n✅ Demo: https://tiptap-demo.bubbleapps.io/version-test/doc/demo\n\n\n𝗙𝗘𝗔𝗧𝗨𝗥𝗘𝗦\n\n𝗠𝗘𝗡𝗨𝗦\nFully customizable menus\n\n- Top menu\n- Bubble menu: highlight a word and this menu pops up.\n- Floating menu: appears in an empty line.\n\n𝗞𝗘𝗬𝗕𝗢𝗔𝗥𝗗 𝗦𝗛𝗢𝗥𝗧𝗖𝗨𝗧𝗦\nBoth for classical editor and markdown. You can set a paragraph to Heading1 either by typing ⌘ + ⌥ + 𝟏  or by adding # at the beginning of a paragraph.\nSee all of them here: https://tiptap.dev/api/keyboard-shortcuts\n\n\n𝗧𝗘𝗫𝗧 𝗙𝗢𝗥𝗠𝗔𝗧𝗦\n- Bold, Italics, Strikethrough\n- Headings 1 through 6\n- blockquotes\n- lists\n- task lists\n- Images\n- code blocks\n\n\n𝗢𝗨𝗧𝗣𝗨𝗧\n- HTML, clean\n- Plain text\n- JSON\n\n\n",
+    "image": "//s3.amazonaws.com/appforest_uf/f1671049405494x906508617350303200/tiptap%20logo%20400x400.jpg",
+    "license": "open_source",
+    "link": "https://forum.bubble.io/t/tiptap-rich-text-editor-with-html-output/238504",
+    "name": "🤌 Rich text editor (Tiptap.dev)",
+    "plugin_instructions": "1. Place the element on the page\n2. Feed it some initial content (plain text or HTML)\n3. Save the HTML as output\n\nExtras:\n- build and wire your own menu\n- floating menu\n- bubble menu\n",
+    "sa_node_version": 18
+  },
+  "plugin_actions": {
+    "AEK": {
+      "category": "data (things)",
+      "code": {
+        "automatically_added_packages": "{\"node:util\":\"latest\"}",
+        "package": {
+          "fn": "{\n    \"dependencies\": {\n        \"node:util\": \"latest\",\n        \"jsonwebtoken\": \"latest\"\n    }\n}",
+          "invalid_package": false
+        },
+        "package_hash": "9934a31acfc0ff0b53bc",
+        "package_status": "out_of_date",
+        "package_used": true,
+        "server": {
+          "fn": "function(properties, context) {\n\n    const jsonwebtoken = require('jsonwebtoken');\n    const { inspect } = require('node:util');\n\n    const doc = properties.docID;\n    const docList = properties.docIDList;\n\n    let allowedDocumentNames = [];\n\tif (!!doc) allowedDocumentNames.push(doc);\n\tif (!!docList) allowedDocumentNames.push(docList);\n    const data = {\n        allowedDocumentNames: allowedDocumentNames\n    }\n    let key;\n    if (properties.jwt_secret === \"Tiptap Cloud\") key = context.keys[\"Tiptap Cloud JWT secret\"]\n    if (properties.jwt_secret === \"Custom\") key = context.keys[\"Custom collab JWT secret\"]\n\n    try {\n        const jwt = jsonwebtoken.sign(data, key);\n\n        return {\n            jwt_key: jwt,\n            error: \"\",\n            returned_an_error: false\n\n        }\n    } catch (error) {\n        console.log(\"error when creating JWT token\", inspect(error) );\n        return {\n            jwt_key: \"\",\n            error: \"there was an error retrieving the jwt keys.\\n\" + inspect(error),\n            returned_an_error: true\n        }\n\n    }\n}"
+        }
+      },
+      "display": "generate JWT key",
+      "fields": {
+        "AEL": {
+          "caption": "Doc ID",
+          "doc": "the document's unique ID. This will be the name of the document that you will see on 𝗵𝘁𝘁𝗽𝘀://𝗰𝗼𝗹𝗹𝗮𝗯.𝘁𝗶𝗽𝘁𝗮𝗽.𝗱𝗲𝘃",
+          "editor": "DynamicValue",
+          "name": "docID",
+          "optional": true,
+          "rank": 0,
+          "value": "text"
+        },
+        "AEY": {
+          "caption": "Doc ID (list)",
+          "doc": "Doc ids list",
+          "editor": "DynamicValue",
+          "is_list": true,
+          "name": "docIDList",
+          "optional": true,
+          "rank": 1,
+          "value": "text"
+        },
+        "jwt_secret": {
+          "caption": "Which JWT secret to use",
+          "default_val": "Tiptap Cloud",
+          "doc": "Key to use to sign the JWT key",
+          "editor": "Dropdown",
+          "name": "jwt_secret",
+          "optional": true,
+          "options": "Tiptap Cloud,Custom",
+          "rank": 2
+        }
+      },
+      "return_value": {
+        "AEM": {
+          "caption": "jwt key",
+          "name": "jwt_key",
+          "rank": 0,
+          "value": "text"
+        },
+        "AEZ": {
+          "caption": "error",
+          "name": "error",
+          "rank": 1,
+          "value": "text"
+        },
+        "AEa": {
+          "caption": "returned_an_error",
+          "name": "returned_an_error",
+          "rank": 2,
+          "value": "boolean"
+        }
+      },
+      "type": "server_side"
+    }
+  },
+  "plugin_elements": {
+    "AAC": {
+      "actions": {
+        "ACp": {
+          "caption": "Table toggle header row",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"table_-_toggle_header_row\"\n    );\n\n  instance.data.editor.chain().focus().toggleHeaderRow().run();\n}"
+          }
+        },
+        "ACR": {
+          "caption": "Remove link",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Remove Link\");\n\n  if (instance.data.active_nodes.includes(\"Link\")) {\n    instance.data.editor.commands.unsetLink();\n  } else {\n    console.log(\"tried to add Link, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "AAx": {
+          "caption": "H3",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H3\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(3)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 3 }).run();\n  } else {\n    console.log(\"tried to add a H3, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "AAj": {
+          "caption": "Italic",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Italic\");\n\n  if (instance.data.active_nodes.includes(\"Italic\")) {\n    instance.data.editor.chain().focus().toggleItalic().run();\n  } else {\n    console.log(\"tried to Italic, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "AFS": {
+          "caption": "Set font family",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"Set font family\"\n    );\n\n  if (instance.data.active_nodes.includes(\"FontFamily\")) {\n    let font_family = properties.font_family;\n    instance.data.editor.chain().setFontFamily(font_family).focus().run();\n  }\n}"
+          },
+          "fields": {
+            "AFT": {
+              "caption": "Font family",
+              "default_val": "Inter",
+              "editor": "DynamicValue",
+              "name": "font_family",
+              "rank": 0,
+              "value": "text"
+            }
+          }
+        },
+        "AFX": {
+          "caption": "Set color",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Set color\");\n\n  if (instance.data.active_nodes.includes(\"Color\")) {\n    let color = properties.color;\n    console.log(\"color\", color);\n    instance.data.editor.chain().setColor(color).focus().run();\n  }\n}"
+          },
+          "fields": {
+            "AFY": {
+              "caption": "Color",
+              "default_val": "rgba(6,121,150,1)",
+              "editor": "Color",
+              "name": "color",
+              "rank": 0
+            }
+          }
+        },
+        "ACs": {
+          "caption": "Table add column after",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"Add Column After\"\n    );\n\n  instance.data.editor.chain().focus().addColumnAfter().run();\n}"
+          }
+        },
+        "AAh": {
+          "caption": "Bold",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Bold\");\n  // test sagain\n  if (instance.data.active_nodes.includes(\"Bold\")) {\n    instance.data.editor.chain().toggleBold().focus().run();\n  } else {\n    console.log(\"tried to Bold, but extension is not active.\");\n  }\n}"
+          },
+          "doc": "Applies bold to current selection. Ctrl + B / Opt + B"
+        },
+        "ACd": {
+          "caption": "Align text",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Align Text\");\n\n  if (instance.data.active_nodes.includes(\"TextAlign\")) {\n    let alignment = properties.alignment;\n    console.log(alignment);\n    if (alignment == \"reset\") {\n      console.log(alignment == \"reset\");\n      instance.data.editor.chain().focus().unsetTextAlign().run();\n    } else {\n      console.log(alignment != \"reset\");\n      instance.data.editor.chain().focus().setTextAlign(alignment).run();\n    }\n  } else {\n    console.log(\"tried to TextAlign, but extension is not active.\");\n  }\n}"
+          },
+          "fields": {
+            "ACe": {
+              "caption": "Alignment",
+              "default_val": "left",
+              "editor": "Dropdown",
+              "name": "alignment",
+              "options": "left,center,right,justify,reset",
+              "rank": 0
+            }
+          }
+        },
+        "ACy": {
+          "caption": "Table split cell",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Split Cell\");\n\n  instance.data.editor.chain().focus().splitCell().run();\n}"
+          }
+        },
+        "ACz": {
+          "caption": "Table merge cells",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Merge Cells\");\n\n  instance.data.editor.chain().focus().mergeCells().run();\n}"
+          }
+        },
+        "ACt": {
+          "caption": "Table add column before",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"Add Column Before\"\n    );\n\n  instance.data.editor.chain().focus().addColumnBefore().run();\n}"
+          }
+        },
+        "AAp": {
+          "caption": "H1",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H1\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(1)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 1 }).run();\n  } else {\n    console.log(\"tried to add a H1, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ABS": {
+          "caption": "Task list",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Task List\");\n\n  if (instance.data.active_nodes.includes(\"TaskList\")) {\n    instance.data.editor.chain().focus().toggleTaskList().run();\n  } else {\n    console.log(\"tried to add TaskList, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ABC": {
+          "caption": "Bullet list",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Bullet List\");\n\n  if (instance.data.active_nodes.includes(\"BulletList\")) {\n    instance.data.editor.chain().focus().toggleBulletList().run();\n  } else {\n    console.log(\"tried to add a BulletList, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ADI": {
+          "caption": "Add YouTube",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Add YouTube\");\n\n  let url = properties.url;\n  let width = properties.width;\n  let height = properties.height;\n\n  instance.data.editor\n    .chain()\n    .focus()\n    .setYoutubeVideo({\n      src: url,\n      //\t\twidth: width,\n      //\t\theight: height,\n    })\n    .run();\n}"
+          },
+          "fields": {
+            "ADJ": {
+              "caption": "url",
+              "default_val": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              "doc": "The YouTube url of the video",
+              "editor": "DynamicValue",
+              "name": "url",
+              "rank": 0,
+              "value": "text"
+            },
+            "ADK": {
+              "caption": "width",
+              "default_val": 320,
+              "doc": "If you set the width at 100% on the Tiptap element on the editor, this will serve as min width.",
+              "editor": "DynamicValue",
+              "name": "width",
+              "rank": 1,
+              "value": "number"
+            },
+            "ADL": {
+              "caption": "height",
+              "default_val": 240,
+              "doc": "If you set the width at 100% on the Tiptap element on the editor, this will serve as min height.",
+              "editor": "DynamicValue",
+              "name": "height",
+              "rank": 2,
+              "value": "number"
+            }
+          }
+        },
+        "ADB": {
+          "caption": "Underline",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Underline\");\n\n  if (instance.data.active_nodes.includes(\"Underline\")) {\n    instance.data.editor.chain().focus().toggleUnderline().run();\n  } else {\n    console.log(\"tried to underline but feature is off.\");\n  }\n}"
+          }
+        },
+        "AFU": {
+          "caption": "Unset font family",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"Unset font family\"\n    );\n\n  if (instance.data.active_nodes.includes(\"FontFamily\")) {\n    instance.data.editor.chain().unsetFontFamily().focus().run();\n  }\n}"
+          }
+        },
+        "ABK": {
+          "caption": "Blockquote",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Blockquote\");\n\n  if (instance.data.active_nodes.includes(\"Blockquote\")) {\n    instance.data.editor.chain().focus().toggleBlockquote().run();\n  } else {\n    console.log(\"tried to add Blockquote, but extension is not active.\");\n  }\n}"
+          },
+          "doc": ""
+        },
+        "AAy": {
+          "caption": "H4",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H4\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(4)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 4 }).run();\n  } else {\n    console.log(\"tried to add a H4, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ACW": {
+          "caption": "Set content",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Set Content\");\n\n  try {\n    let content = properties.is_json\n      ? JSON.parse(properties.content)\n      : properties.content;\n    let preserveWhitespace =\n      properties.parseOptions_preserveWhitespace === \"true\"\n        ? true\n        : properties.parseOptions_preserveWhitespace === \"false\"\n          ? false\n          : \"full\";\n\n    console.log(\n      \"setContent preserveWhitespace\",\n      typeof preserveWhitespace,\n      preserveWhitespace\n    );\n\n    instance.data.editor.commands.setContent(content, true, {\n      preserveWhitespace: preserveWhitespace,\n    });\n  } catch (error) {\n    context.reportToDebugger(\n      \"There was an error running setContent.\\n\" + error.message\n    );\n    console.error(error);\n  }\n}"
+          },
+          "fields": {
+            "ACX": {
+              "caption": "Content",
+              "doc": "Content to display in the editor. Can be HTML, plain text.",
+              "editor": "DynamicValue",
+              "long_text": true,
+              "name": "content",
+              "rank": 0,
+              "value": "text"
+            },
+            "ACY": {
+              "caption": "Is JSON?",
+              "default_val": false,
+              "editor": "DynamicValue",
+              "name": "is_json",
+              "optional": true,
+              "rank": 1,
+              "value": "boolean"
+            },
+            "AFH": {
+              "caption": "preserveWhitespace",
+              "default_val": "'full'",
+              "doc": "By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces, and 'full' to preserve whitespace entirely.",
+              "editor": "Dropdown",
+              "name": "parseOptions_preserveWhitespace",
+              "options": "true,false,'full'",
+              "rank": 2
+            }
+          }
+        },
+        "ABA": {
+          "caption": "H6",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H6\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(6)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 6 }).run();\n  } else {\n    console.log(\"tried to add a H6, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "AFZ": {
+          "caption": "Unset color",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Unset color\");\n\n  if (instance.data.active_nodes.includes(\"Color\")) {\n    instance.data.editor.chain().unsetColor().focus().run();\n  }\n}"
+          }
+        },
+        "ACD": {
+          "caption": "Insert image",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Insert Image\");\n\n  if (instance.data.active_nodes.includes(\"Image\")) {\n    let image = properties.insert_image;\n    if (!image) return;\n\n    const options = {};\n\n    let title = properties.title;\n    let alt_text = properties.alt_text;\n\n    options.src = image;\n    if (title) {\n      options.title = title;\n    }\n    if (alt_text) {\n      options.alt = alt_text;\n    }\n\n    instance.data.editor.commands.setImage(options);\n\n    //let options = { src: image, alt: alt_text, title: title };\n    /*\n        instance.data.editor\n            .chain()\n            .focus()\n            .setImage(options)\n            .run();\n            */\n  } else {\n    console.log(\"tried to add Image, but extension is not active.\");\n  }\n}"
+          },
+          "fields": {
+            "ACE": {
+              "caption": "Image",
+              "doc": "Should be a valid URL. Accepts Base64.",
+              "editor": "DynamicValue",
+              "name": "insert_image",
+              "rank": 0,
+              "value": "image"
+            },
+            "ACF": {
+              "caption": "Alt text",
+              "editor": "DynamicValue",
+              "name": "alt_text",
+              "optional": true,
+              "rank": 2,
+              "value": "text"
+            },
+            "ACG": {
+              "caption": "Title",
+              "editor": "DynamicValue",
+              "name": "title",
+              "optional": true,
+              "rank": 1,
+              "value": "text"
+            }
+          }
+        },
+        "AAm": {
+          "caption": "Strikethrough",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Strikethrough\");\n\n  if (instance.data.active_nodes.includes(\"Strike\")) {\n    instance.data.editor.chain().focus().toggleStrike().run();\n  } else {\n    console.log(\"tried to Strike, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ACx": {
+          "caption": "Table delete column",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Delete Column\");\n\n  instance.data.editor.chain().focus().deleteColumn().run();\n}"
+          }
+        },
+        "AGC": {
+          "caption": "Set hard break",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"set_hard_break\");\n\n  if (instance.data.active_nodes.includes(\"HardBreak\")) {\n    instance.data.editor.chain().focus().setHardBreak().run();\n  } else {\n    console.log(\"tried to HardBreak, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ACN": {
+          "caption": "Set link",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Set Link\");\n\n  if (instance.data.active_nodes.includes(\"Link\")) {\n    let url = properties.url;\n    instance.data.editor.commands.toggleLink({ href: url });\n  } else {\n    console.log(\"tried to add Link, but extension is not active.\");\n  }\n}"
+          },
+          "fields": {
+            "ACO": {
+              "caption": "url",
+              "editor": "DynamicValue",
+              "name": "url",
+              "optional": true,
+              "rank": 0,
+              "value": "text"
+            }
+          }
+        },
+        "ADG": {
+          "caption": "Insert content",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Insert Content\");\n\n  let content = properties.content;\n  // if FROM is present, then use insertContentAt\n  // ensure that FROM is present if TO is present.\n  let from = properties.from;\n  let to = properties.to;\n  let updateSelection = properties.updateSelection;\n  if (from) {\n    let location;\n    location = from;\n    if (from && to) {\n      location = { from: from, to: to };\n    }\n    let options = {};\n    options.updateSelection = updateSelection;\n    instance.data.editor\n      .chain()\n      .focus()\n      .insertContentAt(location, content, options)\n      .run();\n  } else {\n    instance.data.editor.chain().focus().insertContent(content).run();\n  }\n}"
+          },
+          "doc": "adds the passed value to the document. https://tiptap.dev/api/commands/insert-content",
+          "fields": {
+            "ADH": {
+              "caption": "Content to be added",
+              "doc": "The command is pretty flexible and takes plain text, HTML or even JSON as a value. ",
+              "editor": "DynamicValue",
+              "long_text": true,
+              "name": "content",
+              "rank": 0,
+              "value": "text"
+            },
+            "AFc": {
+              "caption": "To insert content at a certain position, give it a 'from'. You can also give it a 'to' value. Ensure that these values are non-negative integers. ",
+              "editor": "Label",
+              "name": "info",
+              "rank": 1
+            },
+            "AFd": {
+              "caption": "from",
+              "editor": "DynamicValue",
+              "name": "from",
+              "optional": true,
+              "rank": 2,
+              "value": "number"
+            },
+            "AFe": {
+              "caption": "to",
+              "editor": "DynamicValue",
+              "name": "to",
+              "optional": true,
+              "rank": 3,
+              "value": "number"
+            },
+            "AFf": {
+              "caption": "updateSelection",
+              "default_val": true,
+              "doc": "controls if the selection should be moved to the newly inserted content",
+              "editor": "DynamicValue",
+              "name": "updateSelection",
+              "rank": 4,
+              "value": "boolean"
+            }
+          }
+        },
+        "ACl": {
+          "caption": "Insert table",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Insert Table\");\n\n  const rows = properties.rows;\n  const columns = properties.columns;\n  const with_header_row = properties.with_header_row;\n\n  instance.data.editor\n    .chain()\n    .focus()\n    .insertTable({ rows: rows, cols: columns, withHeaderRow: with_header_row })\n    .run();\n}"
+          },
+          "fields": {
+            "ACm": {
+              "caption": "Rows",
+              "default_val": 3,
+              "editor": "DynamicValue",
+              "name": "rows",
+              "rank": 0,
+              "value": "number"
+            },
+            "ACn": {
+              "caption": "Columns",
+              "default_val": 3,
+              "editor": "DynamicValue",
+              "name": "columns",
+              "rank": 1,
+              "value": "number"
+            },
+            "ACo": {
+              "caption": "With header row?",
+              "default_val": true,
+              "editor": "DynamicValue",
+              "name": "with_header_row",
+              "optional": false,
+              "rank": 2,
+              "value": "boolean"
+            }
+          }
+        },
+        "AFi": {
+          "caption": "Select entire block",
+          "code": {
+            "fn": "function(instance, properties, context) {\n\n    if (!instance.data.editor_is_ready) return;\n    const selection = instance.data.editor.commands.selectParentNode();\n    console.log(\"selection\", selection);\n\n\n}"
+          }
+        },
+        "ABN": {
+          "caption": "Code block",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Code Block\");\n\n  if (instance.data.active_nodes.includes(\"CodeBlock\")) {\n    instance.data.editor.chain().focus().toggleCodeBlock().run();\n  } else {\n    console.log(\"tried to add CodeBlock, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ABr": {
+          "caption": "Focus",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Focus\");\n\n  if (instance.data.editor.can().focus()) {\n    const position = properties.position;\n    instance.data.editor.commands.focus(position);\n  } else {\n    const message = \"tried to run focus command, but cannot\";\n    context.reportToDebugger(message);\n    console.log(message);\n  }\n}"
+          },
+          "fields": {
+            "AEQ": {
+              "caption": "position",
+              "default_val": "end",
+              "doc": "Focus the editor. By the default it restores the cursor position (and text selection)",
+              "editor": "DynamicValue",
+              "name": "position",
+              "optional": true,
+              "rank": 0,
+              "value": "text"
+            },
+            "AER": {
+              "caption": "start: Set the cursor to the first position",
+              "editor": "Label",
+              "name": "start",
+              "rank": 1
+            },
+            "AES": {
+              "caption": "end: Set the cursor to the last position",
+              "editor": "Label",
+              "name": "end",
+              "rank": 2
+            },
+            "AET": {
+              "caption": "all: Selects the whole document",
+              "editor": "Label",
+              "name": "all",
+              "rank": 3
+            },
+            "AEU": {
+              "caption": "number: Set the cursor to position xx",
+              "editor": "Label",
+              "name": "number",
+              "rank": 4
+            }
+          }
+        },
+        "ABO": {
+          "caption": "Horizontal rule",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"Horizontal Rule\"\n    );\n\n  if (instance.data.active_nodes.includes(\"HorizontalRule\")) {\n    instance.data.editor.chain().focus().setHorizontalRule().run();\n  } else {\n    console.log(\"tried to add HorizontalRule, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ABH": {
+          "caption": "Indent item",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Indent Item\");\n\n  if (\n    instance.data.active_nodes.includes(\"BulletList\") ||\n    instance.data.active_nodes.includes(\"OrderedList\") ||\n    instance.data.active_nodes.includes(\"TaskList\")\n  ) {\n    instance.data.editor.chain().focus().sinkListItem(\"listItem\").run();\n  } else {\n    console.log(\n      \"tried to indent a list item, but no list extensions are not active.\"\n    );\n  }\n}"
+          },
+          "doc": "sink list item"
+        },
+        "AEf": {
+          "caption": "Clear Headings",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Clear Headings\");\n\n  if (instance.data.editor.can().clearNodes())\n    instance.data.editor.commands.clearNodes();\n}"
+          },
+          "doc": "Normalizes selection to a paragraph"
+        },
+        "ACv": {
+          "caption": "Table add row before",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Add Row Before\");\n\n  instance.data.editor.chain().focus().addRowBefore().run();\n}"
+          }
+        },
+        "AAz": {
+          "caption": "H5",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H5\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(5)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 5 }).run();\n  } else {\n    console.log(\"tried to add a H5, but extension is not active.\");\n  }\n}"
+          }
+        },
+        "ABI": {
+          "caption": "Outdent item",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Outdent Item\");\n\n  if (\n    instance.data.active_nodes.includes(\"BulletList\") ||\n    instance.data.active_nodes.includes(\"OrderedList\") ||\n    instance.data.active_nodes.includes(\"TaskList\")\n  ) {\n    instance.data.editor.chain().focus().liftListItem(\"listItem\").run();\n  } else {\n    console.log(\n      \"tried to indent a list item, but no list extensions are not active.\"\n    );\n  }\n}"
+          }
+        },
+        "ACi": {
+          "caption": "Highlight",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Highlight\");\n\n  if (instance.data.active_nodes.includes(\"Highlight\")) {\n    instance.data.editor.chain().focus().toggleHighlight().run();\n  } else {\n    console.log(\"tried to Highlight but extension is not active.\");\n  }\n}"
+          },
+          "doc": "Toggles highlight on or off",
+          "fields": {
+            "ACk": {
+              "caption": "Color",
+              "default_val": "rgba(255, 204, 0, 1)",
+              "editor": "Color",
+              "name": "color",
+              "rank": 0
+            }
+          }
+        },
+        "ACw": {
+          "caption": "Table delete row",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Delete Row\");\n\n  instance.data.editor.chain().focus().deleteRow().run();\n}"
+          }
+        },
+        "AAv": {
+          "caption": "H2",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"H2\");\n\n  if (\n    instance.data.active_nodes.includes(\"Heading\") &&\n    instance.data.headings.includes(2)\n  ) {\n    instance.data.editor.chain().focus().toggleHeading({ level: 2 }).run();\n  } else {\n    console.log(\"tried to add a H2, but extension is not active.\");\n  }\n}"
+          },
+          "doc": ""
+        },
+        "ACq": {
+          "caption": "Table toggle header column",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"table_-_toggle_header_column\"\n    );\n\n  instance.data.editor.chain().focus().toggleHeaderColumn().run();\n}"
+          }
+        },
+        "ACu": {
+          "caption": "Table add row after",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Add Row After\");\n\n  instance.data.editor.chain().focus().addRowAfter().run();\n}"
+          }
+        },
+        "ADA": {
+          "caption": "Table merge or split",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Merge or Split\");\n\n  instance.data.editor.chain().focus().mergeOrSplit().run();\n}"
+          }
+        },
+        "ABE": {
+          "caption": "Numbered list",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Numbered List\");\n\n  if (instance.data.active_nodes.includes(\"OrderedList\")) {\n    instance.data.editor.chain().focus().toggleOrderedList().run();\n  } else {\n    console.log(\"tried to add OrderedList, but extension is not active.\");\n  }\n}"
+          },
+          "doc": "An ordered list"
+        },
+        "ACr": {
+          "caption": "Delete table",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Delete Table\");\n\n  instance.data.editor.chain().focus().deleteTable().run();\n}"
+          }
+        },
+        "ABp": {
+          "caption": "Clear contents",
+          "code": {
+            "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Clear Contents\");\n\n  try {\n    instance.data.editor.chain().clearContent(true).run();\n  } catch (error) {\n    context.reportToDebugger(\n      \"There was an error running clearContent.\\n\" + error.message\n    );\n    console.error(error);\n  }\n}"
+          }
+        }
+      },
+      "add_hover_pressed": true,
+      "add_is_visible": true,
+      "add_large_file_upload_properties": true,
+      "autobinding_value": "text",
+      "can_fit_height": true,
+      "can_fit_width": true,
+      "category": "input forms",
+      "code": {
+        "initialize": {
+          "fn": "function(instance, context) {\n\n  \n\n    try {\n        // add display: flex to main element\n        instance.canvas.css(\"display\", \"flex\");\n\n        // this boolean turns true after the setup has been done, but the editor might not yet be initialized.\n        // if the setup runs twice, it can add double initial data, etc.\n        instance.data.isEditorSetup = false;\n\n        // this boolean turns true when the editor is initialized and ready.\n        instance.data.editor_is_ready = false;\n\n        instance.publishState(\"is_ready\", false);\n\n        //    instance.canvas.cfss({'overflow':'scroll'});\n\n        instance.data.stylesheet = document.createElement(\"style\");\n        instance.canvas.append(instance.data.stylesheet);\n\n        // function to find the nearest parent.\n        // useful when Tiptap is used inside a repeating group\n        function findElement(elementID) {\n            let $parent = instance.canvas.parent();\n            while ($parent.length > 0) {\n                var $foundMenu = $parent.find(\"#\" + elementID);\n\n                if ($foundMenu.length > 0) {\n                    return $foundMenu[0];\n                }\n\n                $parent = $parent.parent();\n            }\n        }\n        instance.data.findElement = findElement;\n\n        instance.data.isProgrammaticUpdate = false;\n        instance.data.delay = 300;\n\n        instance.data.debounce = function debounce(\n        cb,\n         delay = instance.data.delay\n        ) {\n            let timeout;\n            return (...args) => {\n                clearTimeout(timeout); // Clear the existing timeout\n                timeout = setTimeout(() => {\n                    cb(...args);\n                }, instance.data.delay);\n                instance.data.debounceTimeout = timeout; // Store the timeout ID\n            };\n        };\n\n        instance.data.isDebouncingDone = true;\n        instance.data.updateContent = instance.data.debounce((content) => {\n            console.log(\"debounce done, updating content\");\n            instance.publishAutobinding(content);\n            instance.triggerEvent(\"contentUpdated\");\n            instance.data.isDebouncingDone = true;\n        }, instance.data.delay);\n\n        // throttle function: to take it easy on the autobinding.\n        // 1. writes to autobinding\n        // 2. then waits a certain delay\n        // 3. then writes again if the user created more changes\n        // source: from https://blog.webdevsimplified.com/2022-03/debounce-vs-throttle\n\n        function throttle(mainFunction, delay = 2000) {\n            let timerFlag = null; // Variable to keep track of the timer\n\n            // Returning a throttled version\n            return (...args) => {\n                if (timerFlag === null) {\n                    // If there is no timer currently running\n                    mainFunction(...args); // Execute the main function\n                    timerFlag = setTimeout(() => {\n                        // Set a timer to clear the timerFlag after the specified delay\n                        mainFunction(...args);\n                        timerFlag = null; // Clear the timerFlag to allow the main function to be executed again\n                    }, delay);\n                }\n            };\n        }\n        instance.data.throttle = throttle;\n\n        instance.data.throttledContentUpdated = instance.data.throttle(() => {\n            instance.triggerEvent(\"contentUpdated\");\n            // console.log(\"getHTML\", instance.data.editor.getHTML());\n            instance.data.throttle(\n                instance.publishAutobinding(instance.data.editor.getHTML())\n            );\n        });\n\n        function returnAndReportErrorIfEditorNotReady(errorFragment = \"error\") {\n            const message =\n                  \"Tried to run \" +\n                  errorFragment +\n                  \" before editor was ready. Crash prevented. Returning\";\n            console.log(message);\n            context.reportDebugger(message);\n            return;\n        }\n        instance.data.returnAndReportErrorIfEditorNotReady =\n            returnAndReportErrorIfEditorNotReady;\n\n        function maybeSetupCollaboration(\n        instance,\n         properties,\n         options,\n         extensions\n        ) {\n            if (properties.collab_active === false) return;\n            // removes initialContent -- normally a collab document will have some document in the cloud.\n            delete options.content;\n\n            if (!properties.collab_active) {\n                console.log(\"collab is not active\");\n                return;\n            }\n            if (properties.collabProvider === \"liveblocks\") {\n                setupLiveblocks(extensions, properties);\n                return;\n            }\n\n            if (properties.collabProvider === \"tiptap\") {\n                setupTiptapCloud(extensions, properties);\n                return;\n            }\n\n            if (properties.collabProvider === \"custom\") {\n                setupCustomHocuspocus(extensions, properties);\n                return;\n            }\n        }\n        instance.data.maybeSetupCollaboration = maybeSetupCollaboration;\n\n        function setupCustomHocuspocus(extensions, properties) {\n            console.log(\"setting up custom collab\");\n            const HocusPocusProvider = window.tiptapHocuspocusProvider;\n            const Collaboration = window.tiptapCollaboration;\n            const CollaborationCursor = window.tiptapCollaborationCursor;\n            const Y = window.tiptapY;\n            if (!properties.collab_url.endsWith(\"/\")) {\n                properties.collab_url += \"/\";\n            }\n\n            const custom_url = properties.collab_url + properties.collab_app_id;\n            try {\n                instance.data.provider = new HocusPocusProvider({\n                    url: custom_url,\n                    name: properties.collab_doc_id,\n                    token: properties.collab_jwt,\n                    onStatus: (event) => {\n                        console.log(\"onStatus event: \" + JSON.stringify(event));\n                    },\n                    onOpen: () => {\n                        console.log(\"onOpen\");\n                    },\n                    onConnect() {\n                        console.log(\"onConnect\");\n                    },\n                    onAuthenticated() {\n                        console.log(\"onAuthenticated\");\n                    },\n                    onAuthenticationFailed: ({ reason }) => {\n                        console.log(\"onAuthenticationFailed\", reason);\n                    },\n                    onSynced: ({ state }) => {\n                        console.log(\"onSynced, state\", JSON.stringify(state));\n                    },\n                    onClose: ({ event }) => {\n                        console.log(\"onClose, event\", JSON.stringify(event));\n                    },\n                    onDisconnect: ({ event }) => {\n                        console.log(\"onDisconnect, event\", JSON.stringify(event));\n                    },\n                    onDestroy() {\n                        console.log(\"onDestroy\");\n                    },\n                    onAwarenessUpdate: ({ added, updated, removed }) => {\n                        // …\n                    },\n                    onAwarenessChange: ({ states }) => {\n                        // …\n                    },\n                    onStateless: ({ payload }) => {\n                        console.log(\"onStateless, payload\", payload);\n                    },\n                });\n\n                extensions.push(\n                    Collaboration.configure({\n                        document: instance.data.provider.document,\n                    }),\n                    CollaborationCursor.configure({\n                        provider: instance.data.provider,\n                    })\n                );\n            } catch (error) {\n                const message = \"Error setting up custom collab\";\n                context.reportDebugger(message + error);\n                console.log(message + error);\n            }\n            return;\n        }\n\n        function setupTiptapCloud(extensions, properties) {\n            console.log(\"setting up TiptapCloud\");\n            const TiptapCollabProvider = window.tiptapCollabProvider;\n            const Collaboration = window.tiptapCollaboration;\n            const CollaborationCursor = window.tiptapCollaborationCursor;\n\n            try {\n                instance.data.provider = new TiptapCollabProvider({\n                    appId: properties.collab_app_id,\n                    name: properties.collab_doc_id,\n                    token: properties.collab_jwt,\n                });\n            } catch (error) {\n                const message = \"Error setting up custom collab\";\n                context.reportDebugger(message + error);\n                console.log(message + error);\n            }\n\n            extensions.push(\n                Collaboration.configure({\n                    document: instance.data.provider.document,\n                }),\n                CollaborationCursor.configure({\n                    provider: instance.data.provider,\n                })\n            );\n\n            return;\n        }\n\n        function setupLiveblocks(extensions, properties) {\n            console.log(\"setting up collab with Liveblocks\");\n            if (!properties.liveblocksPublicApiKey) {\n                context.reportDebugger(\n                    \"Liveblocks is selected but there's no plublic API key\"\n                );\n                return;\n            }\n            const createClient = window.tiptapCreateClient;\n            const LiveblocksProvider = window.tiptapLiveblocksProvider;\n            const Collaboration = window.tiptapCollaboration;\n            const CollaborationCursor = window.tiptapCollaborationCursor;\n            const Y = window.tiptapY;\n\n            try {\n                const client = createClient({\n                    publicApiKey: properties.liveblocksPublicApiKey,\n                });\n\n                const { room, leave } = client.enterRoom(properties.collab_doc_id, {\n                    initialPresence: {},\n                });\n\n                const yDoc = new Y.Doc();\n                const Text = yDoc.getText(\"tiptap\");\n                const Provider = new LiveblocksProvider(room, yDoc);\n\n                extensions.push(\n                    Collaboration.configure({\n                        document: yDoc,\n                    }),\n                    CollaborationCursor.configure({\n                        provider: Provider,\n                    })\n                );\n            } catch (error) {\n                context.reportDebugger(\n                    \"There was an error setting up Liveblocks. \" + error\n                );\n            }\n\n            return extensions;\n        }\n        instance.data.setupLiveblocks = setupLiveblocks;\n    } catch (error) {\n        console.log(\"error in initialize\", error);\n    }\n\n    // MentionList\n    instance.data.MentionList = class MentionList {\n        constructor(stuff) {\n            const { props, editor } = stuff;\n            this.items = props.items;\n            this.command = props.command;\n            this.selectedIndex = 0;\n            this.randomId = props.randomId;\n            this.editor = editor;\n            this.initElement();\n            this.updateItems(this);\n        }\n\n        initElement() {\n            this.element = document.createElement(\"div\");\n            this.element.className = \"items_\" + this.randomId;\n\n            this.element.addEventListener(\"click\", this.handleClick.bind(this));\n            this.element.addEventListener(\"keydown\", this.handleKeyDown.bind(this));\n        }\n\n        handleClick(event) {\n            const target = event.target.closest(\".item\");\n            const index = Array.from(this.element.children).indexOf(target);\n            if (index !== -1) {\n                this.selectItem(index);\n                this.updateSelection(index);\n            }\n        }\n\n        updateItems(props) {\n            this.items = props.items;\n            this.selectedIndex = 0;\n            this.redraw();\n        }\n\n        updateProps(props) {\n            this.range = props.range;\n            this.editor = props.editor;\n        }\n\n        redraw() {\n            this.element.innerHTML = \"\";\n            const fragment = document.createDocumentFragment();\n\n            this.items.forEach((item, index) => {\n                const button = document.createElement(\"button\");\n                button.textContent = item.label;\n                button.className =\n                    \"item\" + (index === this.selectedIndex ? \" is-selected\" : \"\");\n                fragment.appendChild(button);\n            });\n\n            this.element.appendChild(fragment);\n        }\n\n        selectItem(index) {\n            const item = this.items[index];\n            const editor = this.editor;\n            const range = this.range;\n\n            if (item && range) {\n                editor.commands.insertContentAt(range, {\n                    type: \"mention\",\n                    attrs: {\n                        label: item.label,\n                        id: item.id,\n                    },\n                });\n                editor.commands.insertContent(\" \");\n                editor.commands.setTextSelection(range.from + 1);\n            } else {\n                this.command(item);\n            }\n        }\n\n        updateSelection(index) {\n            const previouslySelected = this.element.querySelector(\".is-selected\");\n            if (previouslySelected)\n                previouslySelected.classList.remove(\"is-selected\");\n\n            const newSelected = this.element.children[index];\n            if (newSelected) newSelected.classList.add(\"is-selected\");\n\n            this.selectedIndex = index;\n        }\n\n        handleKeyDown(event) {\n            switch (event.key) {\n                case \"ArrowUp\":\n                    this.moveSelection(-1);\n                    event.preventDefault();\n                    break;\n                case \"ArrowDown\":\n                    this.moveSelection(1);\n                    event.preventDefault();\n                    break;\n                case \"Enter\":\n                    this.selectItem(this.selectedIndex);\n                    event.preventDefault();\n                    break;\n                case \"Tab\":\n                    this.selectItem(this.selectedIndex);\n                    event.preventDefault();\n                    break;\n                             }\n        }\n\n        moveSelection(direction) {\n            const itemLength = this.items.length;\n            const newIndex =\n                  (this.selectedIndex + direction + itemLength) % itemLength;\n            this.updateSelection(newIndex);\n            this.redraw();\n        }\n    };\n\n    function configureSuggestion(instance, properties) {\n        return {\n            items: ({ query }) => {\n                if (typeof query !== \"string\") {\n                    // console.log(\"thing passed to Mention is not a string, returning. Typeof query: \", typeof query);\n                    return [];\n                }\n                const length = properties.mention_list.length();\n                const source_list = properties.mention_list.get(0, length);\n                const mention_list = source_list.map((item) => {\n                    return {\n                        label: item.get(properties.mention_field_label),\n                        id: item.get(properties.mention_field_id),\n                    };\n                });\n                // console.log(\"mention_list\", mention_list);\n                const query_result = mention_list.filter((item) =>\n                                                         item.label.toLowerCase().includes(query.toLowerCase())\n                                                        );\n\n                return query_result;\n            },\n\n            render: () => {\n                let popup, component;\n\n                return {\n                    onStart: (props) => {\n                        props.randomId = instance.data.randomId;\n                        component = new instance.data.MentionList({\n                            props,\n                            editor: props.editor,\n                        });\n                        popup = window.tiptapTippy(\"body\", {\n                            getReferenceClientRect: props.clientRect,\n                            appendTo: () => document.body,\n                            content: component.element,\n                            showOnCreate: true,\n                            interactive: true,\n                            trigger: \"manual\",\n                            placement: \"bottom-start\",\n                        });\n                    },\n\n                    onUpdate: (props) => {\n                        if (!props.clientRect) {\n                            return;\n                        }\n\n                        component.updateProps(props);\n\n                        popup[0].setProps({\n                            getReferenceClientRect: props.clientRect,\n                        });\n\n                        const newItems = component.updateItems(props);\n                        popup[0].setContent(newItems);\n                    },\n\n                    onKeyDown: ({ event, editor }) => {\n                        if (event.key === \"Enter\") {\n                            event.preventDefault();\n                            component.selectItem(component.selectedIndex);\n                            return true;\n                        }\n\n                        return component.handleKeyDown(event);\n                    },\n\n                    onExit: () => {\n                        popup[0].destroy();\n                        component.element.remove();\n                    },\n                };\n            },\n        };\n    }\n    instance.data.configureSuggestion = configureSuggestion;\n\n    instance.data.rgbToHex = function (colorString) {\n        console.log(\"rgbToHex\", colorString);\n\n        // Regular expressions for RGB and RGBA\n        const rgbRegex = /^rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)$/;\n        const rgbaRegex = /^rgba\\((\\d+),\\s*(\\d+),\\s*(\\d+),\\s*([\\d.]+)\\)$/;\n\n        let match = colorString.match(rgbRegex) || colorString.match(rgbaRegex);\n\n        if (!match) {\n            console.error(\n                'Invalid color string format. Expected \"rgb(r, g, b)\" or \"rgba(r, g, b, a)\"'\n            );\n            return null;\n        }\n\n        // Convert the extracted values to integers\n        const r = parseInt(match[1], 10);\n        const g = parseInt(match[2], 10);\n        const b = parseInt(match[3], 10);\n\n        // Handle alpha if present (for RGBA)\n        let a = match[4] ? parseFloat(match[4]) : 1;\n\n        // Ensure the values are within the valid range\n        const clamp = (val) => Math.min(255, Math.max(0, val));\n\n        // Convert to hex and pad with zeros if necessary\n        const toHex = (val) => clamp(val).toString(16).padStart(2, \"0\");\n\n        // Combine the hex values\n        let hex = \"#\" + toHex(r) + toHex(g) + toHex(b);\n\n        // Add alpha to hex if it's less than 1\n        if (a < 1) {\n            const alpha = Math.round(a * 255)\n            .toString(16)\n            .padStart(2, \"0\");\n            hex += alpha;\n        }\n\n        return hex;\n    };\n\n    function findParentBlock(state, pos) {\n        const $pos = state.doc.resolve(pos);\n        for (let depth = $pos.depth; depth > 0; depth--) {\n            const node = $pos.node(depth);\n            if (node.type.isBlock) {\n                return { node, pos: $pos.before(depth), depth };\n            }\n        }\n        return null;\n\n    }\n    instance.data.findParentBlock = findParentBlock;    \n\n\n    function getSelection(editor, properties) {\n        const { state, view } = editor;\n        const { from, to } = view.state.selection;\n        const text = state.doc.textBetween(from, to, \"\");\n        instance.publishState(\"selected_text\", text);\n        instance.publishState(\"from\", from);\n        instance.publishState(\"to\", to);\n\n        if (from === to) {\n            // No selection, clear states\n            instance.publishState(\"selectedContent\", null);\n            instance.publishState(\"selectedHTML\", null);\n            instance.publishState(\"selectedJSON\", null);\n            return;\n        }\n\n        try {\n            const $from = state.doc.resolve(from);\n            const $to = state.doc.resolve(to);\n            let parentNode = $from.parent;\n            let parentNodeType = parentNode.type.name;\n\n            // Map ProseMirror node types to HTML tags\n            const nodeTypeToHtmlTag = {\n                'paragraph': 'p',\n                'heading': 'h' + (parentNode.attrs.level || '1'), // h1, h2, etc.\n                'bulletList': 'ul',\n                'orderedList': 'ol',\n                'listItem': 'li',\n                'blockquote': 'blockquote',\n                'codeBlock': 'pre',\n                'horizontalRule': 'hr',\n                'table': 'table',\n                'tableRow': 'tr',\n                'tableCell': 'td',\n                'tableHeader': 'th'\n            };\n\n            const selectedNode = state.doc.slice(from, to);\n            const selectedJSON = selectedNode.toJSON();\n            const content = selectedJSON.content;\n\n            // Get configured extensions\n            const extensions = instance.data.getConfiguredExtensions(instance, properties);\n\n            // Generate HTML from the JSON using the utility function\n            let selectedHTML = window.tiptap.generateHTML({type: 'doc', content: content}, extensions);\n\n            // If the selection is just text, wrap it with the appropriate HTML tag\n            if (content.length === 1 && content[0].type === 'text') {\n                const htmlTag = nodeTypeToHtmlTag[parentNodeType] || 'p';\n                selectedHTML = `<${htmlTag}>${selectedHTML}</${htmlTag}>`;\n            }\n\n            instance.publishState(\"selectedContent\", text);\n            instance.publishState(\"selectedHTML\", selectedHTML);\n            instance.publishState(\"selectedJSON\", JSON.stringify(selectedJSON));\n        } catch (error) {\n            console.error('Error generating JSON or HTML:', error);\n        }\n    }\n\n    instance.data.getSelection = getSelection;\n\n    function getConfiguredExtensions(instance, properties) {\n        // pull the libraries that were loaded on Header\n        const Heading = window.tiptapHeading;\n        const Bold = window.tiptapBold;\n        const Code = window.tiptapCode;\n        const Italic = window.tiptapItalic;\n        const Strike = window.tiptapStrike;\n        const Dropcursor = window.tiptapDropcursor;\n        const Gapcursor = window.tiptapGapcursor;\n        const History = window.tiptapHistory;\n        const Blockquote = window.tiptapBlockquote;\n        const BulletList = window.tiptapBulletList;\n        const CodeBlock = window.tiptapCodeBlock;\n        const HorizontalRule = window.tiptapHorizontalRule;\n        const ListItem = window.tiptapListItem;\n        const OrderedList = window.tiptapOrderedList;\n\n        const {\n            Editor,\n            Node,\n            Extension,\n            mergeAttributes,\n            Document,\n            HardBreak,\n            Paragraph,\n            Text,\n            FontFamily,\n            Color,\n            TextStyle,\n            FileHandler,\n            generateHTML,\n            DragHandle,\n            UniqueID,\n            Image,\n            Resizable\n        } = window.tiptap;\n\n\n        const TaskList = window.tiptapTaskList;\n        const TaskItem = window.tiptapTaskItem;\n        const Placeholder = window.tiptapPlaceholder;\n        const CharacterCount = window.tiptapCharacterCount;\n        const BubbleMenu = window.tiptapBubbleMenu;\n        const FloatingMenu = window.tiptapFloatingMenu;\n        const Link = window.tiptapLink;\n        const TextAlign = window.tiptapTextAlign;\n        const Highlight = window.tiptapHighlight;\n        const Table = window.tiptapTable;\n        const TableCell = window.tiptapTableCell;\n        const TableHeader = window.tiptapTableHeader;\n        const TableRow = window.tiptapTableRow;\n        const Underline = window.tiptapUnderline;\n        const Youtube = window.tiptapYoutube;\n\n        const Mention = window.tiptapMention;\n        \n        instance.data.active_nodes = properties.nodes\n            .split(\",\")\n            .map((item) => item.trim());\n\n        const extensions = [\n            Document,\n            Paragraph,\n            Text,\n            ListItem,\n            TextStyle,\n            CharacterCount.configure({\n                limit: properties.characterLimit || null,\n            }),\n        ];\n\n        if (instance.data.active_nodes.includes(\"Dropcursor\")) extensions.push(Dropcursor);\n        if (instance.data.active_nodes.includes(\"Gapcursor\")) extensions.push(Gapcursor);\n        if (instance.data.active_nodes.includes(\"HardBreak\")) extensions.push(HardBreak);\n        if (instance.data.active_nodes.includes(\"History\")) extensions.push(History);\n        if (instance.data.active_nodes.includes(\"Bold\")) extensions.push(Bold);\n        if (instance.data.active_nodes.includes(\"Italic\")) extensions.push(Italic);\n        if (instance.data.active_nodes.includes(\"Strike\")) extensions.push(Strike);\n        if (instance.data.active_nodes.includes(\"FontFamily\")) extensions.push(FontFamily);\n        if (instance.data.active_nodes.includes(\"Color\")) extensions.push(Color);\n        if (instance.data.active_nodes.includes(\"Heading\")) extensions.push(Heading);\n        if (instance.data.active_nodes.includes(\"BulletList\")) extensions.push(BulletList);\n        if (instance.data.active_nodes.includes(\"OrderedList\")) extensions.push(OrderedList);\n        if (instance.data.active_nodes.includes(\"TaskList\")) {\n            extensions.push(TaskList, TaskItem);\n        }\n        if (instance.data.active_nodes.includes(\"Highlight\")) extensions.push(Highlight);\n        if (instance.data.active_nodes.includes(\"Underline\")) extensions.push(Underline);\n        if (instance.data.active_nodes.includes(\"CodeBlock\")) extensions.push(CodeBlock);\n        if (instance.data.active_nodes.includes(\"Code\")) extensions.push(Code);\n        if (instance.data.active_nodes.includes(\"Blockquote\")) extensions.push(Blockquote);\n        if (instance.data.active_nodes.includes(\"HorizontalRule\")) extensions.push(HorizontalRule);\n        if (instance.data.active_nodes.includes(\"Youtube\")) extensions.push(Youtube);\n        if (instance.data.active_nodes.includes(\"Table\")) {\n            extensions.push(Table, TableRow, TableHeader, TableCell);\n        }\n        if (instance.data.active_nodes.includes(\"Image\")) extensions.push(Image);\n        if (instance.data.active_nodes.includes(\"Link\")) extensions.push(Link);\n        if (instance.data.active_nodes.includes(\"Placeholder\")) extensions.push(Placeholder);\n        if (instance.data.active_nodes.includes(\"TextAlign\")) extensions.push(TextAlign);\n\n        return extensions;\n    }\n    instance.data.getConfiguredExtensions = getConfiguredExtensions;\n\n}\n\n\n"
+        },
+        "preview": {
+          "fn": "function(instance, properties) {}"
+        },
+        "reset": {
+          "fn": "function(instance, context) {\n  console.log(\"reset running\");\n}"
+        },
+        "update": {
+          "fn": "function(instance, properties, context) {\n    if (properties.collab_active === true && !properties.collab_jwt) {\n        console.log(\n            \"collab is active but jwt token is not yet loaded. Returning...\"\n        );\n        return;\n    }\n\n\n    // load once\n    if (!instance.data.isEditorSetup) {\n        let initialContent = properties.bubble.auto_binding()\n        ? properties.autobinding\n        : properties.initialContent;\n        instance.data.initialContent = initialContent; // a string to keep track of what's currently in the initialContent so that the editor can change when the initialContent changes\n        let content = properties.content_is_json\n        ? JSON.parse(initialContent)\n        : initialContent;\n\n        let placeholder = properties.placeholder;\n        let bubbleMenu = properties.bubbleMenu;\n        let floatingMenu = properties.floatingMenu;\n\n        let preserveWhitespace =\n            properties.parseOptions_preserveWhitespace === \"true\"\n        ? true\n        : properties.parseOptions_preserveWhitespace === \"false\"\n        ? false\n        : \"full\";\n\n        // create the editor div\n        const randomId = (Math.random() + 1).toString(36).substring(3);\n        instance.data.randomId = randomId;\n        var d = document.createElement(\"div\");\n        d.id = \"tiptapEditor-\" + randomId;\n        d.style = \"flex-grow: 1; display: flex;\";\n        instance.data.tiptapEditorID = d.id;\n        instance.canvas.append(d);\n\n        // pull the libraries that were loaded on Header\n\n        const Heading = window.tiptapHeading;\n        const Bold = window.tiptapBold;\n        const Code = window.tiptapCode;\n        const Italic = window.tiptapItalic;\n        const Strike = window.tiptapStrike;\n        const Dropcursor = window.tiptapDropcursor;\n        const Gapcursor = window.tiptapGapcursor;\n        const History = window.tiptapHistory;\n        const Blockquote = window.tiptapBlockquote;\n        const BulletList = window.tiptapBulletList;\n        const CodeBlock = window.tiptapCodeBlock;\n        const HorizontalRule = window.tiptapHorizontalRule;\n        const ListItem = window.tiptapListItem;\n        const OrderedList = window.tiptapOrderedList;\n\n        const {\n            Editor,\n            Node,\n            Extension,\n            mergeAttributes,\n            Document,\n            HardBreak,\n            Paragraph,\n            Text,\n            FontFamily,\n            Color,\n            TextStyle,\n            FileHandler,\n            generateHTML,\n            DragHandle,\n            UniqueID,\n            Image,\n            Resizable\n        } = window.tiptap;\n\n\n        const TaskList = window.tiptapTaskList;\n        const TaskItem = window.tiptapTaskItem;\n        const Placeholder = window.tiptapPlaceholder;\n        const CharacterCount = window.tiptapCharacterCount;\n        const BubbleMenu = window.tiptapBubbleMenu;\n        const FloatingMenu = window.tiptapFloatingMenu;\n        const Link = window.tiptapLink;\n        const TextAlign = window.tiptapTextAlign;\n        const Highlight = window.tiptapHighlight;\n        const Table = window.tiptapTable;\n        const TableCell = window.tiptapTableCell;\n        const TableHeader = window.tiptapTableHeader;\n        const TableRow = window.tiptapTableRow;\n        const Underline = window.tiptapUnderline;\n        const Youtube = window.tiptapYoutube;\n\n        const Mention = window.tiptapMention;\n\n\n\n        instance.data.headings = [];\n        properties.headings.split(\",\").map((item) => {\n            instance.data.headings.push(parseInt(item));\n        });\n\n        instance.data.active_nodes = properties.nodes\n            .split(\",\")\n            .map((item) => item.trim());\n\n        const extensions = [\n            Document,\n            Paragraph,\n            Text,\n            ListItem,\n            TextStyle,\n            CharacterCount.configure({\n                limit: properties.characterLimit || null,\n            }),\n        ];\n\n\n        if (properties.extension_uniqueid) {\n            if (!properties.extension_uniqueid_types) {\n                context.reportDebugger(\"UniqueID extension is active but the types are empty. You could target `paragraph, heading`, for example.\");\n                return\n            }\n            let unique_id_types = properties.extension_uniqueid_types.split(\",\").map((item) => {\n                return item.trim()\n            })\n\n            if (unique_id_types.length === 0) {\n                context.reportDebugger(\"UniqueID extension is active but there are no types for it to target. You could target `paragraph, heading`, for example.\");\n                return\n            }\n\n            let attributeName = properties.extension_uniqueid_attrName || \"id\";\n            console.log(\"attributeName\", attributeName);\n\n            extensions.push(\n                UniqueID.configure({\n                    types: unique_id_types,\n                    attributeName: attributeName,\n                })\n            );\n        };\n\n        if (instance.data.active_nodes.includes(\"Dropcursor\")) {\n            extensions.push(Dropcursor);\n        }\n        if (instance.data.active_nodes.includes(\"Gapcursor\")) {\n            extensions.push(Gapcursor);\n        }\n        if (instance.data.active_nodes.includes(\"HardBreak\")) {\n            extensions.push(HardBreak.configure({\n                keepMarks: properties.hardBreakKeepMarks,\n            }));\n        }\n        if (instance.data.active_nodes.includes(\"History\")) {\n            extensions.push(History);\n        }\n\n        if (instance.data.active_nodes.includes(\"Bold\")) {\n            extensions.push(Bold);\n        }\n        if (instance.data.active_nodes.includes(\"Italic\")) {\n            extensions.push(Italic);\n        }\n        if (instance.data.active_nodes.includes(\"Strike\")) {\n            extensions.push(Strike);\n        }\n\n        if (instance.data.active_nodes.includes(\"FontFamily\")) {\n            extensions.push(FontFamily);\n        }\n\n        if (instance.data.active_nodes.includes(\"Color\")) {\n            extensions.push(Color);\n        }\n\n        if (instance.data.active_nodes.includes(\"Heading\")) {\n            extensions.push(Heading.configure({ levels: instance.data.headings }));\n        }\n\n        if (instance.data.active_nodes.includes(\"BulletList\")) {\n            extensions.push(BulletList);\n        }\n        if (instance.data.active_nodes.includes(\"OrderedList\")) {\n            extensions.push(OrderedList);\n        }\n        if (instance.data.active_nodes.includes(\"TaskList\")) {\n            extensions.push(TaskList, TaskItem.configure({ nested: true }));\n        }\n\n        if (instance.data.active_nodes.includes(\"Mention\")) {\n            if (!properties.mention_list) {\n                console.log(\n                    \"tried to use Mention extension, but mention_list is empty. Mention extension not loaded\"\n                );\n            } else {\n                const suggestion_config = instance.data.configureSuggestion(\n                    instance,\n                    properties\n                );\n                // console.log(\"Mention loaded properly\", Mention, typeof Mention);\n                extensions.push(\n                    Mention.configure({\n                        HTMLAttributes: {\n                            class: \"mention\",\n                        },\n                        renderHTML({ options, node }) {\n                            return [\n                                \"a\",\n                                mergeAttributes(\n                                    { href: `${properties.mention_base_url}${node.attrs.id}` },\n                                    options.HTMLAttributes\n                                ),\n                                `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,\n                            ];\n                        },\n                        deleteTriggerWithBackspace: true,\n                        suggestion: suggestion_config,\n                    })\n                );\n            }\n        }\n\n        if (instance.data.active_nodes.includes(\"Highlight\")) {\n            extensions.push(Highlight);\n        }\n        if (instance.data.active_nodes.includes(\"Underline\")) {\n            extensions.push(Underline);\n        }\n\n        if (instance.data.active_nodes.includes(\"CodeBlock\")) {\n            extensions.push(CodeBlock);\n        }\n        if (instance.data.active_nodes.includes(\"Code\")) {\n            extensions.push(Code);\n        }\n\n        if (instance.data.active_nodes.includes(\"Blockquote\")) {\n            extensions.push(Blockquote);\n        }\n        if (instance.data.active_nodes.includes(\"HorizontalRule\")) {\n            extensions.push(HorizontalRule);\n        }\n        if (instance.data.active_nodes.includes(\"Youtube\")) {\n            extensions.push(Youtube.configure({ nocookie: true }));\n        }\n        if (instance.data.active_nodes.includes(\"Table\")) {\n            extensions.push(\n                Table.configure({ resizable: true }),\n                TableRow,\n                TableHeader,\n                TableCell\n            );\n        }\n        if (instance.data.active_nodes.includes(\"Image\")) {\n            extensions.push(Image.configure({ inline: false, allowBase64: properties.allowBase64 }), Resizable);\n        }\n        if (instance.data.active_nodes.includes(\"Link\")) {\n            extensions.push(Link);\n        }\n        if (instance.data.active_nodes.includes(\"Placeholder\")) {\n            extensions.push(Placeholder.configure({ placeholder: placeholder }));\n        }\n        if (instance.data.active_nodes.includes(\"TextAlign\")) {\n            extensions.push(TextAlign.configure({ types: [\"heading\", \"paragraph\"] }));\n        }\n\n        const PreserveAttributes = Extension.create({\n            name: 'preserveAttributes',\n\n            addGlobalAttributes() {\n                return [\n                    {\n                        // Apply to all block nodes\n                        types: ['paragraph', 'heading', 'blockquote', 'codeBlock', 'listItem', 'table', 'tableRow', 'tableCell', 'tableHeader'],\n                        attributes: {\n                            class: {\n                                default: null,\n                                parseHTML: element => element.getAttribute('class'),\n                                renderHTML: attributes => {\n                                    if (!attributes.class) return {};\n                                    return { class: attributes.class };\n                                },\n                            },\n                            style: {\n                                default: null,\n                                parseHTML: element => element.getAttribute('style'),\n                                renderHTML: attributes => {\n                                    if (!attributes.style) return {};\n                                    return { style: attributes.style };\n                                },\n                            },\n                            id: {\n                                default: null,\n                                parseHTML: element => element.getAttribute('id'),\n                                renderHTML: attributes => {\n                                    if (!attributes.id) return {};\n                                    return { id: attributes.id };\n                                },\n                            },\n                            'data-attributes': {\n                                default: null,\n                                parseHTML: element => {\n                                    const dataAttrs = {};\n                                    Array.from(element.attributes).forEach(attr => {\n                                        if (attr.name.startsWith('data-')) {\n                                            dataAttrs[attr.name] = attr.value;\n                                        }\n                                    });\n                                    return Object.keys(dataAttrs).length ? dataAttrs : null;\n                                },\n                                renderHTML: attributes => {\n                                    if (!attributes['data-attributes']) return {};\n                                    return attributes['data-attributes'];\n                                },\n                            }\n                        },\n                    },\n                    {\n                        // Apply to inline marks\n                        types: ['bold', 'italic', 'strike', 'code', 'link'],\n                        attributes: {\n                            class: {\n                                default: null,\n                                parseHTML: element => element.getAttribute('class'),\n                                renderHTML: attributes => {\n                                    if (!attributes.class) return {};\n                                    return { class: attributes.class };\n                                },\n                            },\n                            style: {\n                                default: null,\n                                parseHTML: element => element.getAttribute('style'),\n                                renderHTML: attributes => {\n                                    if (!attributes.style) return {};\n                                    return { style: attributes.style };\n                                },\n                            }\n                        },\n                    }\n                ];\n            },\n        });\n\n        const CustomDivExtension = Node.create({\n            name: 'customDiv',\n            group: 'block',\n            content: 'block*',\n            defining: true,\n\n            addAttributes() {\n                return {\n                    class: {\n                        default: null,\n                        parseHTML: element => element.getAttribute('class'),\n                    },\n                    style: {\n                        default: null,\n                        parseHTML: element => element.getAttribute('style'),\n                    },\n                    id: {\n                        default: null,\n                        parseHTML: element => element.getAttribute('id'),\n                    },\n                    'data-attributes': {\n                        default: null,\n                      parseHTML: element => {\n                            const dataAttrs = {};\n                            Array.from(element.attributes).forEach(attr => {\n                                if (attr.name.startsWith('data-')) {\n                                    dataAttrs[attr.name] = attr.value;\n                                }\n                            });\n                            return Object.keys(dataAttrs).length ? dataAttrs : null;\n                        },\n                    }\n                };\n            },\n\n            parseHTML() {\n                return [{ tag: 'div' }];\n            },\n\n            renderHTML({ node, HTMLAttributes }) {\n                const attrs = { ...node.attrs };\n\n                // Merge data attributes\n                if (attrs['data-attributes']) {\n                    Object.assign(attrs, attrs['data-attributes']);\n                    delete attrs['data-attributes'];\n                }\n\n                // Remove null/undefined attributes\n                Object.keys(attrs).forEach(key => {\n                    if (attrs[key] === null || attrs[key] === undefined) {\n                        delete attrs[key];\n                    }\n                });\n\n                return ['div', { ...attrs, ...HTMLAttributes }, 0];\n            },\n        });\n\n\n\n        if (properties.preserve_attributes) {\n            extensions.push(PreserveAttributes);\n\n            if (properties.preserve_unknown_tags) {\n                // Add custom div support\n                extensions.push(CustomDivExtension);\n            }\n        }\n\n\n\n        function handleUpload(file, editor, pos) {\n            const attachFilesTo = properties.attachFilesTo || null;\n            return new Promise((resolve, reject) => {\n                if (!instance.canUploadFile(file)) {\n                    const message = \"Not allowed to upload this file\";\n                    context.reportDebugger(message);\n                    instance.publishState(\"fileUploadErrorMessage\", message);\n                    reject(new Error(message));\n                    return;\n                }\n                if (!properties.attachFilesTo) {\n                    context.reportDebugger(\"Uploading a file, but there's no object to attach to. This file could be accessible by anyone. Consider the privacy implications.\");\n                }\n\n                instance.publishState(\"fileUploadProgress\", 0);\n                const uploadedFile = instance.uploadFile(file, (err, url) => {\n                    if (err) {\n                        context.reportDebugger(err.message);\n                        instance.publishState('fileUploadErrorMessage', err.message);\n                        reject(err);\n                        return;\n                    }\n\n                    if (file.type.startsWith('image/')) {\n                        // Insert at the drop position\n                        if (pos) {\n                            editor.commands.insertContentAt(pos, {\n                                type: 'image',\n                                attrs: { src: url }\n                            });\n                        } else {\n                            // Fallback to regular image insertion if no position specified\n                            editor.commands.setImage({ src: url });\n                        }\n                    }\n                    instance.data.fileUploadUrls.push(url);\n                    instance.triggerEvent(\"fileUploaded\");\n                    instance.publishState(\"fileUploadUrls\", instance.data.fileUploadUrls);\n                    resolve(url);\n\n                }, properties.attachFilesTo, (progress) => {\n                    instance.publishState(\"fileUploadProgress\", progress);\n                });\n            });\n        }\n\n\n        let allowedMimeTypes = undefined;\n        if (properties.allowedMimeTypes) {\n            allowedMimeTypes = properties.allowedMimeTypes.get(0, properties.allowedMimeTypes.length());\n        };\n\n        extensions.push(FileHandler.configure({\n            onDrop: async (editor, files, pos) => {\n                instance.data.fileUploadUrls = [];\n                try {\n                    const uploadPromises = Array.from(files).map(file =>\n                                                                 handleUpload(file, editor, pos)\n                                                                );\n\n                    // Wait for all uploads to complete\n                    const urls = await Promise.all(uploadPromises);\n                    console.log(\"urls\", urls);\n                    instance.publishState(\"fileUploadUrls\", urls);\n                } catch (error) {\n                    instance.triggerEvent(\"fileUploadError\");\n                    console.error(\"Upload error:\", error);\n                    context.reportDebugger(error.message);\n                    instance.publishState('fileUploadErrorMessage', error.message);\n                }\n            },\n\n            onPaste: async (editor, files, htmlContent) => {\n                instance.data.fileUploadUrls = [];\n                if (htmlContent) return\n                try {\n                    const uploadPromises = Array.from(files).map(file =>\n                                                                 handleUpload(file, editor)\n                                                                );\n\n                    // Wait for all uploads to complete\n                     const urls = await Promise.all(uploadPromises);\n                     instance.publishState(\"fileUploadUrls\", urls);\n                } catch (error) {\n                    instance.triggerEvent(\"fileUploadError\");\n                    console.error(\"Upload error:\", error);\n                    context.reportDebugger(error.message);\n                    instance.publishState('fileUploadErrorMessage', error.message);\n                }\n            },\n            allowedMimeTypes: allowedMimeTypes,\n        }));\n        \n        const parseOptions = {\n            preserveWhitespace: preserveWhitespace,\n        };\n        \n        // If attribute preservation is enabled, add custom parsing\n        if (properties.preserve_html_attributes) {\n            parseOptions.transformPastedHTML = (html) => {\n                // Pre-process HTML to ensure better attribute preservation\n                const parser = new DOMParser();\n                const doc = parser.parseFromString(html, 'text/html');\n                \n                // Find all div elements and ensure they're properly structured\n                const divs = doc.querySelectorAll('div');\n                divs.forEach(div => {\n                    // Mark divs for preservation\n                    if (div.hasAttribute('style') || div.hasAttribute('class')) {\n                        div.setAttribute('data-preserve-div', 'true');\n                    }\n                });\n                \n                return doc.body.innerHTML;\n            };\n        }\n\n        let options = {};\n        options = {\n            element: d,\n            editable: properties.isEditable,\n            content: content,\n            extensions: extensions,\n            parseOptions: parseOptions,\n            injectCSS: true,\n            onCreate({ editor }) {\n                instance.data.editor_is_ready = true;\n                instance.triggerEvent(\"is_ready\");\n                instance.publishState(\"is_ready\", true);\n\n                instance.publishState(\"contentHTML\", editor.getHTML());\n                instance.publishState(\"contentText\", editor.getText());\n                instance.publishState(\n                    \"contentJSON\",\n                    JSON.stringify(instance.data.editor.getJSON())\n                );\n                instance.publishState(\"isEditable\", editor.isEditable);\n                if (instance.data.active_nodes.includes(\"CharacterCount\")) {\n                    instance.publishState(\n                        \"characterCount\",\n                        editor.storage.characterCount.characters()\n                    );\n                    instance.publishState(\n                        \"wordCount\",\n                        editor.storage.characterCount.words()\n                    );\n                }\n                // window.editor = editor;\n                // console.log(\"onCreate editor\", editor);\n            },\n            onUpdate({ editor }) {\n                const contentHTML = editor.getHTML();\n                instance.publishState(\"contentHTML\", contentHTML);\n                instance.publishState(\"contentText\", editor.getText());\n                instance.publishState(\"contentJSON\", JSON.stringify(editor.getJSON()));\n                instance.publishState(\"isEditable\", editor.isEditable);\n                instance.publishState(\n                    \"characterCount\",\n                    editor.storage.characterCount.characters()\n                );\n                instance.publishState(\n                    \"wordCount\",\n                    editor.storage.characterCount.words()\n                );\n\n                if (!instance.data.isProgrammaticUpdate) {\n                    instance.data.updateContent(contentHTML);\n                    instance.data.isDebouncingDone = false;\n                }\n            },\n            onFocus({ editor, event }) {\n                instance.triggerEvent(\"isFocused\");\n                instance.publishState(\"isFocused\", true);\n                instance.data.is_focused = true;\n            },\n            onBlur({ editor, event }) {\n                instance.triggerEvent(\"isntFocused\");\n                instance.publishState(\"isFocused\", false);\n                instance.data.is_focused = false;\n                instance.publishAutobinding(editor.getHTML());\n            },\n            onTransaction({ editor, transaction }) {\n                instance.data.getSelection(editor, properties);\n\n                instance.publishState(\"bold\", editor.isActive(\"bold\"));\n                instance.publishState(\"italic\", editor.isActive(\"italic\"));\n                instance.publishState(\"strike\", editor.isActive(\"strike\"));\n                instance.publishState(\"h1\", editor.isActive(\"heading\", { level: 1 }));\n                instance.publishState(\"h2\", editor.isActive(\"heading\", { level: 2 }));\n                instance.publishState(\"h3\", editor.isActive(\"heading\", { level: 3 }));\n                instance.publishState(\"h4\", editor.isActive(\"heading\", { level: 4 }));\n                instance.publishState(\"h5\", editor.isActive(\"heading\", { level: 5 }));\n                instance.publishState(\"h6\", editor.isActive(\"heading\", { level: 6 }));\n                instance.publishState(\"body\", !editor.isActive(\"heading\"));\n                instance.publishState(\"orderedList\", editor.isActive(\"orderedList\"));\n                instance.publishState(\"bulletList\", editor.isActive(\"bulletList\"));\n                instance.publishState(\n                    \"sinkListItem\",\n                    editor.can().sinkListItem(\"listItem\")\n                );\n                instance.publishState(\n                    \"liftListItem\",\n                    editor.can().liftListItem(\"listItem\")\n                );\n                instance.publishState(\"blockquote\", editor.isActive(\"blockquote\"));\n                instance.publishState(\"codeBlock\", editor.isActive(\"codeBlock\"));\n                instance.publishState(\"taskList\", editor.isActive(\"taskList\"));\n                instance.publishState(\"taskItem\", editor.isActive(\"taskItem\"));\n                instance.publishState(\"link\", editor.isActive(\"link\"));\n                instance.publishState(\"url\", editor.getAttributes(\"link\").href);\n                instance.publishState(\n                    \"align_left\",\n                    editor.isActive({ textAlign: \"left\" })\n                );\n                instance.publishState(\n                    \"align_center\",\n                    editor.isActive({ textAlign: \"center\" })\n                );\n                instance.publishState(\n                    \"align_right\",\n                    editor.isActive({ textAlign: \"right\" })\n                );\n                instance.publishState(\n                    \"align_justified\",\n                    editor.isActive({ textAlign: \"justify\" })\n                );\n                instance.publishState(\"highlight\", editor.isActive(\"highlight\"));\n                instance.publishState(\"underline\", editor.isActive(\"underline\"));\n                instance.publishState(\"table\", editor.isActive(\"table\"));\n\n                const textStyle = editor.getAttributes(\"textStyle\");\n                if (textStyle && textStyle.color) {\n                    const color = textStyle.color;\n                    try {\n                        const hexColor = instance.data.rgbToHex(color);\n                        instance.data.textStyleColor = hexColor;\n                    } catch (error) {\n                        console.warn(`Failed to convert color to hex: ${color}`, error);\n                        instance.data.textStyleColor = color; // Fallback to original color value\n                    }\n                } else {\n                    instance.data.textStyleColor = \"\";\n                }\n                instance.publishState(\"color\", instance.data.textStyleColor);\n\n                if (textStyle && textStyle.fontFamily) {\n                    instance.publishState(\"font_family\", textStyle.fontFamily);\n                } else {\n                    instance.publishState(\"font_family\", \"\");\n                }\n\n                instance.publishState(\n                    \"characterCount\",\n                    editor.storage.characterCount.characters()\n                );\n                instance.publishState(\n                    \"wordCount\",\n                    editor.storage.characterCount.words()\n                );\n            },\n            onSelectionUpdate({ editor }) {\n                instance.data.getSelection(editor, properties);\n\n\n                instance.publishState(\"bold\", editor.isActive(\"bold\"));\n                instance.publishState(\"italic\", editor.isActive(\"italic\"));\n                instance.publishState(\"strike\", editor.isActive(\"strike\"));\n                instance.publishState(\"h1\", editor.isActive(\"heading\", { level: 1 }));\n                instance.publishState(\"h2\", editor.isActive(\"heading\", { level: 2 }));\n                instance.publishState(\"h3\", editor.isActive(\"heading\", { level: 3 }));\n                instance.publishState(\"h4\", editor.isActive(\"heading\", { level: 4 }));\n                instance.publishState(\"h5\", editor.isActive(\"heading\", { level: 5 }));\n                instance.publishState(\"h6\", editor.isActive(\"heading\", { level: 6 }));\n                instance.publishState(\"orderedList\", editor.isActive(\"orderedList\"));\n                instance.publishState(\"bulletList\", editor.isActive(\"bulletList\"));\n                instance.publishState(\n                    \"sinkListItem\",\n                    editor.can().sinkListItem(\"listItem\")\n                );\n                instance.publishState(\n                    \"liftListItem\",\n                    editor.can().liftListItem(\"listItem\")\n                );\n                instance.publishState(\"blockquote\", editor.isActive(\"blockquote\"));\n                instance.publishState(\"codeBlock\", editor.isActive(\"codeBlock\"));\n                instance.publishState(\"taskList\", editor.isActive(\"taskList\"));\n                instance.publishState(\"taskItem\", editor.isActive(\"taskItem\"));\n                instance.publishState(\"link\", editor.isActive(\"link\"));\n                instance.publishState(\"url\", editor.getAttributes(\"link\").href);\n                instance.publishState(\n                    \"align_left\",\n                    editor.isActive({ textAlign: \"left\" })\n                );\n                instance.publishState(\n                    \"align_center\",\n                    editor.isActive({ textAlign: \"center\" })\n                );\n                instance.publishState(\n                    \"align_right\",\n                    editor.isActive({ textAlign: \"right\" })\n                );\n                instance.publishState(\n                    \"align_justified\",\n                    editor.isActive({ textAlign: \"justify\" })\n                );\n                instance.publishState(\"highlight\", editor.isActive(\"highlight\"));\n                instance.publishState(\"underline\", editor.isActive(\"underline\"));\n                instance.publishState(\"table\", editor.isActive(\"table\"));\n\n                const textStyle = editor.getAttributes(\"textStyle\");\n\n                if (textStyle && textStyle.color) {\n                    const color = textStyle.color;\n                    try {\n                        const hexColor = instance.data.rgbToHex(color);\n                        instance.data.textStyleColor = hexColor;\n                    } catch (error) {\n                        console.warn(`Failed to convert color to hex: ${color}`, error);\n                        instance.data.textStyleColor = color; // Fallback to original color value\n                    }\n                } else {\n                    instance.data.textStyleColor = \"\";\n                }\n                instance.publishState(\"color\", instance.data.textStyleColor);\n\n                if (textStyle && textStyle.fontFamily) {\n                    instance.publishState(\"font_family\", textStyle.fontFamily);\n                } else {\n                    instance.publishState(\"font_family\", \"\");\n                }\n            },\n        };\n\n        const menuErrorMessage =\n              \" not found. Is the entered id correct? FYI: the Bubble element should default to visible.\";\n\n        if (bubbleMenu && instance.data.active_nodes.includes(\"BubbleMenu\")) {\n            let bubbleMenuTheme = properties.bubbleMenuTheme;\n\n            // Find all elements with the id matching properties.bubbleMenu\n            let bubbleMenuElements = document.querySelectorAll(`#${bubbleMenu}`);\n\n            // If no elements found, log an error\n            if (bubbleMenuElements.length === 0) {\n                const errorMessage = \"BubbleMenu\" + menuErrorMessage;\n                context.reportDebugger(errorMessage);\n                console.log(errorMessage);\n            } else if (bubbleMenuElements.length === 1) {\n                // If only one element is found, make that the bubble menu.\n                options.extensions.push(\n                    BubbleMenu.configure({\n                        element: bubbleMenuElements[0],\n                        tippyOptions: {\n                            theme: bubbleMenuTheme,\n                        },\n                    })\n                );\n            } else if (bubbleMenuElements.length >= 2) {\n                // If multiple elements found, try to find the closest and warn the developer\n                const errorMessage = `Bubble Menu: found multiple elements with the same ID ${bubbleMenu}. Assuming that the closest one is the correct one. However, the developer should update the code to ensure that the IDs are unique. Tiptap ID: ${instance.data.randomId}.`;\n                context.reportDebugger(errorMessage);\n                console.log(errorMessage, `Tiptap ID: ${instance.data.randomId}`);\n                let bubbleMenuDiv = instance.data.findElement(bubbleMenu);\n                options.extensions.push(\n                    BubbleMenu.configure({\n                        element: bubbleMenuDiv,\n                        tippyOptions: {\n                            theme: bubbleMenuTheme,\n                        },\n                    })\n                );\n            }\n        }\n\n        if (floatingMenu && instance.data.active_nodes.includes(\"FloatingMenu\")) {\n            let floatingMenuTheme = properties.floatingMenuTheme;\n\n            // Find all elements with the id matching properties.floatingMenu\n            let floatingMenuElements = document.querySelectorAll(`#${floatingMenu}`);\n\n            // If no elements found, log an error\n            if (floatingMenuElements.length === 0) {\n                const errorMessage = \"FloatingMenu\" + menuErrorMessage;\n                context.reportDebugger(errorMessage);\n                console.log(errorMessage);\n            } else if (floatingMenuElements.length === 1) {\n                // If only one element is found, make that the floating menu.\n                options.extensions.push(\n                    FloatingMenu.configure({\n                        element: floatingMenuElements[0],\n                        tippyOptions: {\n                            theme: floatingMenuTheme,\n                        },\n                    })\n                );\n            } else if (floatingMenuElements.length >= 2) {\n                // If multiple elements found, try to find the closest and warn the developer\n                const errorMessage = `Floating Menu: found multiple elements with the same ID ${floatingMenu}. Assuming that the closest one is the correct one. However, the developer should update the code to ensure that the IDs are unique. Tiptap ID: ${instance.data.randomId}.`;\n                context.reportDebugger(errorMessage);\n                console.log(errorMessage, `Tiptap ID: ${instance.data.randomId}`);\n                let floatingMenuDiv = instance.data.findElement(floatingMenu);\n                options.extensions.push(\n                    FloatingMenu.configure({\n                        element: floatingMenuDiv,\n                        tippyOptions: {\n                            theme: floatingMenuTheme,\n                        },\n                    })\n                );\n            }\n        }\n\n        instance.data.maybeSetupCollaboration(\n            instance,\n            properties,\n            options,\n            extensions\n        );\n\n        try {\n            instance.data.editor = new Editor(options);\n            instance.data.isEditorSetup = true;\n\n        } catch (error) {\n            console.log(\"failed trying to create the Editor\", error);\n        }\n    }\n    /*\n\n    END OF INITIAL LOAD\n\n    */\n\n\n\n    if (\n        !!instance.data.editor_is_ready &&\n        properties.isEditable != instance.data.editor.isEditable\n    ) {\n        let isEditable = properties.isEditable;\n        instance.data.editor.setEditable(isEditable);\n    }\n\n    if (\n        instance.data.editor_is_ready &&\n        properties.initialContent !== \"\" &&\n        instance.data.initialContent !== properties.initialContent &&\n        !properties.bubble.auto_binding()\n    ) {\n        console.log(\"content has changed\");\n\n        if (!properties.collab_active) {\n            instance.data.initialContent = properties.initialContent;\n            let content = properties.content_is_json\n            ? JSON.parse(instance.data.initialContent)\n            : instance.data.initialContent;\n\n            // Clear any pending debounce timeout before programmatic update\n            clearTimeout(instance.data.debounceTimeout);\n\n            instance.data.editor.commands.setContent(content, true);\n        } else {\n            console.log(\n                \"initialContent has changed but collaboration is active -- not updating content\"\n            );\n        }\n    }\n\n    if (\n        instance.data.editor_is_ready &&\n        instance.data.delay !== properties.update_delay\n    ) {\n        console.log(\n            \"Updating debounce delay from the standard \" +\n            instance.data.delay +\n            \"ms to \" +\n            properties.update_delay +\n            \"ms\"\n        );\n        instance.data.delay = properties.update_delay;\n    }\n\n    if (\n        instance.data.editor_is_ready &&\n        properties.bubble.auto_binding() &&\n        instance.data.isDebouncingDone &&\n        properties.autobinding !== instance.data.editor.getHTML()\n    ) {\n        // Clear any pending debounce timeout before programmatic update\n        clearTimeout(instance.data.debounceTimeout);\n        let editor = instance.data.editor;\n\n        editor.commands.setContent(properties.autobinding, false);\n        const contentHTML = editor.getHTML();\n        instance.publishState(\"contentHTML\", contentHTML);\n        instance.publishState(\"contentText\", editor.getText());\n        instance.publishState(\"contentJSON\", JSON.stringify(editor.getJSON()));\n        instance.publishState(\"isEditable\", editor.isEditable);\n        instance.publishState(\n            \"characterCount\",\n            editor.storage.characterCount.characters()\n        );\n        instance.publishState(\"wordCount\", editor.storage.characterCount.words());\n    }\n\n    if (!!instance.data.editor_is_ready) {\n        if (!properties.bubble.fit_height()) {\n            instance.canvas.css({ overflow: \"scroll\" });\n        } else {\n            instance.canvas.css({ overflow: \"auto\" });\n        }\n    }\n\n    if (!!instance.data.editor_is_ready && !!properties.collab_active) {\n        instance.data.editor.commands.updateUser({\n            name: properties.collab_user_name,\n            color: properties.collab_cursor_color,\n        });\n    }\n\n   instance.data.stylesheet.innerHTML = `\n#tiptapEditor-${instance.data.randomId} {\n\n\n    .ProseMirror {\n\n\n\n        h1 {\n            font-size: ${properties.h1_size};\n            color: ${properties.h1_color};\n            margin: ${properties.h1_margin};\n            font-weight: ${properties.h1_font_weight};\n            ${properties.h1_adv}\n        }\n\n\t\th2 {\n            font-size: ${properties.h2_size};\n            color: ${properties.h2_color};\n            margin: ${properties.h2_margin};\n            font-weight: ${properties.h2_font_weight};\n            ${properties.h2_adv}\n\t\t}\n\n\t\th3 {\n            font-size: ${properties.h3_size};\n            color: ${properties.h3_color};\n            margin: ${properties.h3_margin};\n            font-weight: ${properties.h3_font_weight};\n            ${properties.h3_adv}\n        }\n\n\t\th4 {\n            font-size: ${properties.h4_size};\n            color: ${properties.h4_color};\n            margin: ${properties.h4_margin};\n            font-weight: ${properties.h4_font_weight};\n            ${properties.h4_adv}\n        }\n\n        h5 {\n            font-size: ${properties.h5_size};\n            color: ${properties.h5_color};\n            margin: ${properties.h5_margin};\n            font-weight: ${properties.h5_font_weight};\n            ${properties.h5_adv}\n        }\n\n        h6 {\n            font-size: ${properties.h6_size};\n            color: ${properties.h6_color};\n            margin: ${properties.h6_margin};\n            font-weight: ${properties.h6_font_weight};\n            ${properties.h6_adv}\n        }\n\n        p {\n            font-size: ${properties.bubble.font_size()};\n            color: ${properties.bubble.font_color()};\n            font-family: ${properties.bubble.font_face().match(/^(.*?):/)[1]};\n            margin: 1rem 0;\n            font-weight: 400;\n            ${properties.p_adv}\n\t\t}\n\n        p.is-editor-empty:first-child::before {\n            color: ${properties.placeholder_color || \"#adb5bd\"};\n            content: attr(data-placeholder);\n            float: left;\n            height: 0;\n            pointer-events: none;\n        }\n\n        mark {\n\t        ${properties.mark_adv || \"\"}\n        }\n\n        a {\n            text-decoration: underline;\n            cursor: pointer;\n            ${properties.link_adv}\n        }\n\n        a:link {\n            color: ${properties.link_color};\n            ${properties.link_unvisited_adv}\n        }\n\n        a:visited {\n            color: ${properties.link_color_visited};\n            ${properties.link_visited_adv}\n        }\n\n        a:focus {\n\t        ${properties.link_focus_adv}\n        }\n\n        a:hover {\n            color: ${properties.link_color_hover};\n            ${properties.link_hover_adv};\n        }\n\n\t        a:active {\n        }\n\n        iframe {\n\t        ${properties.iframe}\n        }\n\n        img {\n    \t    ${properties.image_css}\n        }\n\n\t\tblockquote {\n        \t${properties.blockquote_adv}\n        }\n\n\t\tul[data-type=\"taskList\"] {\n            list-style: none;\n            padding: 0;\n        }\n\n\t\tul[data-type=\"taskList\"] p {\n        \tmargin: 0;\n        }\n\n\t\tul[data-type=\"taskList\"] li {\n        \tdisplay: flex;\n        }\n\n\t\tul[data-type=\"taskList\"] li > label {\n            flex: 0 0 auto;\n            margin-right: 0.5rem;\n            user-select: none;\n        }\n\n\t\tul[data-type=\"taskList\"] li > div {\n        \tflex: 1 1 auto;\n        }\n\n\t\tul:not([data-type=\"taskList\"]) {\n        \t${properties.ul_adv}\n        }\n\n\t\tol {\n        \t${properties.ol_adv}\n        }\n\n\t\ttable {\n            width: 100%;\n            border-collapse: collapse;\n            border-spacing: 0;\n            text-indent: 0;\n        }\n\t\tth, td {\n            padding: ${properties.table_th_td_padding};\n            text-align: start;\n            border-bottom: ${properties.table_th_td_border_bottom} ${properties.table_row_border_color};\n        }\n\n\t\tth {\n            font-weight: ${properties.table_th_font_weight};\n            text-align: left;\n            background: ${properties.table_th_background};\n        }\n\n\t\tth * {\n            color: ${properties.table_header_font_color};\n            font-weight: ${properties.table_th_font_weight};\n        }\n\n\t\ttr:nth-of-type(odd) {\n        \tbackground: ${properties.table_zebra_background};\n        }\n\n        .tiptap-drag-handle {\n          align-items: center;\n          background: black;\n          border-radius: .25rem;\n          border: 1px solid rgba(0, 0, 0, 0.1);\n          cursor: grab;\n          display: flex;\n          height: 1.5rem;\n          justify-content: center;\n          width: 1.5rem;\n\n        }\n\n\n\n\n            ${properties.baseDiv || \"\"}\n\n    }\n\n    .mention {\n        border: 1px solid;\n        border-color: ${properties.mention_border_color};\n        background-color: ${properties.mention_background_color || \"transparent\"};\n        border-radius: 0.4rem;\n        padding: 0.1rem 0.3rem;\n        box-decoration-break: clone;\n    }\n\n    .suggestions {\n        border: 1px solid #ccc;\n        background-color: white;\n        padding: 5px;\n        box-shadow: 0 2px 10px rgba(0,0,0,0.2);\n        border-radius: 4px;\n        display: block; /* make sure it is visible */\n        position: absolute;\n        z-index: 1000; /* Ensure it is on top */\n    }\n\n    .suggestion-item {\n        padding: 8px 10px;\n        cursor: pointer;\n        list-style: none;\n    }\n\n    .suggestion-item:hover {\n\t    background-color: #eee;\n    }\n\n    .suggestion {\n        background-color: black;\n        color: white;\n    }\n}\n\n\n\n.selectedCell:after {\n    z-index: 2;\n    position: absolute;\n    content: \"\";\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    background: rgba(200, 200, 255, 0.4);\n    pointer-events: none;\n}\n\n.column-resize-handle {\n    position: absolute;\n    right: -2px;\n    top: 0;\n    bottom: -2px;\n    width: 4px;\n    background-color: #adf;\n    pointer-events: none;\n}\n\n.tableWrapper {\n    overflow-x: auto;\n}\n\n.resize-cursor {\n    cursor: ew-resize;\n    cursor: col-resize;\n}\n\n\n\n.collaboration-cursor__caret {\n    position: relative;\n    margin-left: -1px;\n    margin-right: -1px;\n    border-left: 1px solid #0D0D0D;\n    border-right: 1px solid #0D0D0D;\n    word-break: normal;\n    pointer-events: none;\n}\n\n.collaboration-cursor__label {\n    position: absolute;\n    top: -1.4em;\n    left: -1px;\n    font-size: 12px;\n    font-style: normal;\n    font-weight: 600;\n    line-height: normal;\n    user-select: none;\n    color: #0D0D0D;\n    padding: 0.1rem 0.3rem;\n    border-radius: 3px 3px 3px 0;\n    white-space: nowrap;\n}\n\n.items_${instance.data.randomId} {\n    padding: 0.2rem;\n    position: relative;\n    border-radius: 0.5rem;\n    background: #FFF;\n    color: rgba(0, 0, 0, 0.8);\n    overflow: hidden;\n    font-size: 0.9rem;\n    box-shadow:\n    0 0 0 1px rgba(0, 0, 0, 0.05),\n    0px 10px 20px rgba(0, 0, 0, 0.1);\n\n    .item {\n        display: block;\n        margin: 0;\n        width: 100%;\n        text-align: left;\n        background: transparent;\n        border-radius: 0.4rem;\n        border: 1px solid transparent;\n        padding: 0.2rem 0.4rem;\n\n        &.is-selected {\n        \tborder-color: #000;\n        }\n    }\n}\n`;\n\n\n\n}\n"
+        }
+      },
+      "default_dim": {
+        "height": 100,
+        "width": 600
+      },
+      "display": "Tiptap",
+      "events": {
+        "ABl": {
+          "caption": "is focused",
+          "name": "isFocused"
+        },
+        "ABm": {
+          "caption": "isn't focused",
+          "name": "isntFocused"
+        },
+        "ACU": {
+          "caption": "Content updated",
+          "name": "contentUpdated"
+        },
+        "ACV": {
+          "caption": "Editor is ready",
+          "name": "is_ready"
+        },
+        "AFt": {
+          "caption": "file upload error",
+          "name": "fileUploadError"
+        },
+        "AFu": {
+          "caption": "file is uploaded",
+          "name": "fileUploaded"
+        }
+      },
+      "fields": {
+        "AFz": {
+          "caption": "Allowed MIME Types",
+          "doc": "Which types of files are the users allowed to paste or drop in the editor. Typical types are 'image/jpeg', 'image/png', 'image/gif'. Leaving this blank will allow any file to be uploaded.",
+          "editor": "DynamicValue",
+          "is_list": true,
+          "name": "allowedMimeTypes",
+          "optional": true,
+          "rank": 101,
+          "value": "text"
+        },
+        "ADe": {
+          "caption": "Header font color",
+          "default_val": "rgba(255,255,255,1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "table_header_font_color",
+          "rank": 56
+        },
+        "h2_info": {
+          "caption": "     ----- H2 styling -----",
+          "editor": "Label",
+          "name": "stylesheet_info",
+          "rank": 19
+        },
+        "AEj": {
+          "caption": "CSS for base div // override",
+          "default_val": "    flex-grow: 1;     word-wrap: break-word; \tword-break: break-word; \twhite-space: pre-wrap;",
+          "doc": "gives you direct access to the div that holds the editor. This is also the last item in the CSS so you can override anything that precedes it.",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "baseDiv",
+          "optional": true,
+          "rank": 68,
+          "value": "text"
+        },
+        "AGH": {
+          "caption": "Element types",
+          "default_val": "heading, paragraph",
+          "doc": "Which elements should be tagged with the unique ID? Some typical options: heading, paragraph, image",
+          "editor": "DynamicValue",
+          "name": "extension_uniqueid_types",
+          "optional": true,
+          "rank": 106,
+          "value": "text"
+        },
+        "AEX": {
+          "caption": "Placeholder color",
+          "default_val": "rgba(173, 181, 189, 1)",
+          "doc": "Color of the placeholder text",
+          "editor": "Color",
+          "in_style": true,
+          "name": "placeholder_color",
+          "optional": true,
+          "rank": 1
+        },
+        "AFy": {
+          "caption": "Attach files to",
+          "doc": "Bubble thing that it should attach files to",
+          "editor": "DynamicValue",
+          "name": "attachFilesTo",
+          "optional": true,
+          "rank": 100,
+          "value": "_any_thing"
+        },
+        "h2_color": {
+          "caption": "H2 Color",
+          "default_val": "rgba(17,17,17,10)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h2_color",
+          "rank": 21
+        },
+        "AFK": {
+          "caption": "Highlight CSS",
+          "doc": "(beta) CSS properties for highlighted text. If you want more space to edit your text, use `arbitrary text`.",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "mark_adv",
+          "optional": true,
+          "rank": 94,
+          "value": "text"
+        },
+        "ADy": {
+          "caption": "h5_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h5_adv",
+          "optional": true,
+          "rank": 42,
+          "value": "text"
+        },
+        "ADf": {
+          "caption": "Zebra background",
+          "default_val": "rgba(238,238,238,1)",
+          "doc": "Background color for odd rows",
+          "editor": "Color",
+          "in_style": true,
+          "name": "table_zebra_background",
+          "rank": 58
+        },
+        "AFO": {
+          "caption": "link_unvisited_adv",
+          "doc": "CSS properties for unvisited links. If you want more space to edit your text, use `arbitrary text`.",
+          "editor": "DynamicValue",
+          "long_text": false,
+          "name": "link_unvisited_adv",
+          "optional": true,
+          "rank": 96,
+          "value": "text"
+        },
+        "AGI": {
+          "caption": "Attribute name",
+          "default_val": "id",
+          "doc": "What name should the attribute have? Defaults to 'uid'. Each tagged element will have `data-uid=SOME_UNIQUE_ID` added to them.",
+          "editor": "DynamicValue",
+          "name": "extension_uniqueid_attrName",
+          "optional": true,
+          "rank": 107,
+          "value": "text"
+        },
+        "h4_color": {
+          "caption": "H4 Color",
+          "default_val": "rgba(17, 17, 17, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h4_color",
+          "rank": 33
+        },
+        "AGB": {
+          "caption": "Keep marks after <br>",
+          "default_val": true,
+          "doc": "Decides if to keep a mark after a hardbreak. When checked, and you're typing in bold, when you hit Shift+Enter, the next line will continue with bold. If unchecked, it will revert to normal text.",
+          "editor": "Checkbox",
+          "name": "hardBreakKeepMarks",
+          "rank": 102,
+          "value": "boolean"
+        },
+        "ADn": {
+          "caption": "link settings",
+          "editor": "Label",
+          "name": "link_settings",
+          "rank": 59
+        },
+        "AED": {
+          "caption": "user_name",
+          "default_val": "John Doe",
+          "doc": "Name displayed to other users",
+          "editor": "DynamicValue",
+          "name": "collab_user_name",
+          "optional": true,
+          "rank": 81,
+          "value": "text"
+        },
+        "AFq": {
+          "caption": "Allow Base 64?",
+          "default_val": true,
+          "doc": "Allow images to be parsed as base64 strings. When off Base64 images will remain in the code, but it won't be displayed.",
+          "editor": "Checkbox",
+          "name": "allowBase64",
+          "rank": 99
+        },
+        "ADu": {
+          "caption": "h1_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h1_adv",
+          "optional": true,
+          "rank": 18,
+          "value": "text"
+        },
+        "AEC": {
+          "caption": "Enable collaboration?",
+          "default_val": false,
+          "editor": "Checkbox",
+          "name": "collab_active",
+          "rank": 74
+        },
+        "h5_font_weight": {
+          "caption": "H5 font-weight",
+          "default_val": "500",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h5_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 40
+        },
+        "AAK": {
+          "caption": "Initial content",
+          "doc": "Content in Plain Text or HTML format. If JSON make sure the \"Content is JSON?\" is set to \"yes\".",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "initialContent",
+          "optional": true,
+          "rank": 2,
+          "value": "text"
+        },
+        "nodes": {
+          "caption": "Extensions",
+          "default_val": "Heading, Bold, Code, Italic, Strike, Dropcursor, Gapcursor, History, Blockquote, BulletList, OrderedList, TaskList, CodeBlock, HorizontalRule, Youtube, Underline, Table, Image, Link, Placeholder, BubbleMenu, FloatingMenu, TextAlign, Highlight",
+          "doc": "Active extensions. If you remove an item, the editor will not allow or render that node type. Possible options: Heading, Bold, Code, Italic, Strike, Dropcursor, Gapcursor, History, Blockquote, BulletList, OrderedList, TaskList, CodeBlock, HorizontalRule, Youtube, Underline, Table, Image, Link, Placeholder, BubbleMenu, FloatingMenu, TextAlign, Highlight",
+          "editor": "StaticText",
+          "in_style": true,
+          "long_text": true,
+          "name": "nodes",
+          "rank": 70
+        },
+        "h6_color": {
+          "caption": "H6 Color",
+          "default_val": "rgba(17, 17, 17, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h6_color",
+          "rank": 45
+        },
+        "AGM": {
+          "caption": "preserve_attributes",
+          "default_val": true,
+          "editor": "DynamicValue",
+          "name": "preserve_attributes",
+          "rank": 108,
+          "value": "boolean"
+        },
+        "AEB": {
+          "caption": "𝗖𝗢𝗟𝗟𝗔𝗕𝗢𝗥𝗔𝗧𝗜𝗢𝗡",
+          "editor": "Label",
+          "name": "collab_info",
+          "rank": 72
+        },
+        "AGK": {
+          "caption": "The UniqueID extension adds unique IDs to nodes. Useful if you want to target a certain part of the text. You can configure which node types get an unique ID.",
+          "editor": "Label",
+          "name": "unique_id_info",
+          "rank": 104
+        },
+        "ADg": {
+          "caption": "Link color",
+          "default_val": "rgba(79, 70, 229, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "link_color",
+          "rank": 60
+        },
+        "ADc": {
+          "caption": "Header background",
+          "default_val": "rgba(0,0,0,1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "table_th_background",
+          "rank": 57
+        },
+        "h6_margin": {
+          "caption": "H6 margin",
+          "default_val": "1rem 0",
+          "doc": "e.g.: \"1rem 0\" means top & bottom 1rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h6_margin",
+          "rank": 47
+        },
+        "AFE": {
+          "caption": "Mentions allow you to @someone and link to that person. It's composed of a few parts. ",
+          "doc": "",
+          "editor": "Label",
+          "name": "mentions_sub",
+          "optional": "false",
+          "rank": 84
+        },
+        "ADT": {
+          "caption": "H1 margin",
+          "default_val": "3rem 0",
+          "doc": "e.g.: \"3rem 0\" means top & bottom 3rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h1_margin",
+          "rank": 17
+        },
+        "h5_size": {
+          "caption": "H5 Size",
+          "default_val": "1rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h5_size",
+          "rank": 38
+        },
+        "ADq": {
+          "caption": "YouTube",
+          "default_val": "width: 100%; //overrides the default 640px",
+          "doc": "Add any CSS properties. FYI: The underlying item is an iFrame.",
+          "editor": "StaticText",
+          "in_style": true,
+          "long_text": true,
+          "name": "iframe",
+          "rank": 64,
+          "value": "text"
+        },
+        "h4_font_weight": {
+          "caption": "H4 font-weight",
+          "default_val": "600",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h4_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 34
+        },
+        "ADa": {
+          "caption": "Row bottom border",
+          "default_val": "1px solid",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "table_th_td_border_bottom",
+          "rank": 53
+        },
+        "ADR": {
+          "caption": "H1 Size",
+          "default_val": "4rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h1_size",
+          "rank": 14
+        },
+        "AEW": {
+          "caption": "Max number of characters",
+          "editor": "StaticNumber",
+          "in_style": true,
+          "name": "characterLimit",
+          "optional": true,
+          "rank": 3
+        },
+        "AFN": {
+          "caption": "link_adv",
+          "doc": "CSS properties for all links. If you want more space to edit your text, use `arbitrary text`.",
+          "editor": "DynamicValue",
+          "long_text": false,
+          "name": "link_adv",
+          "optional": true,
+          "rank": 95,
+          "value": "text"
+        },
+        "ADl": {
+          "caption": "Link color visited",
+          "default_val": "rgba(75, 85, 99, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "link_color_visited",
+          "rank": 63
+        },
+        "AEx": {
+          "caption": "Type of content",
+          "doc": "Which type of db thing should be displayed in the Mentions dropdown.",
+          "editor": "custom_type",
+          "is_list": true,
+          "name": "mention_list_type",
+          "optional": "false",
+          "rank": 85,
+          "value": "_any_thing_bindable"
+        },
+        "h2_font_weight": {
+          "caption": "H2 font-weight",
+          "default_val": "800",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h2_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 23
+        },
+        "ACS": {
+          "caption": "Floating menu",
+          "doc": "ID of the group that holds the Floating Menu. This menu shows up on an empty line.",
+          "editor": "DynamicValue",
+          "name": "floatingMenu",
+          "optional": true,
+          "rank": 7,
+          "value": "text"
+        },
+        "ADV": {
+          "caption": "𝗦𝗧𝗬𝗟𝗘𝗦𝗛𝗘𝗘𝗧",
+          "editor": "Label",
+          "name": "info",
+          "rank": 10
+        },
+        "h4_margin": {
+          "caption": "H4 margin",
+          "default_val": "1.5rem 0",
+          "doc": "e.g.: \"1.5rem 0\" means top & bottom 1.5rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h4_margin",
+          "rank": 35
+        },
+        "h1_font_weight": {
+          "caption": "H1 font-weight",
+          "default_val": "900",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h1_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 16
+        },
+        "h1_info1": {
+          "caption": "     ----- H1 styling -----",
+          "editor": "Label",
+          "name": "stylesheet_info",
+          "rank": 13
+        },
+        "h6_size": {
+          "caption": "H6 Size",
+          "default_val": "1rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h6_size",
+          "rank": 44
+        },
+        "ADk": {
+          "caption": "Link color hover",
+          "default_val": "rgba(147, 51, 234, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "link_color_hover",
+          "rank": 61
+        },
+        "ADv": {
+          "caption": "h2_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h2_adv",
+          "optional": true,
+          "rank": 24,
+          "value": "text"
+        },
+        "ADw": {
+          "caption": "h3_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h3_adv",
+          "optional": true,
+          "rank": 30,
+          "value": "text"
+        },
+        "AFG": {
+          "caption": "preserveWhitespace",
+          "default_val": "'full'",
+          "doc": "By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces, and 'full' to preserve whitespace entirely.",
+          "editor": "Dropdown",
+          "name": "parseOptions_preserveWhitespace",
+          "options": "false,true,'full'",
+          "rank": 93
+        },
+        "collab_url": {
+          "caption": "Custom - URL",
+          "default_val": "default value",
+          "doc": "Paste the collab URL here to enable collaborative editing. Leave empty to disable.",
+          "editor": "StaticText",
+          "name": "collab_url",
+          "rank": 77
+        },
+        "AFP": {
+          "caption": "link_visited_adv",
+          "doc": "CSS properties for visited links. If you want more space to edit your text, use `arbitrary text`.",
+          "editor": "DynamicValue",
+          "long_text": false,
+          "name": "link_visited_adv",
+          "optional": true,
+          "rank": 97,
+          "value": "text"
+        },
+        "AFB": {
+          "caption": "Border color",
+          "default_val": "rgba(0,0,0,1)",
+          "doc": "Color of the border around the mention on the text",
+          "editor": "Color",
+          "name": "mention_border_color",
+          "rank": 90
+        },
+        "ADm": {
+          "caption": "Link hover adv",
+          "default_val": "/*   text-decoration: wavy underline red;  */  /*   background: greenyellow; */",
+          "doc": "ADVANCED FEATURE: Here you can enter any valid CSS to apply to hovered links.",
+          "editor": "StaticText",
+          "in_style": true,
+          "long_text": true,
+          "name": "link_hover_adv",
+          "rank": 62
+        },
+        "AEE": {
+          "caption": "cursor_color",
+          "default_val": "rgba(179,208,252,1)",
+          "doc": "In which color this user's name will show to other users.",
+          "editor": "Color",
+          "name": "collab_cursor_color",
+          "optional": true,
+          "rank": 82,
+          "value": "text"
+        },
+        "AEV": {
+          "caption": "Blockquote styling",
+          "default_val": "// background: green; padding: 0.5rem;",
+          "doc": "add any css to target the blockquote element. This will override the standard Tiptap (ProseMirror) styling.",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "blockquote_adv",
+          "optional": true,
+          "rank": 65,
+          "value": "text"
+        },
+        "ADd": {
+          "caption": "Row border color",
+          "default_val": "rgba(0,0,0,1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "table_row_border_color",
+          "rank": 54
+        },
+        "AGG": {
+          "caption": "Enabled?",
+          "default_val": false,
+          "doc": "Turns on Unique ID extension.",
+          "editor": "Checkbox",
+          "name": "extension_uniqueid",
+          "rank": 105
+        },
+        "ACL": {
+          "caption": "Bubble menu",
+          "doc": "ID of the group that holds the Bubble Menu. This menu shows up when the user selects some text.",
+          "editor": "DynamicValue",
+          "name": "bubbleMenu",
+          "optional": true,
+          "rank": 6,
+          "value": "text"
+        },
+        "h3_margin": {
+          "caption": "H3 margin",
+          "default_val": "2rem 0",
+          "doc": "e.g.: \"2rem 0\" means top & bottom 2rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h3_margin",
+          "rank": 29
+        },
+        "h2_margin": {
+          "caption": "H2 margin",
+          "default_val": "2.5rem 0",
+          "doc": "e.g.: \"2.5rem 0\" means top & bottom 2.5rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h2_margin",
+          "rank": 22
+        },
+        "AEA": {
+          "caption": "Image",
+          "editor": "Label",
+          "name": "image",
+          "rank": 49
+        },
+        "h5_color": {
+          "caption": "H5 Color",
+          "default_val": "rgba(17, 17, 17, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h5_color",
+          "rank": 39
+        },
+        "AEy": {
+          "caption": "Label",
+          "editor": "custom_field_AEx",
+          "field_type_restriction": "text_image_file",
+          "name": "mention_field_label",
+          "optional": true,
+          "rank": 88
+        },
+        "h3_size": {
+          "caption": "H3 Size",
+          "default_val": "2rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h3_size",
+          "rank": 26
+        },
+        "AEw": {
+          "caption": "Data source",
+          "default_val": "",
+          "doc": "The list of items that should be displayed in the mentions dropdown. Usually a `do a search for...`",
+          "editor": "DynamicValue",
+          "is_list": true,
+          "name": "mention_list",
+          "optional": "true",
+          "rank": 86,
+          "value": "_any_thing"
+        },
+        "h6_font_weight": {
+          "caption": "H6 font-weight",
+          "default_val": "500",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h6_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 46
+        },
+        "ACZ": {
+          "caption": "Content is JSON?",
+          "default_val": false,
+          "doc": "In case your initial content is in JSON format. It needs to be a valid Tiptap JSON format. More info: https://tiptap.dev/guide/output#option-2-generate-html-from-prosemirror-json",
+          "editor": "DynamicValue",
+          "name": "content_is_json",
+          "rank": 4,
+          "value": "boolean"
+        },
+        "AEI": {
+          "caption": "Document name",
+          "doc": "Name or id of the document. This should be a unique name like a slug or unique id.",
+          "editor": "DynamicValue",
+          "name": "collab_doc_id",
+          "optional": true,
+          "rank": 75,
+          "value": "text"
+        },
+        "AEH": {
+          "caption": "app_id",
+          "default_val": "",
+          "doc": "Required for both Tiptap Cloud or Custom. Get the app id from 𝗵𝘁𝘁𝗽𝘀://𝗿𝗶𝗰𝗼.𝘄𝘁𝗳 or 𝗵𝘁𝘁𝗽𝘀://𝗰𝗼𝗹𝗹𝗮𝗯.𝘁𝗶𝗽𝘁𝗮𝗽.𝗱𝗲𝘃",
+          "editor": "StaticText",
+          "name": "collab_app_id",
+          "optional": true,
+          "rank": 78
+        },
+        "h3_color": {
+          "caption": "H3 Color",
+          "default_val": "rgba(17, 17, 17, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h3_color",
+          "rank": 27
+        },
+        "AFQ": {
+          "caption": "link_focus_adv",
+          "doc": "CSS properties for focused links. If you want more space to edit your text, use `arbitrary text`.",
+          "editor": "DynamicValue",
+          "long_text": false,
+          "name": "link_focus_adv",
+          "optional": true,
+          "rank": 98,
+          "value": "text"
+        },
+        "AEz": {
+          "caption": "ID",
+          "editor": "custom_field_AEx",
+          "field_type_restriction": "text_image_file",
+          "name": "mention_field_id",
+          "optional": true,
+          "rank": 89
+        },
+        "AEG": {
+          "caption": "to use the collaboration function you first need an account with one of the providers: 𝗿𝗶𝗰𝗼.𝘄𝘁𝗳 (has free tier), 𝗰𝗼𝗹𝗹𝗮𝗯.𝘁𝗶𝗽𝘁𝗮𝗽.𝗱𝗲𝘃, or 𝗹𝗶𝘃𝗲𝗯𝗹𝗼𝗰𝗸𝘀.𝗶𝗼",
+          "editor": "Label",
+          "name": "collab_info_sub",
+          "rank": 73
+        },
+        "ABs": {
+          "caption": "This input is enabled",
+          "default_val": true,
+          "editor": "Checkbox",
+          "in_style": true,
+          "name": "isEditable",
+          "optional": false,
+          "rank": 5,
+          "value": "boolean"
+        },
+        "AGN": {
+          "caption": "preserved_attributes",
+          "default_val": "class,style,id,data-*",
+          "editor": "DynamicValue",
+          "name": "preserved_attributes",
+          "rank": 109,
+          "value": "text"
+        },
+        "ADt": {
+          "caption": "p_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "p_adv",
+          "optional": true,
+          "rank": 12,
+          "value": "text"
+        },
+        "ADZ": {
+          "caption": "Cell padding",
+          "default_val": "0 1rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "table_th_td_padding",
+          "rank": 52
+        },
+        "ADx": {
+          "caption": "h4_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h4_adv",
+          "optional": true,
+          "rank": 36,
+          "value": "text"
+        },
+        "h4_info": {
+          "caption": "     ----- H4 styling -----",
+          "editor": "Label",
+          "name": "h4_info",
+          "rank": 31
+        },
+        "ADQ": {
+          "caption": "Floating Menu Theme",
+          "default_val": "translucent",
+          "doc": "The style of the tooltip box. See more here: https://atomiks.github.io/tippyjs/v5/themes/",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "floatingMenuTheme",
+          "options": "translucent,light,light-border,material",
+          "rank": 9
+        },
+        "ADp": {
+          "caption": "headings",
+          "default_val": "1,2,3,4,5,6",
+          "doc": "Enable headings. 𝟏,𝟐 will allow only heading 1 and heading 2, etc. Comma separated list of numbers from 1 to 6.",
+          "editor": "StaticText",
+          "in_style": true,
+          "long_text": false,
+          "name": "headings",
+          "rank": 71
+        },
+        "h2_size": {
+          "caption": "H2 Size",
+          "default_val": "3rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h2_size",
+          "rank": 20
+        },
+        "AFC": {
+          "caption": "Background color",
+          "default_val": "rgba(255,255,255,0)",
+          "doc": "Color of the background of the mention.",
+          "editor": "Color",
+          "name": "mention_background_color",
+          "rank": 91
+        },
+        "h5_info": {
+          "caption": "----- H5 styling -----",
+          "editor": "Label",
+          "name": "h5_info",
+          "rank": 37
+        },
+        "ADz": {
+          "caption": "h6_adv",
+          "doc": "any CSS property",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "h6_adv",
+          "optional": true,
+          "rank": 48,
+          "value": "text"
+        },
+        "AEm": {
+          "caption": "Liveblocks key",
+          "doc": "Liveblocks public API key. If you're using Liveblocks, you need to provide this key.",
+          "editor": "StaticText",
+          "name": "liveblocksPublicApiKey",
+          "optional": true,
+          "rank": 80
+        },
+        "AEi": {
+          "caption": "Number list CSS",
+          "default_val": "padding-left: 20px;",
+          "doc": "styling for ordered lists (aka number lists). Use `padding-left: 20px;` if all you want to do is to align it to the text.",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "ol_adv",
+          "optional": true,
+          "rank": 67,
+          "value": "text"
+        },
+        "h6_info": {
+          "caption": "     ----- H6 styling -----",
+          "editor": "Label",
+          "name": "h6_info",
+          "rank": 43
+        },
+        "ADb": {
+          "caption": "Header font weight",
+          "default_val": "800",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "table_th_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 55
+        },
+        "AEh": {
+          "caption": "Bullet lists CSS",
+          "default_val": "padding-left: 20px;",
+          "doc": "styling for unordered lists (aka bullet lists). You can use nested selectors to target child elements. Use `padding-left: 20px;` if all you want to do is to align it to the text.",
+          "editor": "DynamicValue",
+          "long_text": true,
+          "name": "ul_adv",
+          "optional": true,
+          "rank": 66,
+          "value": "text"
+        },
+        "h3_font_weight": {
+          "caption": "H3 font-weight",
+          "default_val": "700",
+          "doc": "",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "h3_font_weight",
+          "options": "900,800,700,600,500,400",
+          "rank": 28
+        },
+        "AEN": {
+          "caption": "JWT key",
+          "doc": "For both Tiptap Cloud or Custom collab, you need to provide a JWT key. Best idea is to create a workflow when the page loads, run 𝗴𝗲𝗻𝗲𝗿𝗮𝘁𝗲 𝗝𝗪𝗧 𝗸𝗲𝘆 action, and store the token in a state on the page.",
+          "editor": "DynamicValue",
+          "name": "collab_jwt",
+          "optional": true,
+          "rank": 79,
+          "value": "text"
+        },
+        "ACA": {
+          "caption": "Placeholder",
+          "default_val": "Write something...",
+          "doc": "The text that is displayed when the editor is empty. Make sure that it is selected in the Extensions panel below.",
+          "editor": "DynamicValue",
+          "long_text": false,
+          "name": "placeholder",
+          "optional": true,
+          "rank": 0,
+          "value": "text"
+        },
+        "AGO": {
+          "caption": "preserve_unknown_tags",
+          "default_val": true,
+          "editor": "DynamicValue",
+          "name": "preserve_unknown_tags",
+          "rank": 110,
+          "value": "boolean"
+        },
+        "ADY": {
+          "caption": "table settings",
+          "editor": "Label",
+          "name": "table",
+          "rank": 51
+        },
+        "AFD": {
+          "caption": "---------------------- 𝗠𝗘𝗡𝗧𝗜𝗢𝗡𝗦 ----------------------",
+          "doc": "",
+          "editor": "Label",
+          "name": "mentions",
+          "optional": "false",
+          "rank": 83
+        },
+        "ADo": {
+          "caption": "options",
+          "editor": "Label",
+          "name": "options",
+          "rank": 69
+        },
+        "AEv": {
+          "caption": "Base URL",
+          "doc": "generally `Website home URL/[users profile]` ",
+          "editor": "DynamicValue",
+          "name": "mention_base_url",
+          "optional": true,
+          "rank": 87,
+          "value": "text"
+        },
+        "h3_info": {
+          "caption": "     ----- H3 styling -----",
+          "editor": "Label",
+          "name": "stylesheet_info",
+          "rank": 25
+        },
+        "AEk": {
+          "caption": "Provider",
+          "default_val": "tiptap",
+          "doc": "Which collab provider you would like to use. Tiptap requires a subscription with cloud.tiptap.com and a JWT key. Liveblocks requires the plublic key. For custom requires the url of the server and a JWT.",
+          "editor": "Dropdown",
+          "name": "collabProvider",
+          "optional": true,
+          "options": "tiptap,liveblocks,custom",
+          "rank": 76
+        },
+        "h4_size": {
+          "caption": "H4 Size",
+          "default_val": "1.5rem",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h4_size",
+          "rank": 32
+        },
+        "ADP": {
+          "caption": "Bubble menu theme",
+          "default_val": "translucent",
+          "doc": "The style of the tooltip box. See more here: https://atomiks.github.io/tippyjs/v5/themes/",
+          "editor": "Dropdown",
+          "in_style": true,
+          "name": "bubbleMenuTheme",
+          "options": "translucent,light,light-border,material",
+          "rank": 8
+        },
+        "ADS": {
+          "caption": "H1 Color",
+          "default_val": "rgba(17, 17, 17, 1)",
+          "editor": "Color",
+          "in_style": true,
+          "name": "h1_color",
+          "rank": 15
+        },
+        "h5_margin": {
+          "caption": "H5 margin",
+          "default_val": "1rem 0",
+          "doc": "e.g.: \"1rem 0\" means top & bottom 1rem, left & right 0.  Accepts CSS margin shorthand notation. For more info: google: \"mdn CSS margin\" OR ask in the forum thread.",
+          "editor": "StaticText",
+          "in_style": true,
+          "name": "h5_margin",
+          "rank": 41
+        },
+        "AFF": {
+          "caption": "Update delay",
+          "default_val": 300,
+          "doc": "After the user stops typing, how long should it wait until it emits a \"Content updated\" event and -- if autobinding is on -- saves the document.",
+          "editor": "DynamicValue",
+          "name": "update_delay",
+          "rank": 92,
+          "value": "number"
+        },
+        "ADr": {
+          "caption": "Image properties",
+          "default_val": "width: 100%;",
+          "doc": "Add any CSS properties.",
+          "editor": "StaticText",
+          "in_style": true,
+          "long_text": true,
+          "name": "image_css",
+          "optional": true,
+          "rank": 50
+        },
+        "AGJ": {
+          "caption": "𝗨𝗡𝗜𝗤𝗨𝗘 𝗜𝗗 (𝗲𝘅𝘁𝗲𝗻𝘀𝗶𝗼𝗻)",
+          "editor": "Label",
+          "name": "extension_uniqueid_info",
+          "rank": 103
+        },
+        "ADW": {
+          "caption": "paragraph",
+          "editor": "Label",
+          "name": "stylesheet_info",
+          "rank": 11
+        }
+      },
+      "has_reset_fn": false,
+      "icon": "ion-chatbox-working",
+      "property_applications": {
+        "Background": true,
+        "Border": true,
+        "BoxShadow": true,
+        "Font": true,
+        "MinWidth": true,
+        "Padding": true,
+        "resizable": true
+      },
+      "states": {
+        "AGA": {
+          "caption": "File upload URLs",
+          "doc": "URLs of files that have been uploaded",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "is_list": true,
+          "name": "fileUploadUrls",
+          "value": "text"
+        },
+        "AEg": {
+          "caption": "paragraph is plain text",
+          "doc": "It's not a heading",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "body",
+          "value": "boolean"
+        },
+        "AFb": {
+          "caption": "Font family",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "font_family",
+          "value": "text"
+        },
+        "ACj": {
+          "caption": "Text is highlighted",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "highlight",
+          "value": "boolean"
+        },
+        "ABJ": {
+          "caption": "list item can be outdented",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "liftListItem",
+          "value": "boolean"
+        },
+        "ABL": {
+          "caption": "selection is a block quote",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "blockquote",
+          "value": "boolean"
+        },
+        "ABR": {
+          "caption": "selection is a task item",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "taskItem",
+          "value": "boolean"
+        },
+        "AAs": {
+          "caption": "paragraph is a h4",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h4",
+          "value": "boolean"
+        },
+        "AFx": {
+          "caption": "File upload error message",
+          "doc": "If there is an error, it will be shown here",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "fileUploadErrorMessage",
+          "value": "text"
+        },
+        "ACf": {
+          "caption": "Text is left aligned",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "align_left",
+          "value": "boolean"
+        },
+        "ACg": {
+          "caption": "Text is center aligned",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "align_center",
+          "value": "boolean"
+        },
+        "AAr": {
+          "caption": "paragraph is a h3",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h3",
+          "value": "boolean"
+        },
+        "ABQ": {
+          "caption": "selection is a task list",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "taskList",
+          "value": "boolean"
+        },
+        "AFn": {
+          "caption": "selectedHTML",
+          "doc": "The current selection from block element to block element.",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "selectedHTML",
+          "value": "text"
+        },
+        "AFw": {
+          "caption": "File upload progress",
+          "doc": "Upload progress. From 0 to 1.",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "fileUploadProgress",
+          "value": "number"
+        },
+        "AAt": {
+          "caption": "paragraph is a h5",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h5",
+          "value": "boolean"
+        },
+        "AAn": {
+          "caption": "paragraph is a h1",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h1",
+          "value": "boolean"
+        },
+        "ACP": {
+          "caption": "is a link",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "link",
+          "value": "boolean"
+        },
+        "ACa": {
+          "caption": "Is ready",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "is_ready",
+          "value": "boolean"
+        },
+        "ACc": {
+          "caption": "Selected text",
+          "doc": "The current selected text",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "selected_text",
+          "value": "text"
+        },
+        "ACM": {
+          "caption": "Content (JSON)",
+          "doc": "Content as a JSON",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "contentJSON",
+          "value": "text"
+        },
+        "AFo": {
+          "caption": "selectedJSON",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "selectedJSON",
+          "value": "text"
+        },
+        "ABP": {
+          "caption": "Content (Plain Text)",
+          "doc": "Content in plain text",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "contentText",
+          "value": "text"
+        },
+        "AFJ": {
+          "caption": "Test is justified",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "align_justified",
+          "value": "boolean"
+        },
+        "ADE": {
+          "caption": "Is a table",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "table",
+          "value": "boolean"
+        },
+        "ACC": {
+          "caption": "Word count",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "wordCount",
+          "value": "number"
+        },
+        "AAu": {
+          "caption": "paragraph is a h6",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h6",
+          "value": "boolean"
+        },
+        "AAS": {
+          "caption": "selection is bold",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "bold",
+          "value": "boolean"
+        },
+        "AAq": {
+          "caption": "paragraph is a h2",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "h2",
+          "value": "boolean"
+        },
+        "ABn": {
+          "caption": "is focused",
+          "doc": "",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "isFocused",
+          "value": "boolean"
+        },
+        "AAJ": {
+          "caption": "Content (HTML)",
+          "doc": "Returns the current editor document as HTML",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "contentHTML",
+          "value": "text"
+        },
+        "AFg": {
+          "caption": "selection begin position",
+          "doc": "The current selection's start",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "from",
+          "value": "number"
+        },
+        "ACQ": {
+          "caption": "link's URL",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "url",
+          "value": "text"
+        },
+        "ACh": {
+          "caption": "Text is right aligned",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "align_right",
+          "value": "boolean"
+        },
+        "ABB": {
+          "caption": "is a bullet list",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "bulletList",
+          "value": "boolean"
+        },
+        "ABt": {
+          "caption": "is editable",
+          "doc": "",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "isEditable",
+          "value": "boolean"
+        },
+        "AFh": {
+          "caption": "selection end position",
+          "doc": "The current selection's end",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "to",
+          "value": "number"
+        },
+        "ACB": {
+          "caption": "Character count",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "characterCount",
+          "value": "number"
+        },
+        "ABF": {
+          "caption": "list item can be indented",
+          "doc": "Sink or it can be indentend.",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "sinkListItem",
+          "value": "boolean"
+        },
+        "AFl": {
+          "caption": "selectedContent",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "selectedContent",
+          "value": "text"
+        },
+        "ADD": {
+          "caption": "Text is underlined",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "underline",
+          "value": "boolean"
+        },
+        "AAk": {
+          "caption": "selection is italic",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "italic",
+          "value": "boolean"
+        },
+        "ABD": {
+          "caption": "is an ordered list",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "orderedList",
+          "value": "boolean"
+        },
+        "ABM": {
+          "caption": "selection is a code block",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "codeBlock",
+          "value": "boolean"
+        },
+        "AFa": {
+          "caption": "Color of selection",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "color",
+          "value": "text"
+        },
+        "AAl": {
+          "caption": "selection is strikethrough",
+          "initialization_code": {
+            "fn": "function(properties, context) {}"
+          },
+          "name": "strike",
+          "value": "boolean"
+        }
+      },
+      "support_autobinding": true
+    }
+  },
+  "shared_keys": {
+    "AEF": {
+      "caption": "Tiptap Cloud JWT secret",
+      "type": "secure"
+    },
+    "custom_collab_jwt_secret": {
+      "caption": "Custom collab JWT secret",
+      "type": "secure"
+    }
+  }
+}
