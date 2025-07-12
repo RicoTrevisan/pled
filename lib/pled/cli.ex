@@ -2,7 +2,8 @@ defmodule Pled.CLI do
   @moduledoc """
   Command line interface for Pled.
   """
-  alias Pled.Commands.Parser
+  alias Pled.Commands.Encoder
+  alias Pled.Commands.Decoder
 
   def main(_args) do
     # Use Burrito's argument parsing for compiled binaries
@@ -37,7 +38,7 @@ defmodule Pled.CLI do
 
         case File.write(plugin_file, json_content) do
           :ok ->
-            Parser.parse(plugin_data)
+            Decoder.decode(plugin_data)
             IO.puts(" Plugin data saved to #{plugin_file}")
 
           {:error, reason} ->
@@ -52,8 +53,9 @@ defmodule Pled.CLI do
   end
 
   defp handle_command({:push, _opts}) do
-    IO.puts("Push functionality not yet implemented")
-    System.halt(1)
+    IO.puts("Encoding src/ files into dist/")
+    # System.halt(1)
+    Encoder.encode()
   end
 
   defp handle_command({:help, _opts}) do
