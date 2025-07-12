@@ -13,7 +13,7 @@
   "category": "visual elements",
   "code": {
     "initialize": {
-      "fn": "function(instance, context) {\n    \n    let gridApi;\n\n    const targetDiv = document.createElement(\"div\")\n    targetDiv.style.height = \"100%\"\n    targetDiv.style.width = \"100%\"\n\n    const gridOptions = {\n    // Row Data: The data to be displayed.\n    rowData: [\n        { make: \"Tesla\", model: \"Model Y\", price: 64950, electric: true },\n        { make: \"Ford\", model: \"F-Series\", price: 33850, electric: false },\n        { make: \"Toyota\", model: \"Corolla\", price: 29600, electric: false },\n    ],\n    // Column Definitions: Defines the columns to be displayed.\n    columnDefs: [\n        { field: \"make\" },\n        { field: \"model\" },\n        { field: \"price\" },\n        { field: \"electric\" }\n    ]\n};\n\tgridApi = agGrid.createGrid(targetDiv, gridOptions);\n    console.log(\"gridApi\", gridApi);\n    window.ggg = gridApi;\n\n}"
+      "fn": "function(instance, context) {\n//nothing\n}"
     },
     "preview": {
       "fn": "function(instance, properties) {\n\n\n\n}"
@@ -44,6 +44,15 @@
       "editor": "DynamicValue",
       "name": "field",
       "rank": 0,
+      "value": "text"
+    },
+    "BBA": {
+      "caption": "added_field",
+      "default_val": "this is another default",
+      "doc": "new filed added via api",
+      "editor": "DynamicValue",
+      "name": "added_field",
+      "rank": 1,
       "value": "text"
     }
   },

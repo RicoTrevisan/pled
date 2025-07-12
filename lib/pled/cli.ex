@@ -7,7 +7,7 @@ defmodule Pled.CLI do
 
   def main(_args) do
     # Use Burrito's argument parsing for compiled binaries
-    args = Burrito.Util.Args.argv() |> dbg()
+    args = Burrito.Util.Args.argv()
 
     args
     |> parse_args()
@@ -20,9 +20,16 @@ defmodule Pled.CLI do
       ["pull" | opts] -> {:pull, opts}
       ["push"] -> {:push, []}
       ["push" | opts] -> {:push, opts}
+      ["encode"] -> {:encode, []}
       [] -> {:help, []}
       _ -> {:help, []}
     end
+  end
+
+  defp handle_command({:encode, _opts}) do
+    IO.puts("Encoding files")
+
+    Encoder.encode()
   end
 
   defp handle_command({:pull, _opts}) do
@@ -56,6 +63,7 @@ defmodule Pled.CLI do
     IO.puts("Encoding src/ files into dist/")
     # System.halt(1)
     Encoder.encode()
+    Pled.BubbleApi.save_plugin()
   end
 
   defp handle_command({:help, _opts}) do

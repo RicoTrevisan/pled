@@ -17,7 +17,9 @@ defmodule Pled.Commands.Encoder do
 
     opts = [
       src_dir: src_dir,
-      dist_dir: dist_dir
+      dist_dir: dist_dir,
+      elements_dir: Path.join(src_dir, "elements"),
+      actions_dir: Path.join(src_dir, "actions")
     ]
 
     output_json =
@@ -32,17 +34,66 @@ defmodule Pled.Commands.Encoder do
   end
 
   def encode_elements(%{} = src_json, opts) do
-    src_dir = Keyword.get(opts, :src_dir)
-    # for each
-    src_dir
-    |> Path.join("elements")
-    |> File.ls!()
-    |> Enum.each(&encode_element(&1, opts))
+    elements_dir =
+      opts
+      |> Keyword.get(:elements_dir)
 
-    src_json
+    elements =
+      elements_dir
+      |> File.ls!()
+      |> Enum.reduce(
+        %{},
+        fn element_dir, acc ->
+          {key, json} =
+            encode_element(Path.join(elements_dir, element_dir))
+
+          Map.put(acc, key, json)
+        end
+      )
+
+    Map.put(src_json, "elements", elements)
   end
 
-  defp encode_element(element_dir, opts) do
-    src_json = Keyword.get(opts, :src_json)
+  defp encode_element(element_dir) do
+    IO.puts("encoding element #{element_dir}")
+
+    key =
+      element_dir
+      |> Path.join(".key")
+      |> File.read!()
+
+    code =
+      ["initialize", "preview", "reset", "update"]
+      |> Enum.reduce(
+        %{},
+        fn item, acc ->
+          IO.puts("encoding #{item}.js")
+
+          content =
+            element_dir
+            |> Path.join("#{item}.js")
+            |> File.read!()
+
+          content =
+            if item == "update" do
+              "function(instance, properties, context) {\n" <> content <> "\n}"
+            else
+              "function(instance, context) {\n" <> content <> "\n}"
+            end
+
+          Map.put(acc, item, %{"fn" => content})
+        end
+      )
+
+    json =
+      element_dir
+      |> Path.join("#{key}.json")
+      |> File.read!()
+      |> Jason.decode!()
+
+    json =
+      Map.put(json, "code", code)
+
+    {key, json}
   end
 end

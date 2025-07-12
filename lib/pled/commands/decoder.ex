@@ -60,13 +60,20 @@ defmodule Pled.Commands.Decoder do
 
     ["initialize", "preview", "reset", "update"]
     |> Enum.each(fn func ->
-      content = get_in(element_data, ["code", func, "fn"])
+      content =
+        get_in(element_data, ["code", func, "fn"])
+        |> String.replace(
+          ~r/function\(.+\) \{/,
+          nil
+        )
+        |> String.replace(~r/\}\n+$/, "")
 
       element_dir
       |> Path.join("#{func}.js")
       |> File.write(content)
 
       decode_element_actions(element_data, element_dir)
+      :ok
     end)
 
     :ok
