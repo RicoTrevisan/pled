@@ -9,7 +9,8 @@ defmodule Pled.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: releases(),
-      escript: [main_module: Pled]
+      escript: [main_module: Pled],
+      aliases: aliases()
     ]
   end
 
@@ -26,7 +27,8 @@ defmodule Pled.MixProject do
     [
       {:req, "~> 0.5.4"},
       {:jason, "~> 1.4"},
-      {:burrito, "~> 1.0"}
+      {:burrito, "~> 1.0"},
+      {:slugify, "~> 1.3"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
@@ -42,6 +44,18 @@ defmodule Pled.MixProject do
             macos_arm: [os: :darwin, cpu: :aarch64]
           ]
         ]
+      ]
+    ]
+  end
+
+  defp aliases do
+    [
+      rebuild: [
+        "escript.build",
+        "cmd rm -rf src",
+        "cmd rm -rf dist",
+        "cmd ./pled pull",
+        "cmd ./pled push"
       ]
     ]
   end

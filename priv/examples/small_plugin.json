@@ -1,0 +1,222 @@
+{
+    "assets": {
+        "AFp": {
+            "name": "2.8",
+            "url": "//meta-q.cdn.bubble.io/f1729069176273x135609299418327100/dist.js"
+        }
+    },
+    "dependencies": {
+        "alpha_opt_in": false,
+        "plugin_api_version": "4",
+        "use_jquery": true
+    },
+    "editor_counter": 329,
+    "html_header": {
+        "snippet": "<script src=\"//meta-q.cdn.bubble.io/f1751454052316x514680040614802240/dist.js\" ></script>"
+    },
+    "human": "🤌 Rich text editor (Tiptap.dev)",
+    "meta_data": {
+        "categories": {
+            "0": "blog",
+            "1": "productivity"
+        },
+        "data_tracked": false,
+        "data_tracked_description": null,
+        "demo_page": "https://tiptap-plugin.bubbleapps.io/version-test/doc-nobind/demo",
+        "description": "this is a sample",
+        "image": "//s3.amazonaws.com/appforest_uf/f1671049405494x906508617350303200/tiptap%20logo%20400x400.jpg",
+        "license": "open_source",
+        "link": "https://forum.bubble.io/t/tiptap-rich-text-editor-with-html-output/238504",
+        "name": "Example Name",
+        "plugin_instructions": "Example instructions\n\nwith multipline",
+        "sa_node_version": 18
+    },
+    "plugin_actions": {
+        "AEK": {
+            "category": "data (things)",
+            "code": {
+                "automatically_added_packages": "{\"node:util\":\"latest\"}",
+                "package": {
+                    "fn": "{\n    \"dependencies\": {\n        \"node:util\": \"latest\",\n        \"jsonwebtoken\": \"latest\"\n    }\n}",
+                    "invalid_package": false
+                },
+                "package_hash": "9934a31acfc0ff0b53bc",
+                "package_status": "out_of_date",
+                "package_used": true,
+                "server": {
+                    "fn": "function(properties, context) {\n\n    const jsonwebtoken = require('jsonwebtoken');\n    const { inspect } = require('node:util');\n\n    const doc = properties.docID;\n    const docList = properties.docIDList;\n\n    let allowedDocumentNames = [];\n\tif (!!doc) allowedDocumentNames.push(doc);\n\tif (!!docList) allowedDocumentNames.push(docList);\n    const data = {\n        allowedDocumentNames: allowedDocumentNames\n    }\n    let key;\n    if (properties.jwt_secret === \"Tiptap Cloud\") key = context.keys[\"Tiptap Cloud JWT secret\"]\n    if (properties.jwt_secret === \"Custom\") key = context.keys[\"Custom collab JWT secret\"]\n\n    try {\n        const jwt = jsonwebtoken.sign(data, key);\n\n        return {\n            jwt_key: jwt,\n            error: \"\",\n            returned_an_error: false\n\n        }\n    } catch (error) {\n        console.log(\"error when creating JWT token\", inspect(error) );\n        return {\n            jwt_key: \"\",\n            error: \"there was an error retrieving the jwt keys.\\n\" + inspect(error),\n            returned_an_error: true\n        }\n\n    }\n}"
+                }
+            },
+            "display": "generate JWT key",
+            "fields": {
+                "AEL": {
+                    "caption": "Doc ID",
+                    "doc": "the document's unique ID. This will be the name of the document that you will see on 𝗵𝘁𝘁𝗽𝘀://𝗰𝗼𝗹𝗹𝗮𝗯.𝘁𝗶𝗽𝘁𝗮𝗽.𝗱𝗲𝘃",
+                    "editor": "DynamicValue",
+                    "name": "docID",
+                    "optional": true,
+                    "rank": 0,
+                    "value": "text"
+                },
+                "AEY": {
+                    "caption": "Doc ID (list)",
+                    "doc": "Doc ids list",
+                    "editor": "DynamicValue",
+                    "is_list": true,
+                    "name": "docIDList",
+                    "optional": true,
+                    "rank": 1,
+                    "value": "text"
+                },
+                "jwt_secret": {
+                    "caption": "Which JWT secret to use",
+                    "default_val": "Tiptap Cloud",
+                    "doc": "Key to use to sign the JWT key",
+                    "editor": "Dropdown",
+                    "name": "jwt_secret",
+                    "optional": true,
+                    "options": "Tiptap Cloud,Custom",
+                    "rank": 2
+                }
+            },
+            "return_value": {
+                "AEM": {
+                    "caption": "jwt key",
+                    "name": "jwt_key",
+                    "rank": 0,
+                    "value": "text"
+                },
+                "AEZ": {
+                    "caption": "error",
+                    "name": "error",
+                    "rank": 1,
+                    "value": "text"
+                },
+                "AEa": {
+                    "caption": "returned_an_error",
+                    "name": "returned_an_error",
+                    "rank": 2,
+                    "value": "boolean"
+                }
+            },
+            "type": "server_side"
+        }
+    },
+    "plugin_elements": {
+        "AAC": {
+            "actions": {
+                "ACp": {
+                    "caption": "Table toggle header row",
+                    "code": {
+                        "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\n      \"table_-_toggle_header_row\"\n    );\n\n  instance.data.editor.chain().focus().toggleHeaderRow().run();\n}"
+                    }
+                },
+                "ACR": {
+                    "caption": "Remove link",
+                    "code": {
+                        "fn": "function(instance, properties, context) {\n  if (!instance.data.editor_is_ready)\n    return instance.data.returnAndReportErrorIfEditorNotReady(\"Remove Link\");\n\n  if (instance.data.active_nodes.includes(\"Link\")) {\n    instance.data.editor.commands.unsetLink();\n  } else {\n    console.log(\"tried to add Link, but extension is not active.\");\n  }\n}"
+                    }
+                }
+            },
+            "add_hover_pressed": true,
+            "add_is_visible": true,
+            "add_large_file_upload_properties": true,
+            "autobinding_value": "text",
+            "can_fit_height": true,
+            "can_fit_width": true,
+            "category": "input forms",
+            "code": {
+                "initialize": {
+                    "fn": "function(instance, context) {}"
+                },
+                "preview": {
+                    "fn": "function(instance, properties) {}"
+                },
+                "reset": {
+                    "fn": "function(instance, context) {\n  console.log(\"reset running\");\n}"
+                },
+                "update": {
+                    "fn": "function(instance, properties, context) {}"
+                }
+            },
+            "default_dim": {
+                "height": 100,
+                "width": 600
+            },
+            "display": "Tiptap",
+            "events": {
+                "ABl": {
+                    "caption": "is focused",
+                    "name": "isFocused"
+                },
+                "ABm": {
+                    "caption": "isn't focused",
+                    "name": "isntFocused"
+                }
+            },
+            "fields": {
+                "AFz": {
+                    "caption": "Allowed MIME Types",
+                    "doc": "Which types of files are the users allowed to paste or drop in the editor. Typical types are 'image/jpeg', 'image/png', 'image/gif'. Leaving this blank will allow any file to be uploaded.",
+                    "editor": "DynamicValue",
+                    "is_list": true,
+                    "name": "allowedMimeTypes",
+                    "optional": true,
+                    "rank": 101,
+                    "value": "text"
+                },
+                "ADe": {
+                    "caption": "Header font color",
+                    "default_val": "rgba(255,255,255,1)",
+                    "editor": "Color",
+                    "in_style": true,
+                    "name": "table_header_font_color",
+                    "rank": 56
+                }
+            },
+            "has_reset_fn": false,
+            "icon": "ion-chatbox-working",
+            "property_applications": {
+                "Background": true,
+                "Border": true,
+                "BoxShadow": true,
+                "Font": true,
+                "MinWidth": true,
+                "Padding": true,
+                "resizable": true
+            },
+            "states": {
+                "AGA": {
+                    "caption": "File upload URLs",
+                    "doc": "URLs of files that have been uploaded",
+                    "initialization_code": {
+                        "fn": "function(properties, context) {\n\n\n\n}"
+                    },
+                    "is_list": true,
+                    "name": "fileUploadUrls",
+                    "value": "text"
+                },
+                "AEg": {
+                    "caption": "paragraph is plain text",
+                    "doc": "It's not a heading",
+                    "initialization_code": {
+                        "fn": "function(properties, context) {}"
+                    },
+                    "name": "body",
+                    "value": "boolean"
+                }
+            },
+            "support_autobinding": true
+        }
+    },
+    "shared_keys": {
+        "AEF": {
+            "caption": "Tiptap Cloud JWT secret",
+            "type": "secure"
+        },
+        "custom_collab_jwt_secret": {
+            "caption": "Custom collab JWT secret",
+            "type": "secure"
+        }
+    }
+}
