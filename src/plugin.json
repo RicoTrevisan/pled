@@ -1,159 +1,249 @@
 {
-  "dependencies": {
-    "plugin_api_version": 4,
-    "use_jquery": true
-  },
-  "editor_counter": 13,
-  "html_header": {
-    "snippet": ""
-  },
-  "human": "ag-grid",
-  "meta_data": {
-    "categories": [],
-    "data_tracked": null,
-    "data_tracked_description": null,
-    "description": null,
-    "image": null,
-    "license": null,
-    "link": null,
-    "name": "ag-grid",
-    "plugin_instructions": null,
-    "sa_node_version": 18
-  },
-  "plugin_actions": {
-    "AAJ": {
-      "category": "plugins",
-      "code": {
-        "client": {
-          "fn": "function(properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
-        },
-        "server": {
-          "fn": "function(properties, context) {\n\n\n\n\n\n\n}"
-        }
-      },
-      "display": "server action",
-      "fields": {
-        "AAK": {
-          "caption": "input",
-          "editor": "DynamicValue",
-          "name": "input",
-          "rank": 0,
-          "value": "text"
-        }
-      },
-      "return_value": {
-        "AAL": {
-          "caption": "some return",
-          "name": "some_return",
-          "rank": 0,
-          "value": "text"
-        }
-      },
-      "type": "server_side"
+    "dependencies": {
+        "plugin_api_version": 4,
+        "use_jquery": true
     },
-    "AAM": {
-      "category": "plugins",
-      "code": {
-        "client": {
-          "fn": "function(properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
-        },
-        "server": {
-          "fn": "async function(properties, context) {\n\n\n\n\n\n\n}"
+    "editor_counter": 13,
+    "elements": {
+        "AAC": {
+            "actions": {
+                "AAI": {
+                    "caption": "some_action",
+                    "code": {
+                        "fn": "function(instance, properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
+                    }
+                }
+            },
+            "add_is_visible": true,
+            "can_fit_height": true,
+            "can_fit_width": true,
+            "category": "visual elements",
+            "code": {
+                "initialize": {
+                    "fn": "function(instance, context) {\n\n\n\n}\n"
+                },
+                "preview": {
+                    "fn": "function(instance, properties) {\n\n\n\n}\n"
+                },
+                "reset": {
+                    "fn": "function(instance, context) {\n\n\n\n}\n"
+                },
+                "update": {
+                    "fn": "function(instance, properties, context) {\n\n\n\n}\n\n"
+                }
+            },
+            "default_dim": {
+                "height": 200,
+                "width": 400
+            },
+            "display": "ag-grid",
+            "events": {
+                "AAH": {
+                    "caption": "eventy",
+                    "name": "eventy"
+                }
+            },
+            "fields": {
+                "AAF": {
+                    "caption": "field",
+                    "default_val": "this the default",
+                    "doc": "documentation",
+                    "editor": "DynamicValue",
+                    "name": "field",
+                    "rank": 0,
+                    "value": "text"
+                },
+                "BBA": {
+                    "caption": "added_field",
+                    "default_val": "this is another default",
+                    "doc": "new filed added via api",
+                    "editor": "DynamicValue",
+                    "name": "added_field",
+                    "rank": 1,
+                    "value": "text"
+                }
+            },
+            "headers": {
+                "snippet": "<script src=\"https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js\"></script>"
+            },
+            "icon": "ion-android-checkbox-blank",
+            "platform_type": "web",
+            "property_applications": {
+                "MinWidth": true,
+                "Padding": false,
+                "resizable": true
+            },
+            "states": {
+                "AAG": {
+                    "caption": "changed",
+                    "initialization_code": {
+                        "fn": "function(properties, context) {\n\n\n\n}"
+                    },
+                    "name": "changed",
+                    "value": "boolean"
+                }
+            }
         }
-      },
-      "display": "client action",
-      "fields": {
-        "AAN": {
-          "caption": "inputty",
-          "editor": "DynamicValue",
-          "name": "inputty",
-          "rank": 0,
-          "value": "text"
-        }
-      },
-      "type": "client_side"
-    }
-  },
-  "plugin_elements": {
-    "AAC": {
-      "actions": {
-        "AAI": {
-          "caption": "some_action",
-          "code": {
-            "fn": "function(instance, properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
-          }
-        }
-      },
-      "add_is_visible": true,
-      "can_fit_height": true,
-      "can_fit_width": true,
-      "category": "visual elements",
-      "code": {
-        "initialize": {
-          "fn": "function(instance, context) {\n    \n    let gridApi;\n\n    const targetDiv = document.createElement(\"div\")\n    targetDiv.style.height = \"100%\"\n    targetDiv.style.width = \"100%\"\n\n    const gridOptions = {\n    // Row Data: The data to be displayed.\n    rowData: [\n        { make: \"Tesla\", model: \"Model Y\", price: 64950, electric: true },\n        { make: \"Ford\", model: \"F-Series\", price: 33850, electric: false },\n        { make: \"Toyota\", model: \"Corolla\", price: 29600, electric: false },\n    ],\n    // Column Definitions: Defines the columns to be displayed.\n    columnDefs: [\n        { field: \"make\" },\n        { field: \"model\" },\n        { field: \"price\" },\n        { field: \"electric\" }\n    ]\n};\n\tgridApi = agGrid.createGrid(targetDiv, gridOptions);\n    console.log(\"gridApi\", gridApi);\n    window.ggg = gridApi;\n\n}"
-        },
-        "preview": {
-          "fn": "function(instance, properties) {\n\n\n\n}"
-        },
-        "reset": {
-          "fn": "function(instance, context) {\n\n\n\n}"
-        },
-        "update": {
-          "fn": "function(instance, properties, context) {\n\n\n\n}"
-        }
-      },
-      "default_dim": {
-        "height": 200,
-        "width": 400
-      },
-      "display": "ag-grid",
-      "events": {
-        "AAH": {
-          "caption": "eventy",
-          "name": "eventy"
-        }
-      },
-      "fields": {
-        "AAF": {
-          "caption": "field",
-          "default_val": "this the default",
-          "doc": "documentation",
-          "editor": "DynamicValue",
-          "name": "field",
-          "rank": 0,
-          "value": "text"
-        }
-      },
-      "headers": {
-        "snippet": "<script src=\"https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js\"></script>"
-      },
-      "icon": "ion-android-checkbox-blank",
-      "platform_type": "web",
-      "property_applications": {
-        "MinWidth": true,
-        "Padding": false,
-        "resizable": true
-      },
-      "states": {
-        "AAG": {
-          "caption": "changed",
-          "initialization_code": {
-            "fn": "function(properties, context) {\n\n\n\n}"
-          },
-          "name": "changed",
-          "value": "boolean"
-        }
-      }
-    }
-  },
-  "shared_keys": {
-    "AAD": {
-      "caption": "some private",
-      "type": "secure"
     },
-    "AAE": {
-      "caption": "some public",
-      "type": "client_safe"
+    "html_header": {
+        "snippet": ""
+    },
+    "human": "ag-grid",
+    "meta_data": {
+        "categories": [],
+        "data_tracked": null,
+        "data_tracked_description": null,
+        "description": null,
+        "image": null,
+        "license": null,
+        "link": null,
+        "name": "ag-grid",
+        "plugin_instructions": null,
+        "sa_node_version": 18
+    },
+    "plugin_actions": {
+        "AAJ": {
+            "category": "plugins",
+            "code": {
+                "client": {
+                    "fn": "function(properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
+                },
+                "server": {
+                    "fn": "function(properties, context) {\n\n\n\n\n\n\n}"
+                }
+            },
+            "display": "server action",
+            "fields": {
+                "AAK": {
+                    "caption": "input",
+                    "editor": "DynamicValue",
+                    "name": "input",
+                    "rank": 0,
+                    "value": "text"
+                }
+            },
+            "return_value": {
+                "AAL": {
+                    "caption": "some return",
+                    "name": "some_return",
+                    "rank": 0,
+                    "value": "text"
+                }
+            },
+            "type": "server_side"
+        },
+        "AAM": {
+            "category": "plugins",
+            "code": {
+                "client": {
+                    "fn": "function(properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
+                },
+                "server": {
+                    "fn": "async function(properties, context) {\n\n\n\n\n\n\n}"
+                }
+            },
+            "display": "client action",
+            "fields": {
+                "AAN": {
+                    "caption": "inputty",
+                    "editor": "DynamicValue",
+                    "name": "inputtys",
+                    "rank": 0,
+                    "value": "text"
+                }
+            },
+            "type": "client_side"
+        }
+    },
+    "plugin_elements": {
+        "AAC": {
+            "actions": {
+                "AAI": {
+                    "caption": "some_action",
+                    "code": {
+                        "fn": "function(instance, properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
+                    }
+                }
+            },
+            "add_is_visible": true,
+            "can_fit_height": true,
+            "can_fit_width": true,
+            "category": "visual elements",
+            "code": {
+                "initialize": {
+                    "fn": "function(instance, context) {\n//nothing\n}"
+                },
+                "preview": {
+                    "fn": "function(instance, properties) {\n\n\n\n}"
+                },
+                "reset": {
+                    "fn": "function(instance, context) {\n\n\n\n}"
+                },
+                "update": {
+                    "fn": "function(instance, properties, context) {\n\n\n\n}"
+                }
+            },
+            "default_dim": {
+                "height": 200,
+                "width": 400
+            },
+            "display": "ag-grid",
+            "events": {
+                "AAH": {
+                    "caption": "eventy",
+                    "name": "eventy"
+                }
+            },
+            "fields": {
+                "AAF": {
+                    "caption": "field",
+                    "default_val": "this the default",
+                    "doc": "documentation",
+                    "editor": "DynamicValue",
+                    "name": "field",
+                    "rank": 0,
+                    "value": "text"
+                },
+                "BBA": {
+                    "caption": "added_field",
+                    "default_val": "this is another default",
+                    "doc": "new filed added via api",
+                    "editor": "DynamicValue",
+                    "name": "added_field",
+                    "rank": 1,
+                    "value": "text"
+                }
+            },
+            "headers": {
+                "snippet": "<script src=\"https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js\"></script>"
+            },
+            "icon": "ion-android-checkbox-blank",
+            "platform_type": "web",
+            "property_applications": {
+                "MinWidth": true,
+                "Padding": false,
+                "resizable": true
+            },
+            "states": {
+                "AAG": {
+                    "caption": "changed",
+                    "initialization_code": {
+                        "fn": "function(properties, context) {\n\n\n\n}"
+                    },
+                    "name": "changed",
+                    "value": "boolean"
+                }
+            }
+        }
+    },
+    "shared_keys": {
+        "AAD": {
+            "caption": "some private",
+            "type": "secure"
+        },
+        "AAE": {
+            "caption": "some public",
+            "type": "client_safe"
+        }
     }
-  }
 }

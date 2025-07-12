@@ -4,6 +4,87 @@
     "use_jquery": true
   },
   "editor_counter": 13,
+  "elements": {
+    "AAC": {
+      "actions": {
+        "AAI": {
+          "caption": "some_action",
+          "code": {
+            "fn": "function(instance, properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
+          }
+        }
+      },
+      "add_is_visible": true,
+      "can_fit_height": true,
+      "can_fit_width": true,
+      "category": "visual elements",
+      "code": {
+        "initialize": {
+          "fn": "function(instance, context) {\n\n//nothing\n\n}"
+        },
+        "preview": {
+          "fn": "function(instance, context) {\nfunction(instance, properties) {\n\n\n\n\n}"
+        },
+        "reset": {
+          "fn": "function(instance, context) {\n// let's add something\n//\n// to the reset function\n\n}"
+        },
+        "update": {
+          "fn": "function(instance, properties, context) {\n\n\n\n\n\n}"
+        }
+      },
+      "default_dim": {
+        "height": 200,
+        "width": 400
+      },
+      "display": "ag-grid",
+      "events": {
+        "AAH": {
+          "caption": "eventy",
+          "name": "eventy"
+        }
+      },
+      "fields": {
+        "AAF": {
+          "caption": "field",
+          "default_val": "this the default",
+          "doc": "documentation",
+          "editor": "DynamicValue",
+          "name": "field",
+          "rank": 0,
+          "value": "text"
+        },
+        "BBA": {
+          "caption": "added_field",
+          "default_val": "this is another default",
+          "doc": "new filed added via api",
+          "editor": "DynamicValue",
+          "name": "added_field",
+          "rank": 1,
+          "value": "text"
+        }
+      },
+      "headers": {
+        "snippet": "<script src=\"https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js\"></script>"
+      },
+      "icon": "ion-android-checkbox-blank",
+      "platform_type": "web",
+      "property_applications": {
+        "MinWidth": true,
+        "Padding": false,
+        "resizable": true
+      },
+      "states": {
+        "AAG": {
+          "caption": "changed",
+          "initialization_code": {
+            "fn": "function(properties, context) {\n\n\n\n}"
+          },
+          "name": "changed",
+          "value": "boolean"
+        }
+      }
+    }
+  },
   "html_header": {
     "snippet": ""
   },
@@ -66,7 +147,7 @@
         "AAN": {
           "caption": "inputty",
           "editor": "DynamicValue",
-          "name": "inputty",
+          "name": "inputtys",
           "rank": 0,
           "value": "text"
         }
@@ -90,7 +171,7 @@
       "category": "visual elements",
       "code": {
         "initialize": {
-          "fn": "function(instance, context) {\n    \n    let gridApi;\n\n    const targetDiv = document.createElement(\"div\")\n    targetDiv.style.height = \"100%\"\n    targetDiv.style.width = \"100%\"\n\n    const gridOptions = {\n    // Row Data: The data to be displayed.\n    rowData: [\n        { make: \"Tesla\", model: \"Model Y\", price: 64950, electric: true },\n        { make: \"Ford\", model: \"F-Series\", price: 33850, electric: false },\n        { make: \"Toyota\", model: \"Corolla\", price: 29600, electric: false },\n    ],\n    // Column Definitions: Defines the columns to be displayed.\n    columnDefs: [\n        { field: \"make\" },\n        { field: \"model\" },\n        { field: \"price\" },\n        { field: \"electric\" }\n    ]\n};\n\tgridApi = agGrid.createGrid(targetDiv, gridOptions);\n    console.log(\"gridApi\", gridApi);\n    window.ggg = gridApi;\n\n}"
+          "fn": "function(instance, context) {\n//nothing\n}"
         },
         "preview": {
           "fn": "function(instance, properties) {\n\n\n\n}"
@@ -121,6 +202,15 @@
           "editor": "DynamicValue",
           "name": "field",
           "rank": 0,
+          "value": "text"
+        },
+        "BBA": {
+          "caption": "added_field",
+          "default_val": "this is another default",
+          "doc": "new filed added via api",
+          "editor": "DynamicValue",
+          "name": "added_field",
+          "rank": 1,
           "value": "text"
         }
       },

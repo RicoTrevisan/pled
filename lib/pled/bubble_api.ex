@@ -7,37 +7,58 @@ defmodule Pled.BubbleApi do
 
   @doc """
   Fetches plugin data from Bubble.io.
-  
+
   Requires environment variables:
   - PLUGIN_ID: The ID of the plugin to fetch
   - COOKIE: Authentication cookie for Bubble.io
-  
+
   Returns `{:ok, plugin_data}` on success or `{:error, reason}` on failure.
   """
   def fetch_plugin do
     with {:ok, plugin_id} <- get_env_var("PLUGIN_ID"),
          {:ok, cookie} <- get_env_var("COOKIE") do
-      
       url = "#{@base_url}/get_plugin?id=#{plugin_id}"
-      
+
       headers = [
         {"cookie", cookie},
         {"user-agent", "Pled/0.1.0"}
       ]
-      
+
       case Req.get(url, headers: headers) do
         {:ok, %{status: 200, body: body}} ->
           {:ok, body}
-        
+
         {:ok, %{status: status, body: body}} ->
           {:error, "HTTP #{status}: #{inspect(body)}"}
-        
+
         {:error, reason} ->
           {:error, "Request failed: #{inspect(reason)}"}
       end
     end
   end
-  
+
+  def save_plugin do
+    with {:ok, plugin_id} <- get_env_var("PLUGIN_ID"),
+         {:ok, cookie} <- get_env_var("COOKIE") do
+      url = "https://bubble.io/appeditor/save_plugin"
+
+      headers = [
+        {"cookie", cookie},
+        {"content-type", "application/json"}
+      ]
+
+      content = File.read!("dist/plugin.json")
+
+      body = %{"id" => plugin_id, "raw" => Jason.decode!(content)}
+
+      case Req.post(url, headers: headers, body: Jason.encode!(body)) do
+        {:ok, %{status: 200}} -> :ok
+        {:ok, _response} -> {:error, :not_saved}
+        {:error, reason} -> {:error, reason}
+      end
+    end
+  end
+
   defp get_env_var(name) do
     case System.get_env(name) do
       nil -> {:error, "Environment variable #{name} is not set"}
