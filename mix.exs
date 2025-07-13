@@ -49,6 +49,7 @@ defmodule Pled.MixProject do
 
   defp aliases do
     [
+      test: ["test --exclude integration"],
       rebuild: [
         "escript.build",
         "cmd rm -rf src",

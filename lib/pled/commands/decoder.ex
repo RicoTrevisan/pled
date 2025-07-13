@@ -61,9 +61,9 @@ defmodule Pled.Commands.Decoder do
     ["initialize", "preview", "reset", "update"]
     |> Enum.each(fn func ->
       content =
-        get_in(element_data, ["code", func, "fn"])
-        |> String.replace(~r/function\(.+\) \{/, "")
-        |> String.replace(~r/\}\n*$/, "")
+        element_data
+        |> get_in(["code", func, "fn"])
+        |> remove_bubbleisms()
 
       element_dir
       |> Path.join("#{func}.js")
@@ -80,15 +80,24 @@ defmodule Pled.Commands.Decoder do
     actions_dir = Path.join([element_dir, "actions"])
     File.mkdir_p!(actions_dir)
 
-    element_data
-    |> Map.get("actions")
-    |> Enum.each(fn {_key, action_data} ->
-      name = action_data["caption"] |> Slug.slugify()
-      content = get_in(action_data, ["code", "fn"])
+    actions = element_data |> Map.get("actions")
 
-      actions_dir
-      |> Path.join("#{name}.js")
-      |> File.write(content)
-    end)
+    if actions do
+      actions
+      |> Enum.each(fn {_key, action_data} ->
+        name = action_data["caption"] |> Slug.slugify()
+        content = get_in(action_data, ["code", "fn"])
+
+        actions_dir
+        |> Path.join("#{name}.js")
+        |> File.write(content)
+      end)
+    end
+  end
+
+  def remove_bubbleisms(string) do
+    string
+    |> String.replace(~r/(async )?function\([^)]+\) \{/, "")
+    |> String.replace(~r/\}\n*$/, "")
   end
 end

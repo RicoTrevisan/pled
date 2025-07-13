@@ -2,6 +2,7 @@ defmodule Pled.Commands.Encoder do
   @moduledoc """
   Module that turns the local files into Bubble-accepted json
   """
+  alias Pled.Commands.Encoder.Element
 
   def encode do
     dist_dir = "dist"
@@ -24,7 +25,7 @@ defmodule Pled.Commands.Encoder do
 
     output_json =
       src_json
-      |> encode_elements(opts)
+      |> Element.encode_elements(opts)
 
     dist_dir
     |> Path.join("plugin.json")

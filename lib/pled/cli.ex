@@ -5,17 +5,6 @@ defmodule Pled.CLI do
   alias Pled.Commands.Encoder
   alias Pled.Commands.Decoder
 
-  def main(_args) do
-    # Use Burrito's argument parsing for compiled binaries
-    args = Burrito.Util.Args.argv()
-
-    args
-    |> parse_args()
-    |> handle_command()
-
-    :ok
-  end
-
   def parse_args(args) do
     case args do
       ["pull"] -> {:pull, []}
@@ -33,7 +22,6 @@ defmodule Pled.CLI do
 
     Encoder.encode()
     System.halt(0)
-    :ok
   end
 
   def handle_command({:pull, _opts}) do

@@ -15,8 +15,8 @@ defmodule Pled.BubbleApi do
   Returns `{:ok, plugin_data}` on success or `{:error, reason}` on failure.
   """
   def fetch_plugin do
-    with {:ok, plugin_id} <- get_env_var("PLUGIN_ID"),
-         {:ok, cookie} <- get_env_var("COOKIE") do
+    with {:ok, plugin_id} <- get_env_var("PLUGIN_ID") |> dbg(),
+         {:ok, cookie} <- get_env_var("COOKIE") |> dbg() do
       url = "#{@base_url}/get_plugin?id=#{plugin_id}"
 
       headers = [
