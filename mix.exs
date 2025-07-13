@@ -26,7 +26,7 @@ defmodule Pled.MixProject do
   defp deps do
     [
       {:req, "~> 0.5.4"},
-      {:jason, "~> 1.4"},
+      # {:jason, "~> 1.4"},
       {:burrito, "~> 1.0"},
       {:slugify, "~> 1.3"}
       # {:dep_from_hexpm, "~> 0.3.0"},

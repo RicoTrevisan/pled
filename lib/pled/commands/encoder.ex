@@ -54,7 +54,7 @@ defmodule Pled.Commands.Encoder do
     Map.put(src_json, "plugin_elements", elements)
   end
 
-  defp encode_element(element_dir) do
+  def encode_element(element_dir) do
     IO.puts("encoding element #{element_dir}")
 
     key =
@@ -62,41 +62,29 @@ defmodule Pled.Commands.Encoder do
       |> Path.join(".key")
       |> File.read!()
 
-    initialize_js = generate_js_file(:initialize, element_dir)
-
-    code =
-      ["initialize", "preview", "reset", "update"]
-      |> Enum.reduce(
-        %{},
-        fn item, acc ->
-          IO.puts("encoding #{item}.js")
-
-          content =
-            element_dir
-            |> Path.join("#{item}.js")
-            |> File.read!()
-
-          content =
-            if item == "update" do
-              "function(instance, properties, context) {\n" <> content <> "\n}"
-            else
-              "function(instance, context) {\n" <> content <> "\n}"
-            end
-
-          Map.put(acc, item, %{"fn" => content})
-        end
-      )
-
     json =
       element_dir
       |> Path.join("#{key}.json")
       |> File.read!()
       |> Jason.decode!()
 
-    json =
-      Map.put(json, "code", code)
+    code_block = generate_code_block(element_dir)
+    json = Map.merge(json, code_block)
 
     {key, json}
+  end
+
+  def generate_code_block(element_dir) do
+    generated_functions =
+      [:initialize, :preview, :reset, :update]
+      |> Enum.map(fn type ->
+        generate_js_file(type, element_dir)
+      end)
+      |> Enum.reduce(%{}, fn map, acc ->
+        Map.merge(acc, map)
+      end)
+
+    %{"code" => generated_functions}
   end
 
   def generate_js_file(:initialize, element_dir) do
