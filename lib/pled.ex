@@ -4,6 +4,7 @@ defmodule Pled do
   """
 
   def main(args) do
-    Pled.CLI.main(args)
+    dbg(args)
+    # Pled.CLI.main(args)
   end
 end

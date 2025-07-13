@@ -1,5 +1,5 @@
 # Load environment variables from .env.exs if it exists
-env_file = ".env.exs"
+env_file = Path.join(File.cwd!(), ".env.exs")
 
 if File.exists?(env_file) do
   Code.eval_file(env_file)

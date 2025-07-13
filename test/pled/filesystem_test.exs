@@ -11,6 +11,12 @@ defmodule Pled.FilesystemTest do
     src_dir = Path.join(temp_dir, "src")
     plugin_file = Path.join(src_dir, "plugin.json")
 
+    env_file = Path.join(File.cwd!(), ".env.exs")
+
+    if File.exists?(env_file) do
+      Code.eval_file(env_file)
+    end
+
     on_exit(fn ->
       # Clean up the entire temporary directory
       if File.exists?(temp_dir) do

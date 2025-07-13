@@ -9,17 +9,20 @@ defmodule Pled.Application do
 
   @impl true
   def start(_type, _args) do
-    IO.puts("Starting Pled Application...")
-    args = Burrito.Util.Args.argv() |> dbg()
-    IO.inspect(args)
-    # For CLI applications, we don't want to start a supervisor tree
-    # Just return an error to prevent the application from staying alive
+    children = []
 
-    args
-    |> CLI.parse_args()
-    |> CLI.handle_command()
+    # Only run CLI in production or when built as burrito executable
+    if Mix.env() in [:prod, :dev] do
+      args = Burrito.Util.Args.argv()
 
-    System.halt(0)
-    :ok
+      args
+      |> CLI.parse_args()
+      |> CLI.handle_command()
+
+      System.halt(0)
+    end
+
+    opts = [strategy: :one_for_one, name: Pled.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end
