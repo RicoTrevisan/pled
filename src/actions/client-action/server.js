@@ -1,8 +1,0 @@
-async function(properties, context) {
-
-
-
-
-
-
-}

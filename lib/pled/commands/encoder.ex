@@ -51,7 +51,7 @@ defmodule Pled.Commands.Encoder do
         end
       )
 
-    Map.put(src_json, "elements", elements)
+    Map.put(src_json, "plugin_elements", elements)
   end
 
   defp encode_element(element_dir) do
@@ -61,6 +61,8 @@ defmodule Pled.Commands.Encoder do
       element_dir
       |> Path.join(".key")
       |> File.read!()
+
+    initialize_js = generate_js_file(:initialize, element_dir)
 
     code =
       ["initialize", "preview", "reset", "update"]
@@ -95,5 +97,45 @@ defmodule Pled.Commands.Encoder do
       Map.put(json, "code", code)
 
     {key, json}
+  end
+
+  def generate_js_file(:initialize, element_dir) do
+    content = File.read!(element_dir |> Path.join("initialize.js"))
+
+    %{
+      "initialize" => %{
+        "fn" => "function(instance, context) {\n" <> content <> "\n}"
+      }
+    }
+  end
+
+  def generate_js_file(:update, element_dir) do
+    content = File.read!(element_dir |> Path.join("update.js"))
+
+    %{
+      "update" => %{
+        "fn" => "function(instance, properties, context) {\n" <> content <> "\n}"
+      }
+    }
+  end
+
+  def generate_js_file(:preview, element_dir) do
+    content = File.read!(element_dir |> Path.join("preview.js"))
+
+    %{
+      "preview" => %{
+        "fn" => "function(instance, properties) {\n" <> content <> "\n}"
+      }
+    }
+  end
+
+  def generate_js_file(:reset, element_dir) do
+    content = File.read!(element_dir |> Path.join("reset.js"))
+
+    %{
+      "reset" => %{
+        "fn" => "function(instance, context) {\n" <> content <> "\n}"
+      }
+    }
   end
 end

@@ -4,87 +4,6 @@
     "use_jquery": true
   },
   "editor_counter": 13,
-  "elements": {
-    "AAC": {
-      "actions": {
-        "AAI": {
-          "caption": "some_action",
-          "code": {
-            "fn": "function(instance, properties, context) {\n\n\n  //Load any data \n\n\n\n  //Do the operation\n\n\n\n}"
-          }
-        }
-      },
-      "add_is_visible": true,
-      "can_fit_height": true,
-      "can_fit_width": true,
-      "category": "visual elements",
-      "code": {
-        "initialize": {
-          "fn": "function(instance, context) {\n\n//nothing\n\n}"
-        },
-        "preview": {
-          "fn": "function(instance, context) {\nfunction(instance, properties) {\n\n\n\n\n}"
-        },
-        "reset": {
-          "fn": "function(instance, context) {\n// let's add something\n//\n// to the reset function\n\n}"
-        },
-        "update": {
-          "fn": "function(instance, properties, context) {\n\n\n\n\n\n}"
-        }
-      },
-      "default_dim": {
-        "height": 200,
-        "width": 400
-      },
-      "display": "ag-grid",
-      "events": {
-        "AAH": {
-          "caption": "eventy",
-          "name": "eventy"
-        }
-      },
-      "fields": {
-        "AAF": {
-          "caption": "field",
-          "default_val": "this the default",
-          "doc": "documentation",
-          "editor": "DynamicValue",
-          "name": "field",
-          "rank": 0,
-          "value": "text"
-        },
-        "BBA": {
-          "caption": "added_field",
-          "default_val": "this is another default",
-          "doc": "new filed added via api",
-          "editor": "DynamicValue",
-          "name": "added_field",
-          "rank": 1,
-          "value": "text"
-        }
-      },
-      "headers": {
-        "snippet": "<script src=\"https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js\"></script>"
-      },
-      "icon": "ion-android-checkbox-blank",
-      "platform_type": "web",
-      "property_applications": {
-        "MinWidth": true,
-        "Padding": false,
-        "resizable": true
-      },
-      "states": {
-        "AAG": {
-          "caption": "changed",
-          "initialization_code": {
-            "fn": "function(properties, context) {\n\n\n\n}"
-          },
-          "name": "changed",
-          "value": "boolean"
-        }
-      }
-    }
-  },
   "html_header": {
     "snippet": ""
   },
@@ -171,16 +90,16 @@
       "category": "visual elements",
       "code": {
         "initialize": {
-          "fn": "function(instance, context) {\n//nothing\n}"
+          "fn": "function(instance, context) {\n//nothing\nconsole.log(\"initialize\");\n\n}"
         },
         "preview": {
-          "fn": "function(instance, properties) {\n\n\n\n}"
+          "fn": "function(instance, context) {\n// preview.js\n\n}"
         },
         "reset": {
-          "fn": "function(instance, context) {\n\n\n\n}"
+          "fn": "function(instance, context) {\n// reset.js\n\n}"
         },
         "update": {
-          "fn": "function(instance, properties, context) {\n\n\n\n}"
+          "fn": "function(instance, properties, context) {\nconsole.lot(\"the update function should have something\");\n\n}"
         }
       },
       "default_dim": {

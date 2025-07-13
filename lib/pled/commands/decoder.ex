@@ -62,11 +62,8 @@ defmodule Pled.Commands.Decoder do
     |> Enum.each(fn func ->
       content =
         get_in(element_data, ["code", func, "fn"])
-        |> String.replace(
-          ~r/function\(.+\) \{/,
-          nil
-        )
-        |> String.replace(~r/\}\n+$/, "")
+        |> String.replace(~r/function\(.+\) \{/, "")
+        |> String.replace(~r/\}\n*$/, "")
 
       element_dir
       |> Path.join("#{func}.js")

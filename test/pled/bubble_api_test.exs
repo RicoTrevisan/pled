@@ -50,10 +50,10 @@ defmodule Pled.BubbleApiTest do
 
     @tag :integration
     test "makes end to end call" do
-      System.put_env("PLUGIN_ID", System.get_env("PLUGIN_ID") |> dbg())
+      System.put_env("PLUGIN_ID", System.get_env("PLUGIN_ID"))
       System.put_env("COOKIE", "session=abc123")
 
-      assert {:ok, _body} = BubbleApi.fetch_plugin() |> dbg()
+      assert {:ok, _body} = BubbleApi.fetch_plugin()
     end
   end
 end
