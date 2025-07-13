@@ -1,8 +1,0 @@
-function(properties, context) {
-
-
-
-
-
-
-}
