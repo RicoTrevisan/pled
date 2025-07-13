@@ -5,16 +5,21 @@ defmodule Pled.Application do
 
   use Application
 
+  alias Pled.CLI
+
   @impl true
   def start(_type, _args) do
-    children = [
-      # Starts a worker by calling: Pled.Worker.start_link(arg)
-      # {Pled.Worker, arg}
-    ]
+    IO.puts("Starting Pled Application...")
+    args = Burrito.Util.Args.argv() |> dbg()
+    IO.inspect(args)
+    # For CLI applications, we don't want to start a supervisor tree
+    # Just return an error to prevent the application from staying alive
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Pled.Supervisor]
-    Supervisor.start_link(children, opts)
+    args
+    |> CLI.parse_args()
+    |> CLI.handle_command()
+
+    System.halt(0)
+    :ok
   end
 end

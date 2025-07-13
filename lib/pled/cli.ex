@@ -12,9 +12,11 @@ defmodule Pled.CLI do
     args
     |> parse_args()
     |> handle_command()
+
+    :ok
   end
 
-  defp parse_args(args) do
+  def parse_args(args) do
     case args do
       ["pull"] -> {:pull, []}
       ["pull" | opts] -> {:pull, opts}
@@ -26,13 +28,15 @@ defmodule Pled.CLI do
     end
   end
 
-  defp handle_command({:encode, _opts}) do
+  def handle_command({:encode, _opts}) do
     IO.puts("Encoding files")
 
     Encoder.encode()
+    System.halt(0)
+    :ok
   end
 
-  defp handle_command({:pull, _opts}) do
+  def handle_command({:pull, _opts}) do
     IO.puts("Fetching plugin from Bubble.io...")
 
     case Pled.BubbleApi.fetch_plugin() do
@@ -47,6 +51,7 @@ defmodule Pled.CLI do
           :ok ->
             Decoder.decode(plugin_data)
             IO.puts(" Plugin data saved to #{plugin_file}")
+            System.halt(0)
 
           {:error, reason} ->
             IO.puts(" Failed to save plugin data: #{reason}")
@@ -59,14 +64,15 @@ defmodule Pled.CLI do
     end
   end
 
-  defp handle_command({:push, _opts}) do
+  def handle_command({:push, _opts}) do
     IO.puts("Encoding src/ files into dist/")
     # System.halt(1)
     Encoder.encode()
     Pled.BubbleApi.save_plugin()
+    System.halt(0)
   end
 
-  defp handle_command({:help, _opts}) do
+  def handle_command({:help, _opts}) do
     IO.puts("""
     Pled - Bubble.io Plugin Development Tool
 
@@ -78,5 +84,7 @@ defmodule Pled.CLI do
       PLUGIN_ID    The ID of the plugin to fetch
       COOKIE       Authentication cookie for Bubble.io
     """)
+
+    System.halt(0)
   end
 end
