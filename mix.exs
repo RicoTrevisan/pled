@@ -4,7 +4,7 @@ defmodule Pled.MixProject do
   def project do
     [
       app: :pled,
-      version: "0.1.0",
+      version: "0.1.2",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -39,8 +39,8 @@ defmodule Pled.MixProject do
         applications: [runtime_tools: :none],
         burrito: [
           targets: [
-            macos: [os: :darwin, cpu: :x86_64],
-            macos_arm: [os: :darwin, cpu: :aarch64]
+            macos_x86: [os: :darwin, cpu: :x86_64],
+            macos: [os: :darwin, cpu: :aarch64]
           ]
         ]
       ]
@@ -49,14 +49,7 @@ defmodule Pled.MixProject do
 
   defp aliases do
     [
-      test: ["test --exclude integration"],
-      rebuild: [
-        "escript.build",
-        "cmd rm -rf src",
-        "cmd rm -rf dist",
-        "cmd ./pled pull",
-        "cmd ./pled push"
-      ]
+      test: ["test --exclude integration"]
     ]
   end
 end

@@ -2,7 +2,19 @@ defmodule Pled.Commands.Decoder do
   def decode(plugin_data) do
     decode_elements(plugin_data)
     decode_actions(plugin_data)
+    decode_html_header(plugin_data)
     :ok
+  end
+
+  def decode_html_header(plugin_data) do
+    case get_in(plugin_data, ["html_header", "snippet"]) do
+      nil ->
+        :ok
+
+      snippet ->
+        html_path = Path.join("src", "shared.html")
+        File.write(html_path, snippet)
+    end
   end
 
   def decode_actions(plugin_data) do
@@ -28,7 +40,10 @@ defmodule Pled.Commands.Decoder do
 
     ["client", "server"]
     |> Enum.each(fn func ->
-      content = get_in(action_data, ["code", func, "fn"])
+      content =
+        action_data
+        |> get_in(["code", func, "fn"])
+        |> remove_bubbleisms()
 
       action_dir
       |> Path.join("#{func}.js")
@@ -50,13 +65,15 @@ defmodule Pled.Commands.Decoder do
   defp decode_element({key, element_data}, elements_dir) do
     name = Map.get(element_data, "display") |> Slug.slugify()
 
-    element_dir = Path.join(elements_dir, name)
+    element_dir = Path.join(elements_dir, "#{name}-#{key}")
 
     File.mkdir_p!(element_dir)
 
     # write the key name to the directory
     File.write("#{element_dir}/.key", key)
     File.write("#{element_dir}/#{key}.json", Jason.encode!(element_data, pretty: true))
+
+    decode_element_html_header(element_data, element_dir)
 
     ["initialize", "preview", "reset", "update"]
     |> Enum.each(fn func ->
@@ -86,7 +103,11 @@ defmodule Pled.Commands.Decoder do
       actions
       |> Enum.each(fn {_key, action_data} ->
         name = action_data["caption"] |> Slug.slugify()
-        content = get_in(action_data, ["code", "fn"])
+
+        content =
+          action_data
+          |> get_in(["code", "fn"])
+          |> remove_bubbleisms()
 
         actions_dir
         |> Path.join("#{name}.js")
@@ -94,6 +115,17 @@ defmodule Pled.Commands.Decoder do
       end)
     end
   end
+
+  def decode_element_html_header(element_data, element_dir) do
+    html =
+      element_data
+      |> get_in(["headers", "snippet"])
+
+    html_path = Path.join(element_dir, "headers.html")
+    File.write(html_path, html)
+  end
+
+  def remove_bubbleisms(nil), do: nil
 
   def remove_bubbleisms(string) do
     string

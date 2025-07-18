@@ -3,6 +3,7 @@ defmodule Pled.Commands.Encoder do
   Module that turns the local files into Bubble-accepted json
   """
   alias Pled.Commands.Encoder.Element
+  alias Pled.Commands.Encoder.Action
 
   def encode do
     dist_dir = "dist"
@@ -26,11 +27,28 @@ defmodule Pled.Commands.Encoder do
     output_json =
       src_json
       |> Element.encode_elements(opts)
+      |> Action.encode_actions(opts)
+      |> encode_html(opts)
+
+    IO.puts("generated output json, writing it to dist/plugin.json")
 
     dist_dir
     |> Path.join("plugin.json")
     |> File.write(output_json |> Jason.encode!(pretty: true))
 
-    # encode_actions()
+    IO.puts("dist/plugin.json generated")
+  end
+
+  def encode_html(json, opts \\ []) do
+    IO.puts("reading shared html...")
+    src_dir = Keyword.get(opts, :src_dir)
+    html_path = Path.join(src_dir, "shared.html")
+
+    if File.exists?(html_path) do
+      snippet = File.read!(html_path)
+      Map.merge(json, %{"html_header" => %{"snippet" => snippet}})
+    else
+      json
+    end
   end
 end

@@ -50,6 +50,12 @@ defmodule Pled.BubbleApiTest do
 
     @tag :integration
     test "makes end to end call" do
+      env_file = Path.join(File.cwd!(), ".env.exs")
+
+      if File.exists?(env_file) do
+        Code.eval_file(env_file)
+      end
+
       System.put_env("PLUGIN_ID", System.get_env("PLUGIN_ID"))
       System.put_env("COOKIE", "session=abc123")
 

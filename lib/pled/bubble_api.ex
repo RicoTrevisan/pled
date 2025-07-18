@@ -15,8 +15,8 @@ defmodule Pled.BubbleApi do
   Returns `{:ok, plugin_data}` on success or `{:error, reason}` on failure.
   """
   def fetch_plugin do
-    with {:ok, plugin_id} <- get_env_var("PLUGIN_ID") |> dbg(),
-         {:ok, cookie} <- get_env_var("COOKIE") |> dbg() do
+    with {:ok, plugin_id} <- get_env_var("PLUGIN_ID"),
+         {:ok, cookie} <- get_env_var("COOKIE") do
       url = "#{@base_url}/get_plugin?id=#{plugin_id}"
 
       headers = [
@@ -38,6 +38,8 @@ defmodule Pled.BubbleApi do
   end
 
   def save_plugin do
+    IO.puts("Uploading plugin...")
+
     with {:ok, plugin_id} <- get_env_var("PLUGIN_ID"),
          {:ok, cookie} <- get_env_var("COOKIE") do
       url = "https://bubble.io/appeditor/save_plugin"
@@ -52,9 +54,20 @@ defmodule Pled.BubbleApi do
       body = %{"id" => plugin_id, "raw" => Jason.decode!(content)}
 
       case Req.post(url, headers: headers, body: Jason.encode!(body)) do
-        {:ok, %{status: 200}} -> :ok
-        {:ok, _response} -> {:error, :not_saved}
-        {:error, reason} -> {:error, reason}
+        {:ok, %{status: 200}} ->
+          IO.puts("Plugin uploaded successfully")
+          :ok
+
+        {:ok, response} ->
+          IO.warn("Plugin uploaded failed")
+          IO.warn("Response: #{inspect(response)}")
+          {:error, :not_saved}
+
+        {:error, reason} ->
+          IO.warn("Plugin upload failed")
+          IO.warn("Reason: #{inspect(reason)}")
+
+          {:error, reason}
       end
     end
   end
