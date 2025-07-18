@@ -4,7 +4,8 @@
       "Bash(mix test)",
       "WebFetch(domain:github.com)",
       "Bash(cp:*)",
-      "WebFetch(domain:hexdocs.pm)"
+      "WebFetch(domain:hexdocs.pm)",
+      "Bash(mix test:*)"
     ],
     "deny": []
   }
