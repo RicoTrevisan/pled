@@ -45,7 +45,7 @@ defmodule Pled.CLI do
 
         case File.write(plugin_file, json_content) do
           :ok ->
-            Decoder.decode(plugin_data)
+            Decoder.decode(plugin_data, File.cwd!())
             IO.puts(" Plugin data saved to #{plugin_file}")
             System.halt(0)
 

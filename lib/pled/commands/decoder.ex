@@ -1,24 +1,24 @@
 defmodule Pled.Commands.Decoder do
-  def decode(plugin_data) do
-    decode_elements(plugin_data)
-    decode_actions(plugin_data)
-    decode_html_header(plugin_data)
+  def decode(plugin_data, base_dir \\ File.cwd!()) do
+    decode_elements(plugin_data, base_dir)
+    decode_actions(plugin_data, base_dir)
+    decode_html_header(plugin_data, base_dir)
     :ok
   end
 
-  def decode_html_header(plugin_data) do
+  def decode_html_header(plugin_data, base_dir) do
     case get_in(plugin_data, ["html_header", "snippet"]) do
       nil ->
         :ok
 
       snippet ->
-        html_path = Path.join("src", "shared.html")
+        html_path = Path.join([base_dir, "src", "shared.html"])
         File.write(html_path, snippet)
     end
   end
 
-  def decode_actions(plugin_data) do
-    actions_dir = Path.join("src", "actions")
+  def decode_actions(plugin_data, base_dir) do
+    actions_dir = Path.join([base_dir, "src", "actions"])
 
     plugin_data
     |> Map.get("plugin_actions", [])
@@ -31,7 +31,7 @@ defmodule Pled.Commands.Decoder do
       |> Map.get("display")
       |> Slug.slugify()
 
-    action_dir = Path.join(actions_dir, name)
+    action_dir = Path.join(actions_dir, "#{name}-#{key}")
     File.mkdir_p!(action_dir)
 
     # write the key name to the directory
@@ -54,8 +54,8 @@ defmodule Pled.Commands.Decoder do
   #
   # ELEMENTS
   #
-  def decode_elements(plugin_data) do
-    elements_dir = Path.join("src", "elements")
+  def decode_elements(plugin_data, base_dir) do
+    elements_dir = Path.join([base_dir, "src", "elements"])
 
     plugin_data
     |> Map.get("plugin_elements", [])
@@ -101,7 +101,7 @@ defmodule Pled.Commands.Decoder do
 
     if actions do
       actions
-      |> Enum.each(fn {_key, action_data} ->
+      |> Enum.each(fn {key, action_data} ->
         name = action_data["caption"] |> Slug.slugify()
 
         content =
@@ -110,7 +110,7 @@ defmodule Pled.Commands.Decoder do
           |> remove_bubbleisms()
 
         actions_dir
-        |> Path.join("#{name}.js")
+        |> Path.join("#{name}-#{key}.js")
         |> File.write(content)
       end)
     end

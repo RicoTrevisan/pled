@@ -14,17 +14,8 @@ defmodule Pled.DecoderTest do
     end
 
     test "html_header", %{plugin_data: plugin_data, tmp_dir: tmp_dir} do
-      # keep track of the cwd
-      cwd = File.cwd!()
-
-      # jump into the tmp_dir to simulate a user using `pled pull`
-      File.cd!(tmp_dir)
-
       plugin_data
-      |> Decoder.decode_html_header()
-
-      # go back to the cwd so that other tests can pass
-      File.cd!(cwd)
+      |> Decoder.decode_html_header(tmp_dir)
 
       ls =
         tmp_dir
@@ -41,11 +32,9 @@ defmodule Pled.DecoderTest do
     end
 
     test "remove_bubbleism/1", %{tmp_dir: tmp_dir, plugin_data: plugin_data} do
-      tmp_dir |> File.cd!()
+      Decoder.decode(plugin_data, tmp_dir)
 
-      Decoder.decode(plugin_data)
-
-      dir = Path.join(tmp_dir, "/src/elements/tiptap/actions")
+      dir = Path.join(tmp_dir, "/src/elements/tiptap-AAC/actions")
 
       File.ls!(dir)
       |> Enum.each(fn file ->
@@ -63,6 +52,81 @@ defmodule Pled.DecoderTest do
         """
 
       refute Decoder.remove_bubbleisms(string) =~ "function"
+    end
+  end
+
+  describe "key-slug combination functionality" do
+    @describetag :tmp_dir
+    setup %{tmp_dir: tmp_dir} do
+      src_dir = Path.join(tmp_dir, "src")
+      File.mkdir(src_dir)
+      {:ok, []}
+    end
+
+    test "elements with same display name get unique directories", %{tmp_dir: tmp_dir} do
+      plugin_data = %{
+        "plugin_elements" => %{
+          "key1" => %{"display" => "Same Name", "code" => %{}},
+          "key2" => %{"display" => "Same Name", "code" => %{}}
+        }
+      }
+
+      Decoder.decode_elements(plugin_data, tmp_dir)
+
+      elements_dir = Path.join(tmp_dir, "src/elements")
+      dirs = File.ls!(elements_dir)
+
+      assert "same-name-key1" in dirs
+      assert "same-name-key2" in dirs
+      assert length(dirs) == 2
+    end
+
+    test "actions with same display name get unique directories", %{tmp_dir: tmp_dir} do
+      plugin_data = %{
+        "plugin_actions" => %{
+          "key1" => %{"display" => "Same Action", "code" => %{}},
+          "key2" => %{"display" => "Same Action", "code" => %{}}
+        }
+      }
+
+      Decoder.decode_actions(plugin_data, tmp_dir)
+
+      actions_dir = Path.join(tmp_dir, "src/actions")
+      dirs = File.ls!(actions_dir)
+
+      assert "same-action-key1" in dirs
+      assert "same-action-key2" in dirs
+      assert length(dirs) == 2
+    end
+
+    test "element actions with same caption get unique filenames", %{tmp_dir: tmp_dir} do
+      plugin_data = %{
+        "plugin_elements" => %{
+          "element_key" => %{
+            "display" => "Test Element",
+            "code" => %{},
+            "actions" => %{
+              "action_key1" => %{
+                "caption" => "Same Action",
+                "code" => %{"fn" => "console.log('1');"}
+              },
+              "action_key2" => %{
+                "caption" => "Same Action",
+                "code" => %{"fn" => "console.log('2');"}
+              }
+            }
+          }
+        }
+      }
+
+      Decoder.decode_elements(plugin_data, tmp_dir)
+
+      actions_dir = Path.join(tmp_dir, "src/elements/test-element-element_key/actions")
+      files = File.ls!(actions_dir)
+
+      assert "same-action-action_key1.js" in files
+      assert "same-action-action_key2.js" in files
+      assert length(files) == 2
     end
   end
 end

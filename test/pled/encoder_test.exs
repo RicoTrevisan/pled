@@ -9,8 +9,7 @@ defmodule Pled.EncoderTest do
       File.mkdir_p!(temp_dir)
 
       plugin_data = File.read!("priv/examples/small_plugin.json") |> Jason.decode!()
-      File.cd!(temp_dir)
-      Pled.Commands.Decoder.decode(plugin_data)
+      Pled.Commands.Decoder.decode(plugin_data, temp_dir)
 
       src_dir = "src"
       dist_dir = "dist"
@@ -129,8 +128,7 @@ defmodule Pled.EncoderTest do
       File.mkdir_p!(temp_dir)
 
       plugin_data = File.read!("priv/examples/plugin.json") |> Jason.decode!()
-      File.cd!(temp_dir)
-      Pled.Commands.Decoder.decode(plugin_data)
+      Pled.Commands.Decoder.decode(plugin_data, temp_dir)
 
       src_dir = "src"
       dist_dir = "dist"
