@@ -1,23 +1,37 @@
 defmodule Pled.Commands.Encoder.Element do
   def encode_elements(%{} = src_json, opts) do
+    IO.puts("checking if plugin has elements...")
+
     elements_dir =
       opts
       |> Keyword.get(:elements_dir)
 
-    elements =
-      elements_dir
-      |> File.ls!()
-      |> Enum.reduce(
-        %{},
-        fn element_dir, acc ->
-          {key, json} =
-            encode_element(Path.join(elements_dir, element_dir))
+    if File.exists?(elements_dir) do
+      IO.puts("encoding elements...")
 
-          Map.put(acc, key, json)
-        end
-      )
+      found_elements =
+        elements_dir
+        |> File.ls!()
 
-    Map.put(src_json, "plugin_elements", elements)
+      IO.puts("found elements: #{Enum.map(found_elements, &(&1 <> ", "))}")
+
+      elements =
+        Enum.reduce(
+          found_elements,
+          %{},
+          fn element_dir, acc ->
+            {key, json} =
+              encode_element(Path.join(elements_dir, element_dir))
+
+            Map.put(acc, key, json)
+          end
+        )
+
+      Map.merge(src_json, %{"plugin_elements" => elements})
+    else
+      IO.puts("no elements found")
+      src_json
+    end
   end
 
   def encode_element(element_dir) do
@@ -37,7 +51,20 @@ defmodule Pled.Commands.Encoder.Element do
     code_block = generate_code_block(element_dir)
     json = Map.merge(json, code_block)
 
+    json = generate_html_headers(json, element_dir)
+
     {key, json}
+  end
+
+  def generate_html_headers(json, element_dir) do
+    html_path = Path.join(element_dir, "headers.html")
+
+    if File.exists?(html_path) do
+      snippet = File.read!(html_path)
+      Map.merge(json, %{"headers" => %{"snippet" => snippet}})
+    else
+      json
+    end
   end
 
   def generate_code_block(element_dir) do

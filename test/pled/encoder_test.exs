@@ -3,7 +3,43 @@ defmodule Pled.EncoderTest do
 
   alias Pled.Commands.Encoder
 
-  describe "encode functions" do
+  describe "encode actions" do
+    setup do
+      temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
+      File.mkdir_p!(temp_dir)
+
+      plugin_data = File.read!("priv/examples/small_plugin.json") |> Jason.decode!()
+      File.cd!(temp_dir)
+      Pled.Commands.Decoder.decode(plugin_data)
+
+      src_dir = "src"
+      dist_dir = "dist"
+      File.mkdir_p(dist_dir)
+
+      opts = [
+        src_dir: src_dir,
+        dist_dir: dist_dir,
+        elements_dir: Path.join(src_dir, "elements"),
+        actions_dir: Path.join(src_dir, "actions")
+      ]
+
+      on_exit(fn ->
+        # Clean up the entire temporary directory
+        if File.exists?(temp_dir) do
+          File.rm_rf!(temp_dir)
+        end
+      end)
+
+      {:ok, src_json: plugin_data, opts: opts}
+    end
+
+    test "dbg", %{src_json: src_json, opts: opts} do
+      updated_json = Encoder.Action.encode_actions(src_json, opts)
+      # dbg(updated_json)
+    end
+  end
+
+  describe "encode elements" do
     setup do
       temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
       File.mkdir_p!(temp_dir)
@@ -84,6 +120,45 @@ defmodule Pled.EncoderTest do
       generated_fn = generated_map["preview"]["fn"]
       assert String.starts_with?(generated_fn, "function(instance, properties) {\n")
       assert String.ends_with?(generated_fn, "\n}")
+    end
+  end
+
+  describe "encode root" do
+    setup do
+      temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
+      File.mkdir_p!(temp_dir)
+
+      plugin_data = File.read!("priv/examples/plugin.json") |> Jason.decode!()
+      File.cd!(temp_dir)
+      Pled.Commands.Decoder.decode(plugin_data)
+
+      src_dir = "src"
+      dist_dir = "dist"
+      File.mkdir_p(dist_dir)
+
+      opts = [
+        src_dir: src_dir,
+        dist_dir: dist_dir,
+        elements_dir: Path.join(src_dir, "elements"),
+        actions_dir: Path.join(src_dir, "actions")
+      ]
+
+      on_exit(fn ->
+        # Clean up the entire temporary directory
+        if File.exists?(temp_dir) do
+          File.rm_rf!(temp_dir)
+        end
+      end)
+
+      {:ok, src_json: plugin_data, opts: opts}
+    end
+
+    test "html snippet", %{src_json: src_json, opts: opts} do
+      updated_json = Encoder.encode_html(src_json, opts)
+
+      assert Map.has_key?(updated_json, "html_header")
+      assert Map.has_key?(updated_json["html_header"], "snippet")
+      assert get_in(updated_json, ["html_header", "snippet"]) =~ "script"
     end
   end
 end
