@@ -124,9 +124,20 @@ defmodule Pled.DecoderTest do
       actions_dir = Path.join(tmp_dir, "src/elements/test-element-element_key/actions")
       files = File.ls!(actions_dir)
 
+      # Check for JS files
       assert "same-action-action_key1.js" in files
       assert "same-action-action_key2.js" in files
-      assert length(files) == 2
+
+      # Check for key files
+      assert "same-action-action_key1.key" in files
+      assert "same-action-action_key2.key" in files
+
+      # Check for metadata JSON files
+      assert "same-action-action_key1.json" in files
+      assert "same-action-action_key2.json" in files
+
+      # Should have 6 files total (2 JS + 2 key + 2 JSON)
+      assert length(files) == 6
     end
   end
 end
