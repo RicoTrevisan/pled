@@ -52,7 +52,7 @@ defmodule Pled.Commands.Encoder.Element do
     json = Map.merge(json, code_block)
 
     json = generate_html_headers(json, element_dir)
-    json = encode_element_actions(json, element_dir)
+    json = update_element_actions_js(json, element_dir)
 
     {key, json}
   end
@@ -121,94 +121,60 @@ defmodule Pled.Commands.Encoder.Element do
     }
   end
 
-  def encode_element_actions(json, element_dir) do
+  def update_element_actions_js(json, element_dir) do
     actions_dir = Path.join(element_dir, "actions")
 
-    if File.exists?(actions_dir) do
-      IO.puts("encoding element actions from #{actions_dir}")
+    if File.exists?(actions_dir) and Map.has_key?(json, "actions") do
+      IO.puts("updating element actions from #{actions_dir}")
 
-      actions =
+      # Get existing actions from JSON
+      existing_actions = json["actions"]
+
+      # Update actions with JS content from files
+      updated_actions =
         actions_dir
         |> File.ls!()
         |> Enum.filter(&String.ends_with?(&1, ".js"))
-        |> Enum.reduce(%{}, fn js_file, acc ->
-          encode_single_action(js_file, actions_dir, acc)
+        |> Enum.reduce(existing_actions, fn js_file, acc ->
+          update_action_with_js_file(js_file, actions_dir, acc)
         end)
 
-      if map_size(actions) > 0 do
-        Map.put(json, "actions", actions)
-      else
-        json
-      end
+      Map.put(json, "actions", updated_actions)
     else
       json
     end
   end
 
-  defp encode_single_action(js_file, actions_dir, acc) do
+  defp update_action_with_js_file(js_file, actions_dir, actions) do
     try do
-      # Try to get key from .key file first (most reliable)
-      key_file = String.replace_suffix(js_file, ".js", ".key")
-      key_path = Path.join(actions_dir, key_file)
-
+      # Extract key from filename (last part after last dash)
       key =
-        if File.exists?(key_path) do
-          File.read!(key_path) |> String.trim()
-        else
-          # Fallback: extract key from filename
-          js_file
-          |> String.replace_suffix(".js", "")
-          |> String.split("-")
-          |> List.last()
-        end
+        js_file
+        |> String.replace_suffix(".js", "")
+        |> String.split("-")
+        |> List.last()
 
       # Read the JavaScript content
       js_path = Path.join(actions_dir, js_file)
       js_content = File.read!(js_path)
 
-      # Try to read metadata, with fallback
-      json_file = String.replace_suffix(js_file, ".js", ".json")
-      json_path = Path.join(actions_dir, json_file)
+      # Update the action's JavaScript code if the action exists
+      if Map.has_key?(actions, key) do
+        updated_action =
+          actions[key]
+          |> put_in(["code", "fn"], "function(instance, properties, context) {\n" <> js_content <> "\n}")
 
-      metadata =
-        if File.exists?(json_path) do
-          json_path
-          |> File.read!()
-          |> Jason.decode!()
-        else
-          # Fallback: create minimal metadata from filename
-          caption =
-            js_file
-            |> String.replace_suffix(".js", "")
-            |> String.split("-")
-            # Remove the key part
-            |> Enum.drop(-1)
-            |> Enum.join("-")
-            |> String.replace("-", " ")
-            |> String.split()
-            |> Enum.map(&String.capitalize/1)
-            |> Enum.join(" ")
-
-          IO.puts(
-            "Warning: Missing metadata for #{js_file}, creating minimal action with caption '#{caption}'"
-          )
-
-          %{"caption" => caption}
-        end
-
-      # Reconstruct the action data
-      action_data =
-        metadata
-        |> Map.put("code", %{
-          "fn" => "function(instance, properties, context) {\n" <> js_content <> "\n}"
-        })
-
-      Map.put(acc, key, action_data)
+        Map.put(actions, key, updated_action)
+      else
+        IO.puts("Warning: Action with key '#{key}' not found in element JSON, skipping #{js_file}")
+        actions
+      end
     rescue
       e ->
-        IO.puts("Error encoding action #{js_file}: #{inspect(e)}")
+        IO.puts("Error updating action from #{js_file}: #{inspect(e)}")
         IO.puts("Skipping this action...")
-        acc
+        actions
     end
   end
+
 end
