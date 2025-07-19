@@ -52,6 +52,7 @@ defmodule Pled.Commands.Encoder.Element do
     json = Map.merge(json, code_block)
 
     json = generate_html_headers(json, element_dir)
+    json = encode_element_actions(json, element_dir)
 
     {key, json}
   end
@@ -118,5 +119,96 @@ defmodule Pled.Commands.Encoder.Element do
         "fn" => "function(instance, context) {\n" <> content <> "\n}"
       }
     }
+  end
+
+  def encode_element_actions(json, element_dir) do
+    actions_dir = Path.join(element_dir, "actions")
+
+    if File.exists?(actions_dir) do
+      IO.puts("encoding element actions from #{actions_dir}")
+
+      actions =
+        actions_dir
+        |> File.ls!()
+        |> Enum.filter(&String.ends_with?(&1, ".js"))
+        |> Enum.reduce(%{}, fn js_file, acc ->
+          encode_single_action(js_file, actions_dir, acc)
+        end)
+
+      if map_size(actions) > 0 do
+        Map.put(json, "actions", actions)
+      else
+        json
+      end
+    else
+      json
+    end
+  end
+
+  defp encode_single_action(js_file, actions_dir, acc) do
+    try do
+      # Try to get key from .key file first (most reliable)
+      key_file = String.replace_suffix(js_file, ".js", ".key")
+      key_path = Path.join(actions_dir, key_file)
+
+      key =
+        if File.exists?(key_path) do
+          File.read!(key_path) |> String.trim()
+        else
+          # Fallback: extract key from filename
+          js_file
+          |> String.replace_suffix(".js", "")
+          |> String.split("-")
+          |> List.last()
+        end
+
+      # Read the JavaScript content
+      js_path = Path.join(actions_dir, js_file)
+      js_content = File.read!(js_path)
+
+      # Try to read metadata, with fallback
+      json_file = String.replace_suffix(js_file, ".js", ".json")
+      json_path = Path.join(actions_dir, json_file)
+
+      metadata =
+        if File.exists?(json_path) do
+          json_path
+          |> File.read!()
+          |> Jason.decode!()
+        else
+          # Fallback: create minimal metadata from filename
+          caption =
+            js_file
+            |> String.replace_suffix(".js", "")
+            |> String.split("-")
+            # Remove the key part
+            |> Enum.drop(-1)
+            |> Enum.join("-")
+            |> String.replace("-", " ")
+            |> String.split()
+            |> Enum.map(&String.capitalize/1)
+            |> Enum.join(" ")
+
+          IO.puts(
+            "Warning: Missing metadata for #{js_file}, creating minimal action with caption '#{caption}'"
+          )
+
+          %{"caption" => caption}
+        end
+
+      # Reconstruct the action data
+      action_data =
+        metadata
+        |> Map.put("code", %{
+          "fn" => "function(instance, properties, context) {\n" <> js_content <> "\n}"
+        })
+
+      Map.put(acc, key, action_data)
+    rescue
+      e ->
+        IO.puts("Error encoding action #{js_file}: #{inspect(e)}")
+        IO.puts("Skipping this action...")
+        acc
+    end
   end
 end

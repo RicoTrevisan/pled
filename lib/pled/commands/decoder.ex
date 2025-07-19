@@ -85,11 +85,9 @@ defmodule Pled.Commands.Decoder do
       element_dir
       |> Path.join("#{func}.js")
       |> File.write(content)
-
-      decode_element_actions(element_data, element_dir)
-      :ok
     end)
 
+    decode_element_actions(element_data, element_dir)
     :ok
   end
 
@@ -104,6 +102,7 @@ defmodule Pled.Commands.Decoder do
       |> Enum.each(fn {key, action_data} ->
         name = action_data["caption"] |> Slug.slugify()
 
+        # Store the JS content
         content =
           action_data
           |> get_in(["code", "fn"])
@@ -112,6 +111,18 @@ defmodule Pled.Commands.Decoder do
         actions_dir
         |> Path.join("#{name}-#{key}.js")
         |> File.write(content)
+
+        # Store the key in a separate file for reliable recovery
+        actions_dir
+        |> Path.join("#{name}-#{key}.key")
+        |> File.write(key)
+
+        # Store the metadata (without the code.fn part)
+        metadata = Map.update!(action_data, "code", &Map.delete(&1, "fn"))
+
+        actions_dir
+        |> Path.join("#{name}-#{key}.json")
+        |> File.write(Jason.encode!(metadata, pretty: true))
       end)
     end
   end
