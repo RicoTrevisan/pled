@@ -4,12 +4,10 @@ defmodule Pled.EncoderTest do
   alias Pled.Commands.Encoder
 
   describe "encode actions" do
-    setup do
-      temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
-      File.mkdir_p!(temp_dir)
-
+    @describetag :tmp_dir
+    setup %{tmp_dir: tmp_dir} do
       plugin_data = File.read!("priv/examples/small_plugin.json") |> Jason.decode!()
-      Pled.Commands.Decoder.decode(plugin_data, temp_dir)
+      Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"
       dist_dir = "dist"
@@ -21,13 +19,6 @@ defmodule Pled.EncoderTest do
         elements_dir: Path.join(src_dir, "elements"),
         actions_dir: Path.join(src_dir, "actions")
       ]
-
-      on_exit(fn ->
-        # Clean up the entire temporary directory
-        if File.exists?(temp_dir) do
-          File.rm_rf!(temp_dir)
-        end
-      end)
 
       {:ok, src_json: plugin_data, opts: opts}
     end
@@ -39,30 +30,21 @@ defmodule Pled.EncoderTest do
   end
 
   describe "encode elements" do
-    setup do
-      temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
-      File.mkdir_p!(temp_dir)
+    @describetag :tmp_dir
+    setup %{tmp_dir: tmp_dir} do
+      File.cp("priv/examples/single_element.json", Path.join(tmp_dir, "AAC.json"))
+      File.write(Path.join(tmp_dir, ".key"), "AAC")
 
-      File.cp("priv/examples/single_element.json", Path.join(temp_dir, "AAC.json"))
-      File.write(Path.join(temp_dir, ".key"), "AAC")
+      File.write(tmp_dir |> Path.join("initialize.js"), "console.log('this is a test')")
+      File.write(tmp_dir |> Path.join("update.js"), "console.log('this is a test')")
+      File.write(tmp_dir |> Path.join("reset.js"), "console.log('this is a test')")
+      File.write(tmp_dir |> Path.join("preview.js"), "console.log('this is a test')")
 
-      File.write(temp_dir |> Path.join("initialize.js"), "console.log('this is a test')")
-      File.write(temp_dir |> Path.join("update.js"), "console.log('this is a test')")
-      File.write(temp_dir |> Path.join("reset.js"), "console.log('this is a test')")
-      File.write(temp_dir |> Path.join("preview.js"), "console.log('this is a test')")
-
-      on_exit(fn ->
-        # Clean up the entire temporary directory
-        if File.exists?(temp_dir) do
-          File.rm_rf!(temp_dir)
-        end
-      end)
-
-      {:ok, %{temp_dir: temp_dir}}
+      {:ok, %{}}
     end
 
-    test "encode_element/1", %{temp_dir: temp_dir} do
-      encoded_element = Encoder.Element.encode_element(temp_dir)
+    test "encode_element/1", %{tmp_dir: tmp_dir} do
+      encoded_element = Encoder.Element.encode_element(tmp_dir)
       assert is_tuple(encoded_element)
       {key, value} = encoded_element
       assert key == "AAC"
@@ -70,15 +52,15 @@ defmodule Pled.EncoderTest do
       assert Map.keys(value["code"]["initialize"])
     end
 
-    test "generate_code_block/1", %{temp_dir: temp_dir} do
-      generated_code = Encoder.Element.generate_code_block(temp_dir)
+    test "generate_code_block/1", %{tmp_dir: tmp_dir} do
+      generated_code = Encoder.Element.generate_code_block(tmp_dir)
       assert is_map(generated_code)
       assert Map.keys(generated_code) == ["code"]
       assert Map.keys(generated_code["code"]) == ["initialize", "preview", "reset", "update"]
     end
 
-    test "generate_js_file/2 :initialize", %{temp_dir: temp_dir} do
-      generated_map = Encoder.Element.generate_js_file(:initialize, temp_dir)
+    test "generate_js_file/2 :initialize", %{tmp_dir: tmp_dir} do
+      generated_map = Encoder.Element.generate_js_file(:initialize, tmp_dir)
       assert is_map(generated_map)
       assert Map.keys(generated_map) == ["initialize"]
       assert Map.keys(generated_map["initialize"]) == ["fn"]
@@ -88,8 +70,8 @@ defmodule Pled.EncoderTest do
       assert String.ends_with?(generated_fn, "\n}")
     end
 
-    test "generate_js_file/2 :update", %{temp_dir: temp_dir} do
-      generated_map = Encoder.Element.generate_js_file(:update, temp_dir)
+    test "generate_js_file/2 :update", %{tmp_dir: tmp_dir} do
+      generated_map = Encoder.Element.generate_js_file(:update, tmp_dir)
       assert is_map(generated_map)
       assert Map.keys(generated_map) == ["update"]
       assert Map.keys(generated_map["update"]) == ["fn"]
@@ -99,8 +81,8 @@ defmodule Pled.EncoderTest do
       assert String.ends_with?(generated_fn, "\n}")
     end
 
-    test "generate_js_file/2 :reset", %{temp_dir: temp_dir} do
-      generated_map = Encoder.Element.generate_js_file(:reset, temp_dir)
+    test "generate_js_file/2 :reset", %{tmp_dir: tmp_dir} do
+      generated_map = Encoder.Element.generate_js_file(:reset, tmp_dir)
       assert is_map(generated_map)
       assert Map.keys(generated_map) == ["reset"]
       assert Map.keys(generated_map["reset"]) == ["fn"]
@@ -110,8 +92,8 @@ defmodule Pled.EncoderTest do
       assert String.ends_with?(generated_fn, "\n}")
     end
 
-    test "generate_js_file/2 :preview", %{temp_dir: temp_dir} do
-      generated_map = Encoder.Element.generate_js_file(:preview, temp_dir)
+    test "generate_js_file/2 :preview", %{tmp_dir: tmp_dir} do
+      generated_map = Encoder.Element.generate_js_file(:preview, tmp_dir)
       assert is_map(generated_map)
       assert Map.keys(generated_map) == ["preview"]
       assert Map.keys(generated_map["preview"]) == ["fn"]
@@ -123,12 +105,10 @@ defmodule Pled.EncoderTest do
   end
 
   describe "encode root" do
-    setup do
-      temp_dir = System.tmp_dir!() |> Path.join("pled_test_#{System.unique_integer([:positive])}")
-      File.mkdir_p!(temp_dir)
-
+    @describetag :tmp_dir
+    setup %{tmp_dir: tmp_dir} do
       plugin_data = File.read!("priv/examples/plugin.json") |> Jason.decode!()
-      Pled.Commands.Decoder.decode(plugin_data, temp_dir)
+      Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"
       dist_dir = "dist"
@@ -140,13 +120,6 @@ defmodule Pled.EncoderTest do
         elements_dir: Path.join(src_dir, "elements"),
         actions_dir: Path.join(src_dir, "actions")
       ]
-
-      on_exit(fn ->
-        # Clean up the entire temporary directory
-        if File.exists?(temp_dir) do
-          File.rm_rf!(temp_dir)
-        end
-      end)
 
       {:ok, src_json: plugin_data, opts: opts}
     end
