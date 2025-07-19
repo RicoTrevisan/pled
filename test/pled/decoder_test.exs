@@ -32,15 +32,6 @@ defmodule Pled.DecoderTest do
     end
 
     test "remove_bubbleism/1", %{tmp_dir: tmp_dir, plugin_data: plugin_data} do
-      Decoder.decode(plugin_data, tmp_dir)
-
-      dir = Path.join(tmp_dir, "/src/elements/tiptap-AAC/actions")
-
-      File.ls!(dir)
-      |> Enum.each(fn file ->
-        Path.join(dir, file) |> File.read!()
-      end)
-
       string =
         """
         function(instance, properties, context) {
@@ -99,7 +90,7 @@ defmodule Pled.DecoderTest do
       assert length(dirs) == 2
     end
 
-    test "element actions with same caption get unique filenames", %{tmp_dir: tmp_dir} do
+    test "element actions hybrid approach: JSON + JS files", %{tmp_dir: tmp_dir} do
       plugin_data = %{
         "plugin_elements" => %{
           "element_key" => %{
@@ -108,11 +99,11 @@ defmodule Pled.DecoderTest do
             "actions" => %{
               "action_key1" => %{
                 "caption" => "Same Action",
-                "code" => %{"fn" => "console.log('1');"}
+                "code" => %{"fn" => "function(instance, properties, context) {\nconsole.log('1');\n}"}
               },
               "action_key2" => %{
-                "caption" => "Same Action",
-                "code" => %{"fn" => "console.log('2');"}
+                "caption" => "Same Action", 
+                "code" => %{"fn" => "function(instance, properties, context) {\nconsole.log('2');\n}"}
               }
             }
           }
@@ -121,23 +112,34 @@ defmodule Pled.DecoderTest do
 
       Decoder.decode_elements(plugin_data, tmp_dir)
 
-      actions_dir = Path.join(tmp_dir, "src/elements/test-element-element_key/actions")
-      files = File.ls!(actions_dir)
-
+      element_dir = Path.join(tmp_dir, "src/elements/test-element-element_key")
+      actions_dir = Path.join(element_dir, "actions")
+      
+      # Actions directory should exist with JS files
+      assert File.exists?(actions_dir)
+      
       # Check for JS files
+      files = File.ls!(actions_dir)
       assert "same-action-action_key1.js" in files
       assert "same-action-action_key2.js" in files
+      assert length(files) == 2  # Only JS files, no JSON or key files
 
-      # Check for key files
-      assert "same-action-action_key1.key" in files
-      assert "same-action-action_key2.key" in files
+      # Verify JS files contain cleaned JavaScript (without function wrapper)
+      js_content1 = File.read!(Path.join(actions_dir, "same-action-action_key1.js"))
+      assert String.trim(js_content1) == "console.log('1');"
+      
+      js_content2 = File.read!(Path.join(actions_dir, "same-action-action_key2.js"))
+      assert String.trim(js_content2) == "console.log('2');"
 
-      # Check for metadata JSON files
-      assert "same-action-action_key1.json" in files
-      assert "same-action-action_key2.json" in files
-
-      # Should have 6 files total (2 JS + 2 key + 2 JSON)
-      assert length(files) == 6
+      # Actions should also be preserved in the element JSON
+      element_json_path = Path.join(element_dir, "element_key.json")
+      assert File.exists?(element_json_path)
+      
+      element_data = element_json_path |> File.read!() |> Jason.decode!()
+      assert Map.has_key?(element_data, "actions")
+      assert map_size(element_data["actions"]) == 2
+      assert Map.has_key?(element_data["actions"], "action_key1")
+      assert Map.has_key?(element_data["actions"], "action_key2")
     end
   end
 end

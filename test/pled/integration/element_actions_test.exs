@@ -84,51 +84,52 @@ defmodule Pled.Integration.ElementActionsTest do
       actions_dir = Path.join(element_dir, "actions")
 
       assert File.exists?(element_dir)
+      # Actions directory should exist with JS files
       assert File.exists?(actions_dir)
 
-      # Check that all action files were created
-      expected_files = [
+      # Check that JS files were created
+      expected_js_files = [
         "table-toggle-header-row-ACp.js",
-        "table-toggle-header-row-ACp.key",
-        "table-toggle-header-row-ACp.json",
-        "remove-link-ACR.js",
-        "remove-link-ACR.key",
-        "remove-link-ACR.json",
-        "custom-action-NEW.js",
-        "custom-action-NEW.key",
-        "custom-action-NEW.json"
+        "remove-link-ACR.js", 
+        "custom-action-NEW.js"
       ]
 
       action_files = File.ls!(actions_dir)
-
-      Enum.each(expected_files, fn file ->
+      Enum.each(expected_js_files, fn file ->
         assert file in action_files, "Missing file: #{file}"
       end)
-
-      # Verify key files contain correct keys
-      assert File.read!(Path.join(actions_dir, "table-toggle-header-row-ACp.key")) == "ACp"
-      assert File.read!(Path.join(actions_dir, "remove-link-ACR.key")) == "ACR"
-      assert File.read!(Path.join(actions_dir, "custom-action-NEW.key")) == "NEW"
+      
+      # Should only have JS files (no JSON or key files)
+      assert length(action_files) == 3
 
       # Verify JS files contain cleaned JavaScript (without function wrapper)
       table_js = File.read!(Path.join(actions_dir, "table-toggle-header-row-ACp.js"))
-
       assert String.contains?(
                table_js,
                "instance.data.editor.chain().focus().toggleHeaderRow().run();"
              )
-
       refute String.contains?(table_js, "function(instance, properties, context) {")
 
-      # Verify metadata JSON files contain action data without the code.fn
-      table_metadata =
-        Path.join(actions_dir, "table-toggle-header-row-ACp.json")
-        |> File.read!()
-        |> Jason.decode!()
-
-      assert table_metadata["caption"] == "Table toggle header row"
-      assert Map.has_key?(table_metadata, "code")
-      refute Map.has_key?(table_metadata["code"], "fn")
+      # Actions should also be preserved in the element JSON file
+      element_json_path = Path.join(element_dir, "ABC.json")
+      assert File.exists?(element_json_path)
+      
+      element_data = element_json_path |> File.read!() |> Jason.decode!()
+      assert Map.has_key?(element_data, "actions")
+      
+      actions = element_data["actions"]
+      assert Map.has_key?(actions, "ACp")
+      assert Map.has_key?(actions, "ACR") 
+      assert Map.has_key?(actions, "NEW")
+      
+      # Verify action data is complete and preserved
+      table_action = actions["ACp"]
+      assert table_action["caption"] == "Table toggle header row"
+      assert Map.has_key?(table_action["code"], "fn")
+      assert String.contains?(
+               table_action["code"]["fn"],
+               "instance.data.editor.chain().focus().toggleHeaderRow().run();"
+             )
 
       # Step 2: Encode back to JSON
       opts = [
@@ -191,19 +192,28 @@ defmodule Pled.Integration.ElementActionsTest do
       assert String.contains?(custom_fn, "instance.data.customMethod();")
     end
 
-    test "handles missing metadata gracefully", %{tmp_dir: tmp_dir} do
-      # Create element structure manually (simulating user editing files)
+    test "encoding with modified JS files updates element JSON", %{tmp_dir: tmp_dir} do
+      # Create element structure manually with actions in element JSON
       element_dir = Path.join([tmp_dir, "src", "elements", "test-element-ABC"])
       actions_dir = Path.join(element_dir, "actions")
       File.mkdir_p!(actions_dir)
 
-      # Create element metadata
+      # Create element metadata with embedded actions
       File.write!(Path.join(element_dir, ".key"), "ABC")
 
       element_metadata = %{
         "display" => "Test Element",
         "category" => "input forms",
-        "code" => %{}
+        "code" => %{},
+        "actions" => %{
+          "XYZ" => %{
+            "caption" => "Custom Action",
+            "type" => "element_action",
+            "code" => %{
+              "fn" => "function(instance, properties, context) {\n  console.log('original action');\n}"
+            }
+          }
+        }
       }
 
       File.write!(
@@ -217,14 +227,11 @@ defmodule Pled.Integration.ElementActionsTest do
         File.write!(Path.join(element_dir, file), "console.log('#{file}');")
       end)
 
-      # Create action JS file without metadata (user added manually)
+      # Create action JS file with modified content (simulating user editing)
       File.write!(
-        Path.join(actions_dir, "my-custom-action-XYZ.js"),
-        "console.log('custom action');"
+        Path.join(actions_dir, "custom-action-XYZ.js"),
+        "console.log('modified action code');"
       )
-
-      File.write!(Path.join(actions_dir, "my-custom-action-XYZ.key"), "XYZ")
-      # Intentionally omit the .json metadata file
 
       # Create src plugin.json
       src_plugin = %{
@@ -237,7 +244,7 @@ defmodule Pled.Integration.ElementActionsTest do
         Jason.encode!(src_plugin, pretty: true)
       )
 
-      # Encode should handle missing metadata gracefully
+      # Encode should read the JS file and update the element JSON
       original_cwd = File.cwd!()
       File.cd!(tmp_dir)
 
@@ -247,7 +254,7 @@ defmodule Pled.Integration.ElementActionsTest do
         File.cd!(original_cwd)
       end
 
-      # Verify the encoded JSON includes the action with generated metadata
+      # Verify the encoded JSON has updated JavaScript from the file
       encoded_json =
         Path.join([tmp_dir, "dist", "plugin.json"])
         |> File.read!()
@@ -259,10 +266,14 @@ defmodule Pled.Integration.ElementActionsTest do
       assert Map.has_key?(actions, "XYZ")
       action = actions["XYZ"]
 
-      # Should have generated caption from filename
-      assert action["caption"] == "My Custom Action"
+      # Action metadata should be preserved
+      assert action["caption"] == "Custom Action"
+      assert action["type"] == "element_action"
       assert Map.has_key?(action["code"], "fn")
-      assert String.contains?(action["code"]["fn"], "console.log('custom action');")
+      
+      # JavaScript should be updated from the file
+      assert String.contains?(action["code"]["fn"], "console.log('modified action code');")
+      refute String.contains?(action["code"]["fn"], "console.log('original action');")
     end
   end
 end

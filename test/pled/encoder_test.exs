@@ -6,7 +6,8 @@ defmodule Pled.EncoderTest do
   describe "encode actions" do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
-      plugin_data = File.read!("priv/examples/small_plugin.json") |> Jason.decode!()
+      original_cwd = File.cwd!()
+      plugin_data = File.read!(Path.join([original_cwd, "priv/examples/small_plugin.json"])) |> Jason.decode!()
       Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"
@@ -32,7 +33,8 @@ defmodule Pled.EncoderTest do
   describe "encode elements" do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
-      File.cp("priv/examples/single_element.json", Path.join(tmp_dir, "AAC.json"))
+      original_cwd = File.cwd!()
+      File.cp(Path.join([original_cwd, "priv/examples/single_element.json"]), Path.join(tmp_dir, "AAC.json"))
       File.write(Path.join(tmp_dir, ".key"), "AAC")
 
       File.write(tmp_dir |> Path.join("initialize.js"), "console.log('this is a test')")
@@ -107,7 +109,8 @@ defmodule Pled.EncoderTest do
   describe "encode root" do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
-      plugin_data = File.read!("priv/examples/plugin.json") |> Jason.decode!()
+      original_cwd = File.cwd!()
+      plugin_data = File.read!(Path.join([original_cwd, "priv/examples/plugin.json"])) |> Jason.decode!()
       Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"
