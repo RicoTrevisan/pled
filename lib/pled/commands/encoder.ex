@@ -24,19 +24,26 @@ defmodule Pled.Commands.Encoder do
       actions_dir: Path.join(src_dir, "actions")
     ]
 
-    output_json =
-      src_json
-      |> Element.encode_elements(opts)
-      |> Action.encode_actions(opts)
-      |> encode_html(opts)
+    case Element.encode_elements(src_json, opts) do
+      {:ok, json_with_elements} ->
+        output_json =
+          json_with_elements
+          |> Action.encode_actions(opts)
+          |> encode_html(opts)
 
-    IO.puts("generated output json, writing it to dist/plugin.json")
+        IO.puts("generated output json, writing it to dist/plugin.json")
 
-    dist_dir
-    |> Path.join("plugin.json")
-    |> File.write(output_json |> Jason.encode!(pretty: true))
+        dist_dir
+        |> Path.join("plugin.json")
+        |> File.write(output_json |> Jason.encode!(pretty: true))
 
-    IO.puts("dist/plugin.json generated")
+        IO.puts("dist/plugin.json generated")
+        
+      {:error, reason} ->
+        IO.puts("\n❌ Encoding failed: #{reason}")
+        IO.puts("Please fix the issues and try again.")
+        System.halt(1)
+    end
   end
 
   def encode_html(json, opts \\ []) do
