@@ -168,16 +168,22 @@ defmodule Pled.Commands.Encoder.Element do
           IO.puts("\nDetails:")
           print_validation_details(details)
           
-          # Ask user for confirmation
-          IO.puts("\nDo you want to continue encoding anyway? (y/N)")
+          # Ask user for confirmation with auto-fix option
+          IO.puts("\nChoose an action:")
+          IO.puts("  y) Continue and auto-fix mismatches")
+          IO.puts("  n) Stop encoding (default)")
+          IO.write("Choice (y/N): ")
           response = IO.gets("") |> String.trim() |> String.downcase()
           
           if response in ["y", "yes"] do
-            IO.puts("Continuing with encoding despite mismatches...")
+            IO.puts("Continuing with auto-fix for mismatches...")
+            
+            # Auto-fix orphaned actions
+            fixed_actions = auto_fix_action_mismatches(existing_actions, details, js_files)
             
             updated_actions =
               js_files
-              |> Enum.reduce(existing_actions, fn js_file, acc ->
+              |> Enum.reduce(fixed_actions, fn js_file, acc ->
                 update_action_with_js_file(js_file, actions_dir, acc)
               end)
 
@@ -373,6 +379,75 @@ defmodule Pled.Commands.Encoder.Element do
         IO.puts("Skipping this action...")
         actions
     end
+  end
+
+  # Auto-fix function to handle orphaned JSON actions and JS files
+  defp auto_fix_action_mismatches(existing_actions, details, js_files) do
+    IO.puts("\n🔧 Auto-fixing action mismatches...")
+    
+    # Remove orphaned JSON actions (actions without matching JS files)
+    actions_after_deletion = 
+      if length(details.orphaned_json) > 0 do
+        IO.puts("  🗑️  Removing orphaned JSON actions:")
+        Enum.each(details.orphaned_json, fn key -> 
+          IO.puts("    - Removing action: #{key}")
+        end)
+        
+        Map.drop(existing_actions, details.orphaned_json)
+      else
+        existing_actions
+      end
+    
+    # Add missing JSON actions for orphaned JS files
+    actions_after_addition =
+      if length(details.orphaned_files) > 0 do
+        IO.puts("  ➕ Creating JSON actions for orphaned JS files:")
+        
+        Enum.reduce(details.orphaned_files, actions_after_deletion, fn key, acc ->
+          # Find the corresponding JS file to extract the name
+          js_file = Enum.find(js_files, fn file ->
+            extract_key_from_filename(file) == key
+          end)
+          
+          if js_file do
+            # Extract action name from filename (everything before the last dash)
+            action_name = 
+              js_file
+              |> String.replace_suffix(".js", "")
+              |> String.split("-")
+              |> Enum.drop(-1)  # Remove the key part
+              |> Enum.join("-")
+              |> String.replace("-", " ")  # Replace dashes with spaces for caption
+              |> String.trim()
+            
+            # Use filename as fallback if name extraction fails
+            action_name = if action_name == "", do: String.replace_suffix(js_file, ".js", ""), else: action_name
+            
+            new_action = %{
+              "caption" => action_name,
+              "code" => %{
+                "fn" => "function(instance, properties, context) {\n// Placeholder - will be updated from #{js_file}\n}"
+              }
+            }
+            
+            IO.puts("    - Creating action: #{key} (#{action_name})")
+            Map.put(acc, key, new_action)
+          else
+            IO.puts("    - Warning: Could not find JS file for key #{key}")
+            acc
+          end
+        end)
+      else
+        actions_after_deletion
+      end
+    
+    IO.puts("✅ Auto-fix completed!")
+    IO.puts("  📊 Final summary:")
+    IO.puts("    - Removed #{length(details.orphaned_json)} orphaned JSON actions")
+    IO.puts("    - Added #{length(details.orphaned_files)} missing JSON actions")
+    IO.puts("    - Total actions: #{map_size(actions_after_addition)}")
+    
+    actions_after_addition
   end
 
 end
