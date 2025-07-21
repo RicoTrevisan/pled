@@ -26,3 +26,4 @@ dist*
 src*
 
 .claude*
+burrito_out/
