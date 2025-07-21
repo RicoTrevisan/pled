@@ -4,12 +4,15 @@ defmodule Pled.MixProject do
   def project do
     [
       app: :pled,
-      version: "0.1.2",
+      version: "0.0.1",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: releases(),
-      aliases: aliases()
+      aliases: aliases(),
+      source_url: "https://github.com/ricotrevisan/pled",
+      homepage_url: "https://github.com/ricotrevisan/pled",
+      description: "A tool for Bubble.io plugin development"
     ]
   end
 
@@ -40,7 +43,10 @@ defmodule Pled.MixProject do
         burrito: [
           targets: [
             macos_x86: [os: :darwin, cpu: :x86_64],
-            macos: [os: :darwin, cpu: :aarch64]
+            macos_arm: [os: :darwin, cpu: :aarch64],
+            linux_arm: [os: :linux, cpu: :aarch64],
+            linux_x86: [os: :linux, cpu: :x86_64],
+            windows: [os: :windows, cpu: :x86_64]
           ]
         ]
       ]
