@@ -24,3 +24,5 @@ pled-*.tar
 
 dist*
 src*
+
+.claude*
