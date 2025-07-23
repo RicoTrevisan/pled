@@ -93,8 +93,10 @@ defmodule Pled.Commands.Decoder do
 
       fields ->
         simplified_fields =
-          Enum.map(fields, fn {key, fields} ->
-            key <> ": " <> fields["caption"]
+          fields
+          |> Enum.sort_by(fn {_key, fields} -> fields["rank"] end)
+          |> Enum.map(fn {key, fields} ->
+            fields["caption"] <> " (#{key})"
           end)
           |> Enum.join("\n")
 
