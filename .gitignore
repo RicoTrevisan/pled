@@ -25,5 +25,4 @@ pled-*.tar
 dist*
 src*
 
-.claude*
 burrito_out/
