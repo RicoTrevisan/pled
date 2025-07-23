@@ -64,9 +64,24 @@ defmodule Pled.Commands.Encoder.Element do
 
     json = generate_html_headers(json, element_dir)
 
-    case update_element_actions_js(json, element_dir) do
-      {:error, reason} -> {:error, reason}
-      updated_json -> {:ok, {key, updated_json}}
+    json =
+      case update_element_fields(json, element_dir) do
+        {:error, reason} ->
+          {:error, reason}
+
+        updated_json ->
+          updated_json
+      end
+
+    case json do
+      {:error, reason} ->
+        {:error, reason}
+
+      updated_json ->
+        case update_element_actions_js(updated_json, element_dir) do
+          {:error, reason} -> {:error, reason}
+          final_json -> {:ok, {key, final_json}}
+        end
     end
   end
 
@@ -469,5 +484,186 @@ defmodule Pled.Commands.Encoder.Element do
     IO.puts("    - Total actions: #{map_size(actions_after_addition)}")
 
     actions_after_addition
+  end
+
+  # Field reordering functionality
+  def update_element_fields(json, element_dir) do
+    fields_path = Path.join(element_dir, "fields.txt")
+
+    if File.exists?(fields_path) and Map.has_key?(json, "fields") do
+      IO.puts("updating element fields from #{fields_path}")
+
+      case File.read(fields_path) do
+        {:ok, fields_content} ->
+          process_fields_update(json, fields_content, json["fields"])
+
+        {:error, reason} ->
+          {:error, "Failed to read fields.txt: #{reason}"}
+      end
+    else
+      json
+    end
+  end
+
+  defp process_fields_update(json, fields_content, original_fields) do
+    case parse_fields_txt(fields_content) do
+      {:ok, parsed_fields} ->
+        case validate_fields_changes(parsed_fields, original_fields) do
+          {:ok, changes} ->
+            if has_caption_or_key_changes?(changes) do
+              show_changes_and_confirm(changes, parsed_fields, original_fields, json)
+            else
+              apply_fields_update(json, parsed_fields, original_fields)
+            end
+
+          {:error, reason} ->
+            {:error, reason}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  defp parse_fields_txt(content) do
+    lines =
+      content
+      |> String.split("\n")
+      |> Enum.reject(&(String.trim(&1) == ""))
+
+    parsed_fields =
+      lines
+      |> Enum.with_index()
+      |> Enum.map(fn {line, index} ->
+        case Regex.run(~r/^(.+) \(([^)]+)\)$/, line) do
+          [_full, caption, key] ->
+            {:ok, %{caption: caption, key: key, rank: index}}
+
+          _ ->
+            {:error, "Malformed line: #{line}"}
+        end
+      end)
+
+    # Check for parsing errors
+    errors = Enum.filter(parsed_fields, &match?({:error, _}, &1))
+
+    if length(errors) > 0 do
+      error_messages = Enum.map(errors, fn {:error, msg} -> msg end)
+      {:error, "Field parsing failed:\n" <> Enum.join(error_messages, "\n")}
+    else
+      valid_fields = Enum.map(parsed_fields, fn {:ok, field} -> field end)
+      {:ok, valid_fields}
+    end
+  end
+
+  defp validate_fields_changes(parsed_fields, original_fields) do
+    original_keys = Map.keys(original_fields)
+    parsed_keys = Enum.map(parsed_fields, & &1.key)
+
+    # Check for duplicate keys
+    duplicate_keys =
+      parsed_keys
+      |> Enum.frequencies()
+      |> Enum.filter(fn {_key, count} -> count > 1 end)
+      |> Enum.map(fn {key, count} -> "#{key} (appears #{count} times)" end)
+
+    if length(duplicate_keys) > 0 do
+      {:error, "Duplicate keys found:\n" <> Enum.join(duplicate_keys, "\n")}
+    else
+      # Check for missing or extra keys
+      missing_keys = original_keys -- parsed_keys
+      extra_keys = parsed_keys -- original_keys
+
+      cond do
+        length(missing_keys) > 0 ->
+          {:error, "Missing keys from original fields: #{Enum.join(missing_keys, ", ")}"}
+
+        length(extra_keys) > 0 ->
+          {:error, "Extra keys not in original fields: #{Enum.join(extra_keys, ", ")}"}
+
+        true ->
+          changes = detect_changes(parsed_fields, original_fields)
+          {:ok, changes}
+      end
+    end
+  end
+
+  defp detect_changes(parsed_fields, original_fields) do
+    Enum.map(parsed_fields, fn parsed_field ->
+      original_key = parsed_field.key
+      original_field = original_fields[original_key]
+
+      %{
+        key: parsed_field.key,
+        caption: parsed_field.caption,
+        rank: parsed_field.rank,
+        original_caption: original_field["caption"],
+        original_key: original_key,
+        caption_changed: parsed_field.caption != original_field["caption"],
+        # Key changes not implemented in this version
+        key_changed: false
+      }
+    end)
+  end
+
+  defp has_caption_or_key_changes?(changes) do
+    Enum.any?(changes, fn change ->
+      change.caption_changed or change.key_changed
+    end)
+  end
+
+  defp show_changes_and_confirm(changes, parsed_fields, original_fields, json) do
+    caption_changes = Enum.filter(changes, & &1.caption_changed)
+    key_changes = Enum.filter(changes, & &1.key_changed)
+
+    if length(caption_changes) > 0 or length(key_changes) > 0 do
+      IO.puts("\n📝 Field changes detected:")
+
+      if length(caption_changes) > 0 do
+        IO.puts("\n  Caption changes:")
+
+        Enum.each(caption_changes, fn change ->
+          IO.puts("    #{change.key}: \"#{change.original_caption}\" → \"#{change.caption}\"")
+        end)
+      end
+
+      if length(key_changes) > 0 do
+        IO.puts("\n  Key changes:")
+
+        Enum.each(key_changes, fn change ->
+          IO.puts("    \"#{change.original_key}\" → \"#{change.key}\"")
+        end)
+      end
+
+      IO.puts("\nDo you want to apply these changes? (y/N): ")
+      response = IO.gets("") |> String.trim() |> String.downcase()
+
+      if response in ["y", "yes"] do
+        apply_fields_update(json, parsed_fields, original_fields)
+      else
+        IO.puts("Field changes cancelled by user.")
+        {:error, "user_cancelled_field_changes"}
+      end
+    else
+      apply_fields_update(json, parsed_fields, original_fields)
+    end
+  end
+
+  defp apply_fields_update(json, parsed_fields, original_fields) do
+    updated_fields =
+      parsed_fields
+      |> Enum.reduce(%{}, fn parsed_field, acc ->
+        original_field_data = original_fields[parsed_field.key]
+
+        updated_field_data =
+          original_field_data
+          |> Map.put("caption", parsed_field.caption)
+          |> Map.put("rank", parsed_field.rank)
+
+        Map.put(acc, parsed_field.key, updated_field_data)
+      end)
+
+    IO.puts("✅ Fields updated with new order and changes")
+    Map.put(json, "fields", updated_fields)
   end
 end
