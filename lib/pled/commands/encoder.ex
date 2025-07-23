@@ -38,11 +38,12 @@ defmodule Pled.Commands.Encoder do
         |> File.write(output_json |> Jason.encode!(pretty: true))
 
         IO.puts("dist/plugin.json generated")
+        :ok
         
       {:error, reason} ->
         IO.puts("\n❌ Encoding failed: #{reason}")
         IO.puts("Please fix the issues and try again.")
-        System.halt(1)
+        {:error, reason}
     end
   end
 

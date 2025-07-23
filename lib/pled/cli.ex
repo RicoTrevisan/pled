@@ -18,11 +18,38 @@ defmodule Pled.CLI do
     end
   end
 
-  def handle_command({:encode, _opts}), do: Commands.Encoder.encode()
+  def handle_command({:encode, _opts}) do
+    case Commands.Encoder.encode() do
+      :ok ->
+        :ok
 
-  def handle_command({:pull, _opts}), do: Commands.Pull.run()
+      {:error, reason} ->
+        IO.warn("Encoding failed, #{inspect(reason)}")
+        System.halt(1)
+    end
+  end
 
-  def handle_command({:push, _opts}), do: Commands.Push.run()
+  def handle_command({:pull, _opts}) do
+    case Commands.Pull.run() do
+      :ok ->
+        :ok
+
+      {:error, reason} ->
+        IO.warn("Pull failed, #{inspect(reason)}")
+        System.halt(1)
+    end
+  end
+
+  def handle_command({:push, _opts}) do
+    case Commands.Push.run() do
+      :ok ->
+        :ok
+
+      {:error, reason} ->
+        IO.warn("Push failed, #{inspect(reason)}")
+        System.halt(1)
+    end
+  end
 
   def handle_command({:help, _opts}), do: Commands.Help.run()
 end

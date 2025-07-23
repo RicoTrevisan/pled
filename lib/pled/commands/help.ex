@@ -2,7 +2,7 @@ defmodule Pled.Commands.Help do
   def run do
     IO.puts("""
     Pled - Bubble.io Plugin Development Tool
-    version 0.0.1
+    version #{Mix.Project.config()[:version]}
 
     Usage:
       pled pull    Fetch plugin from Bubble.io and save to src/plugin.json
@@ -13,6 +13,6 @@ defmodule Pled.Commands.Help do
       COOKIE       Authentication cookie for Bubble.io
     """)
 
-    System.halt(0)
+    :ok
   end
 end

@@ -4,11 +4,17 @@ defmodule Pled.Commands.Pull do
 
   def run() do
     IO.puts("Fetching plugin from Bubble.io...")
-    IO.puts("Wiping src directory...")
+    IO.puts("Wiping src and dist directories...")
 
-    case File.rm_rf("src") do
-      {:ok, files_and_directory} -> IO.puts("removed #{inspect(files_and_directory)}")
-      {:error, reason, _file} -> Logger.error(reason)
+    with {:ok, dist} <- File.rm_rf("dist"),
+         {:ok, src} <- File.rm_rf("src") do
+      IO.puts("removed:")
+      Enum.each(dist, &IO.puts(&1))
+      Enum.each(src, &IO.puts(&1))
+    else
+      {:error, reason, _file} ->
+        Logger.error(reason)
+        {:error, reason}
     end
 
     case Pled.BubbleApi.fetch_plugin() do
@@ -23,16 +29,16 @@ defmodule Pled.Commands.Pull do
           :ok ->
             Decoder.decode(plugin_data, File.cwd!())
             IO.puts(" Plugin data saved to #{plugin_file}")
-            System.halt(0)
+            :ok
 
           {:error, reason} ->
             IO.puts(" Failed to save plugin data: #{reason}")
-            System.halt(1)
+            {:error, reason}
         end
 
       {:error, reason} ->
         IO.puts(" Failed to fetch plugin: #{reason}")
-        System.halt(1)
+        {:error, reason}
     end
   end
 end
