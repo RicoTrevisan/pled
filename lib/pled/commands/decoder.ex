@@ -74,7 +74,38 @@ defmodule Pled.Commands.Decoder do
     File.write("#{element_dir}/#{key}.json", Jason.encode!(element_data, pretty: true))
 
     decode_element_html_header(element_data, element_dir)
+    decode_element_functions(element_data, element_dir)
+    decode_element_actions_js(element_data, element_dir)
+    decode_element_fields(element_data, element_dir)
+    decode_element_fields(element_data, element_dir)
+    :ok
+  end
 
+  def decode_element_fields(element_data, element_dir) do
+    element_data
+    |> Map.get("fields")
+    |> case do
+      nil ->
+        :ok
+
+      [] ->
+        :ok
+
+      fields ->
+        simplified_fields =
+          Enum.map(fields, fn {key, fields} ->
+            key <> ": " <> fields["caption"]
+          end)
+          |> Enum.join("\n")
+
+        File.write!(
+          Path.join([element_dir, "fields.txt"]),
+          simplified_fields
+        )
+    end
+  end
+
+  def decode_element_functions(element_data, element_dir) do
     ["initialize", "preview", "reset", "update"]
     |> Enum.each(fn func ->
       content =
@@ -86,9 +117,6 @@ defmodule Pled.Commands.Decoder do
       |> Path.join("#{func}.js")
       |> File.write(content)
     end)
-
-    decode_element_actions_js(element_data, element_dir)
-    :ok
   end
 
   defp decode_element_actions_js(element_data, element_dir) do
@@ -97,7 +125,7 @@ defmodule Pled.Commands.Decoder do
 
     if actions do
       File.mkdir_p!(actions_dir)
-      
+
       actions
       |> Enum.each(fn {key, action_data} ->
         name = action_data["caption"] |> Slug.slugify()

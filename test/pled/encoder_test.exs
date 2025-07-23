@@ -7,7 +7,11 @@ defmodule Pled.EncoderTest do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
       original_cwd = File.cwd!()
-      plugin_data = File.read!(Path.join([original_cwd, "priv/examples/small_plugin.json"])) |> Jason.decode!()
+
+      plugin_data =
+        File.read!(Path.join([original_cwd, "priv/examples/small_plugin.json"]))
+        |> Jason.decode!()
+
       Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"
@@ -23,18 +27,18 @@ defmodule Pled.EncoderTest do
 
       {:ok, src_json: plugin_data, opts: opts}
     end
-
-    test "dbg", %{src_json: src_json, opts: opts} do
-      updated_json = Encoder.Action.encode_actions(src_json, opts)
-      # dbg(updated_json)
-    end
   end
 
   describe "encode elements" do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
       original_cwd = File.cwd!()
-      File.cp(Path.join([original_cwd, "priv/examples/single_element.json"]), Path.join(tmp_dir, "AAC.json"))
+
+      File.cp(
+        Path.join([original_cwd, "priv/examples/single_element.json"]),
+        Path.join(tmp_dir, "AAC.json")
+      )
+
       File.write(Path.join(tmp_dir, ".key"), "AAC")
 
       File.write(tmp_dir |> Path.join("initialize.js"), "console.log('this is a test')")
@@ -48,7 +52,7 @@ defmodule Pled.EncoderTest do
     test "encode_element/1", %{tmp_dir: tmp_dir} do
       encoded_element = Encoder.Element.encode_element(tmp_dir)
       assert is_tuple(encoded_element)
-      {key, value} = encoded_element
+      {:ok, {key, value}} = encoded_element
       assert key == "AAC"
       assert is_map(value["code"])
       assert Map.keys(value["code"]["initialize"])
@@ -110,7 +114,10 @@ defmodule Pled.EncoderTest do
     @describetag :tmp_dir
     setup %{tmp_dir: tmp_dir} do
       original_cwd = File.cwd!()
-      plugin_data = File.read!(Path.join([original_cwd, "priv/examples/plugin.json"])) |> Jason.decode!()
+
+      plugin_data =
+        File.read!(Path.join([original_cwd, "priv/examples/plugin.json"])) |> Jason.decode!()
+
       Pled.Commands.Decoder.decode(plugin_data, tmp_dir)
 
       src_dir = "src"

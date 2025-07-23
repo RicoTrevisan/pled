@@ -4,7 +4,7 @@ defmodule Pled.MixProject do
   def project do
     [
       app: :pled,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -36,19 +36,26 @@ defmodule Pled.MixProject do
   end
 
   defp releases do
-    [
-      pled: [
-        steps: [:assemble, &Burrito.wrap/1],
-        applications: [runtime_tools: :none],
-        burrito: [
-          targets: [
+    targets =
+      case Mix.env() do
+        :dev ->
+          [macos: [os: :darwin, cpu: :aarch64]]
+
+        _ ->
+          [
             macos_x86: [os: :darwin, cpu: :x86_64],
             macos_arm: [os: :darwin, cpu: :aarch64],
             linux_arm: [os: :linux, cpu: :aarch64],
             linux_x86: [os: :linux, cpu: :x86_64],
             windows: [os: :windows, cpu: :x86_64]
           ]
-        ]
+      end
+
+    [
+      pled: [
+        steps: [:assemble, &Burrito.wrap/1],
+        applications: [runtime_tools: :none],
+        burrito: [targets: targets]
       ]
     ]
   end
