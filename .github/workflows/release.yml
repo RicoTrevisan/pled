@@ -1,152 +1,152 @@
 name: Build and Release
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
+    push:
+        branches:
+            - main
+        tags:
+            - "v*"
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  build-and-release:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    build-and-release:
+        runs-on: ubuntu-latest
 
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: '1.18'
-          otp-version: '27'
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Restore dependencies cache
-        uses: actions/cache@v4
-        with:
-          path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-
+            - name: Set up Elixir
+              uses: erlef/setup-beam@v1
+              with:
+                  elixir-version: "1.18"
+                  otp-version: "27"
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xz-utils
-          
-      - name: Install Zig
-        uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: 0.14.0
+            - name: Restore dependencies cache
+              uses: actions/cache@v4
+              with:
+                  path: deps
+                  key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+                  restore-keys: ${{ runner.os }}-mix-
 
-      - name: Install dependencies
-        run: mix deps.get
+            - name: Install system dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y xz-utils
 
-      - name: Compile project
-        run: mix compile
+            - name: Install Zig
+              uses: goto-bus-stop/setup-zig@v2
+              with:
+                  version: 0.14.1
 
-      - name: Build release binaries
-        run: MIX_ENV=prod mix release
-        
-      - name: Extract version
-        id: version
-        run: |
-          VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "Extracted version: $VERSION"
+            - name: Install dependencies
+              run: mix deps.get
 
-      - name: Prepare release assets
-        run: |
-          mkdir -p release-assets
-          cd burrito_out
-          for file in *; do
-            if [ -f "$file" ]; then
-              # Get file extension if it exists
-              if [[ "$file" == *.exe ]]; then
-                ext=".exe"
-                base_name="${file%.*}"
-              else
-                ext=""
-                base_name="$file"
-              fi
-              
-              # Create descriptive name based on original filename
-              case "$base_name" in
-                *macos_x86*|*darwin_x86*)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
-                  ;;
-                *macos_arm*|*darwin_arm*|*macos)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-arm64${ext}"
-                  ;;
-                *linux_x86*)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64${ext}"
-                  ;;
-                *linux_arm*)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-arm64${ext}"
-                  ;;
-                *windows*)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64${ext}"
-                  ;;
-                *)
-                  new_name="pled-v${{ steps.version.outputs.VERSION }}-${base_name}${ext}"
-                  ;;
-              esac
-              
-              cp "$file" "../release-assets/$new_name"
-              echo "Prepared: $new_name"
-            fi
-          done
+            - name: Compile project
+              run: mix compile
 
-      - name: Generate checksums
-        run: |
-          cd release-assets
-          sha256sum * > checksums.txt
-          echo "Generated checksums:"
-          cat checksums.txt
+            - name: Build release binaries
+              run: MIX_ENV=prod mix release
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.version.outputs.VERSION }}
-          release_name: Release v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## Changes
-            
-            Auto-generated release with cross-platform binaries.
-            
-            ## Downloads
-            
-            - **macOS (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-arm64`
-            - **macOS (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64`  
-            - **Linux (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-arm64`
-            - **Linux (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64`
-            - **Windows (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64.exe`
-            
-            Verify downloads using `checksums.txt`.
-          draft: false
-          prerelease: false
+            - name: Extract version
+              id: version
+              run: |
+                  VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
+                  echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Extracted version: $VERSION"
 
-      - name: Upload Release Assets
-        run: |
-          cd release-assets
-          for file in *; do
-            echo "Uploading: $file"
-            curl \
-              -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @"$file" \
-              "${{ steps.create_release.outputs.upload_url }}?name=$file"
-          done
+            - name: Prepare release assets
+              run: |
+                  mkdir -p release-assets
+                  cd burrito_out
+                  for file in *; do
+                    if [ -f "$file" ]; then
+                      # Get file extension if it exists
+                      if [[ "$file" == *.exe ]]; then
+                        ext=".exe"
+                        base_name="${file%.*}"
+                      else
+                        ext=""
+                        base_name="$file"
+                      fi
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: pled-binaries-v${{ steps.version.outputs.VERSION }}
-          path: release-assets/
-          retention-days: 30
+                      # Create descriptive name based on original filename
+                      case "$base_name" in
+                        *macos_x86*|*darwin_x86*)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
+                          ;;
+                        *macos_arm*|*darwin_arm*|*macos)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-arm64${ext}"
+                          ;;
+                        *linux_x86*)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64${ext}"
+                          ;;
+                        *linux_arm*)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-arm64${ext}"
+                          ;;
+                        *windows*)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64${ext}"
+                          ;;
+                        *)
+                          new_name="pled-v${{ steps.version.outputs.VERSION }}-${base_name}${ext}"
+                          ;;
+                      esac
+
+                      cp "$file" "../release-assets/$new_name"
+                      echo "Prepared: $new_name"
+                    fi
+                  done
+
+            - name: Generate checksums
+              run: |
+                  cd release-assets
+                  sha256sum * > checksums.txt
+                  echo "Generated checksums:"
+                  cat checksums.txt
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ steps.version.outputs.VERSION }}
+                  release_name: Release v${{ steps.version.outputs.VERSION }}
+                  body: |
+                      ## Changes
+
+                      Auto-generated release with cross-platform binaries.
+
+                      ## Downloads
+
+                      - **macOS (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-arm64`
+                      - **macOS (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64`
+                      - **Linux (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-arm64`
+                      - **Linux (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64`
+                      - **Windows (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64.exe`
+
+                      Verify downloads using `checksums.txt`.
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Assets
+              run: |
+                  cd release-assets
+                  for file in *; do
+                    echo "Uploading: $file"
+                    curl \
+                      -X POST \
+                      -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                      -H "Content-Type: application/octet-stream" \
+                      --data-binary @"$file" \
+                      "${{ steps.create_release.outputs.upload_url }}?name=$file"
+                  done
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: pled-binaries-v${{ steps.version.outputs.VERSION }}
+                  path: release-assets/
+                  retention-days: 30
