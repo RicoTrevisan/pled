@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(cat:*)",
-      "Bash(mix test:*)"
-    ],
-    "deny": []
-  }
-}
