@@ -1,0 +1,30 @@
+version: 2
+
+updates:
+    - package-ecosystem: "mix"
+      directory: "/"
+      schedule:
+          interval: "weekly"
+      groups:
+          elixir-dependencies:
+              applies-to: version-updates
+              patterns:
+                  - "*"
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule:
+          interval: "weekly"
+      groups:
+          github-actions-dependencies:
+              applies-to: version-updates
+              patterns:
+                  - "*"
+    - package-ecosystem: "npm"
+      directory: "/assets"
+      schedule:
+          interval: "weekly"
+      groups:
+          js-dependencies:
+              applies-to: version-updates
+              patterns:
+                  - "*"
