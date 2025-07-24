@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(mix test:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": []
+  }
+}
