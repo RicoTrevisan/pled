@@ -6,6 +6,19 @@ defmodule Pled.Commands.Encoder do
   alias Pled.Commands.Encoder.Action
 
   def encode do
+    if not File.exists?("src/") do
+      IO.puts(" ")
+      IO.puts(" ")
+
+      IO.puts(IO.ANSI.red() <> "No src directory found." <> IO.ANSI.reset())
+      IO.puts("Run `pled push` first.")
+
+      IO.puts(" ")
+      IO.puts(" ")
+
+      System.halt(1)
+    end
+
     dist_dir = "dist"
     File.mkdir_p(dist_dir)
 
@@ -35,11 +48,11 @@ defmodule Pled.Commands.Encoder do
 
         dist_dir
         |> Path.join("plugin.json")
-        |> File.write(output_json |> Jason.encode!(pretty: true))
+        |> File.write(output_json |> Jason.encode!())
 
         IO.puts("dist/plugin.json generated")
         :ok
-        
+
       {:error, reason} ->
         IO.puts("\n❌ Encoding failed: #{reason}")
         IO.puts("Please fix the issues and try again.")
