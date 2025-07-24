@@ -36,7 +36,7 @@ defmodule Pled.Commands.Decoder do
 
     # write the key name to the directory
     File.write("#{action_dir}/.key", key)
-    File.write("#{action_dir}/#{key}.json", Jason.encode!(action_data, pretty: true))
+    File.write("#{action_dir}/#{key}.json", Jason.encode!(action_data))
 
     ["client", "server"]
     |> Enum.each(fn func ->
@@ -71,7 +71,7 @@ defmodule Pled.Commands.Decoder do
 
     # write the key name to the directory
     File.write("#{element_dir}/.key", key)
-    File.write("#{element_dir}/#{key}.json", Jason.encode!(element_data, pretty: true))
+    File.write("#{element_dir}/#{key}.json", Jason.encode!(element_data))
 
     decode_element_html_header(element_data, element_dir)
     decode_element_functions(element_data, element_dir)
