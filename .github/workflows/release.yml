@@ -1,11 +1,10 @@
 name: Build and Release
 
 on:
-    push:
+    pull_request:
+        types: [opened, reopened, synchronize, closed]
         branches:
             - main
-        tags:
-            - "v*"
 
 permissions:
     contents: write
