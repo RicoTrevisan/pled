@@ -51,5 +51,9 @@ defmodule Pled.CLI do
     end
   end
 
-  def handle_command({:help, _opts}), do: Commands.Help.run()
+  def handle_command({:help, _opts}) do
+    case Commands.Help.run() do
+      :ok -> :ok
+    end
+  end
 end
