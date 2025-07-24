@@ -1,76 +1,145 @@
-name: Release CLI Binaries
+name: Build and Release
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
-    build:
-        name: Build and Release
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                os: [ubuntu-latest, macos-latest, windows-latest]
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18.3'
+          otp-version: '27.1'
 
-            - name: Set up Elixir
-              uses: erlef/setup-beam@v1
-              with:
-                  elixir-version: "1.18" # from your mix.exs
-                  otp-version: "27"
+      - name: Restore dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('**/mix.exs') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-
+            ${{ runner.os }}-mix-
 
-            - name: Restore dependencies cache
-              uses: actions/cache@v4
-              with:
-                  path: deps
-                  key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-mix-
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xz-utils
+          
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.14.1
 
-            - name: Install dependencies
-              run: mix deps.get
+      - name: Install dependencies
+        run: mix deps.get
 
-            - name: Compile project
-              run: mix compile
+      - name: Compile project
+        run: mix compile
 
-            - name: Build release with Burrito
-              run: MIX_ENV=prod mix release
+      - name: Build release binaries
+        run: MIX_ENV=prod mix release
+        
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
 
-            - name: Upload artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: pled-${{ runner.os }}
-                  path: _build/prod/rel/pled/burrito_out/*
+      - name: Prepare release assets
+        run: |
+          mkdir -p release-assets
+          cd burrito_out
+          for file in *; do
+            if [ -f "$file" ]; then
+              # Get file extension if it exists
+              if [[ "$file" == *.exe ]]; then
+                ext=".exe"
+                base_name="${file%.*}"
+              else
+                ext=""
+                base_name="$file"
+              fi
+              
+              # Create descriptive name based on original filename
+              case "$base_name" in
+                *macos_x86*|*darwin_x86*)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
+                  ;;
+                *macos_arm*|*darwin_arm*|*macos)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-arm64${ext}"
+                  ;;
+                *linux_x86*)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64${ext}"
+                  ;;
+                *linux_arm*)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-arm64${ext}"
+                  ;;
+                *windows*)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64${ext}"
+                  ;;
+                *)
+                  new_name="pled-v${{ steps.version.outputs.VERSION }}-${base_name}${ext}"
+                  ;;
+              esac
+              
+              cp "$file" "../release-assets/$new_name"
+              echo "Prepared: $new_name"
+            fi
+          done
 
-    release:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+      - name: Generate checksums
+        run: |
+          cd release-assets
+          sha256sum * > checksums.txt
+          echo "Generated checksums:"
+          cat checksums.txt
 
-            - name: Download all artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  path: ./artifacts
+      - name: Create Release (only on main branch)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Release v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Changes
+            
+            Auto-generated release with cross-platform binaries.
+            
+            ## Downloads
+            
+            - **macOS (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-arm64`
+            - **macOS (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64`  
+            - **Linux (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-arm64`
+            - **Linux (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64`
+            - **Windows (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64.exe`
+            
+            Verify downloads using `checksums.txt`.
+          files: release-assets/*
+          draft: false
+          prerelease: false
 
-            - name: List downloaded files
-              run: ls -R ./artifacts
-
-            - name: Create Release
-              id: create_release
-              uses: softprops/action-gh-release@v2
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  tag_name: v${{ github.run_number }}
-                  name: Release v${{ github.run_number }}
-                  draft: false
-                  prerelease: false
-                  files: |
-                      ./artifacts/pled-Linux/*
-                      ./artifacts/pled-macOS/*
-                      ./artifacts/pled-Windows/*
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pled-binaries-v${{ steps.version.outputs.VERSION }}
+          path: release-assets/
+          retention-days: 30
