@@ -3,7 +3,11 @@
     "allow": [
       "Bash(cat:*)",
       "Bash(mix test:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:beam-machine-universal.b-cdn.net)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
