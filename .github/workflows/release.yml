@@ -5,7 +5,7 @@ on:
         branches:
             - main
         tags:
-            - 'v*'
+            - "v*"
 
 permissions:
     contents: write
@@ -53,6 +53,13 @@ jobs:
                   VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
                   echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
                   echo "Extracted version: $VERSION"
+
+            - name: Create and push tag
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git tag v${{ steps.version.outputs.VERSION }}
+                  git push origin v${{ steps.version.outputs.VERSION }}
 
             - name: Prepare release assets
               run: |
