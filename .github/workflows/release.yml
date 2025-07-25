@@ -1,10 +1,11 @@
 name: Build and Release
 
 on:
-    pull_request:
-        types: [opened, reopened, synchronize, closed]
+    push:
         branches:
             - main
+        tags:
+            - 'v*'
 
 permissions:
     contents: write
@@ -103,13 +104,11 @@ jobs:
                   cat checksums.txt
 
             - name: Create Release
-              id: create_release
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              uses: softprops/action-gh-release@v2
+              if: startsWith(github.ref, 'refs/tags/')
               with:
                   tag_name: v${{ steps.version.outputs.VERSION }}
-                  release_name: Release v${{ steps.version.outputs.VERSION }}
+                  name: Release v${{ steps.version.outputs.VERSION }}
                   body: |
                       ## Changes
 
@@ -124,21 +123,10 @@ jobs:
                       - **Windows (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64.exe`
 
                       Verify downloads using `checksums.txt`.
+                  files: release-assets/*
                   draft: false
                   prerelease: false
-
-            - name: Upload Release Assets
-              run: |
-                  cd release-assets
-                  for file in *; do
-                    echo "Uploading: $file"
-                    curl \
-                      -X POST \
-                      -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                      -H "Content-Type: application/octet-stream" \
-                      --data-binary @"$file" \
-                      "${{ steps.create_release.outputs.upload_url }}?name=$file"
-                  done
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Upload build artifacts
               uses: actions/upload-artifact@v4
