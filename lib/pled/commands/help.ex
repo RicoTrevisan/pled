@@ -1,7 +1,7 @@
 defmodule Pled.Commands.Help do
   def run do
     IO.puts("""
-    Pled - Bubble.io Plugin Development Tool.
+    Pled - Bubble.io Plugin Development Tool
     version #{Application.get_env(:pled, :version)}
 
     Usage:
