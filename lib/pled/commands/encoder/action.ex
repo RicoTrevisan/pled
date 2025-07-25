@@ -44,6 +44,7 @@ defmodule Pled.Commands.Encoder.Action do
     # Get original functions from JSON if they exist
     original_code = Map.get(original_json, "code", %{})
 
+
     server_js =
       action_dir
       |> Path.join("server.js")
@@ -63,6 +64,7 @@ defmodule Pled.Commands.Encoder.Action do
         # Get existing server code block or create empty one
         existing_server = Map.get(original_code, "server", %{})
 
+
         IO.puts("  ✏️  Using modified server function from server.js")
 
         # Update only the server function
@@ -75,6 +77,7 @@ defmodule Pled.Commands.Encoder.Action do
             "async function(properties, context) {\n" <> content <> "\n}"
           )
         )
+
       else
         base_properties
       end
@@ -86,6 +89,7 @@ defmodule Pled.Commands.Encoder.Action do
 
         # Get existing client code block or create empty one
         existing_client = Map.get(original_code, "client", %{})
+
 
         IO.puts("  ✏️  Using modified client function from client.js")
 
@@ -99,6 +103,7 @@ defmodule Pled.Commands.Encoder.Action do
             "function(properties, context) {\n" <> content <> "\n}"
           )
         )
+
       else
         updated_code
       end

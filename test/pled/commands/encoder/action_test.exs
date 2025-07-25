@@ -63,12 +63,14 @@ defmodule Pled.Commands.Encoder.ActionTest do
     } do
       import ExUnit.CaptureIO
 
+
       capture_io(fn ->
         result = Action.encode_actions(src_json, opts)
         send(self(), {:result, result})
       end)
 
       assert_received {:result, result}
+
 
       # Verify the exact original functions are preserved
       encoded_action = result["plugin_actions"]["ABC"]
@@ -99,12 +101,14 @@ defmodule Pled.Commands.Encoder.ActionTest do
         "    console.log('modified server code');\n    return { message: 'modified' };"
       )
 
+
       capture_io(fn ->
         result = Action.encode_actions(src_json, opts)
         send(self(), {:result, result})
       end)
 
       assert_received {:result, result}
+
 
       # Verify the server function was updated but other properties preserved
       encoded_action = result["plugin_actions"]["ABC"]
@@ -134,12 +138,14 @@ defmodule Pled.Commands.Encoder.ActionTest do
         "    console.log('modified client code');\n    alert('hello');"
       )
 
+
       capture_io(fn ->
         result = Action.encode_actions(src_json, opts)
         send(self(), {:result, result})
       end)
 
       assert_received {:result, result}
+
 
       # Verify only client function was updated, everything else preserved
       encoded_action = result["plugin_actions"]["ABC"]
@@ -156,6 +162,7 @@ defmodule Pled.Commands.Encoder.ActionTest do
       assert encoded_action["code"]["package"] == action_json["code"]["package"]
       assert encoded_action["code"]["package_hash"] == action_json["code"]["package_hash"]
     end
+
 
     test "handles missing JS files", %{
       src_json: src_json,
@@ -256,15 +263,18 @@ defmodule Pled.Commands.Encoder.ActionTest do
       src_json = %{"plugin_actions" => %{}}
       opts = [actions_dir: actions_dir]
 
+
       capture_io(fn ->
         result = Action.encode_actions(src_json, opts)
         send(self(), {:result, result})
       end)
 
+
       assert_received {:result, result}
 
       # Should have both actions
       assert Map.keys(result["plugin_actions"]) |> Enum.sort() == ["ABC", "DEF"]
+
     end
   end
 
