@@ -27,3 +27,6 @@ src*
 
 burrito_out/
 .claude*
+
+# Environment files with sensitive data
+.env.exs
