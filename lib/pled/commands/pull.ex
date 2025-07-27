@@ -23,7 +23,7 @@ defmodule Pled.Commands.Pull do
         File.mkdir_p!(output_dir)
 
         plugin_file = Path.join(output_dir, "plugin.json")
-        json_content = Jason.encode!(plugin_data)
+        json_content = Jason.encode!(plugin_data, pretty: true)
 
         case File.write(plugin_file, json_content) do
           :ok ->
