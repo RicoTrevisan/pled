@@ -4,7 +4,7 @@ defmodule Pled.MixProject do
   def project do
     [
       app: :pled,
-      version: "0.0.4-beta",
+      version: "0.0.5-beta",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -39,7 +39,7 @@ defmodule Pled.MixProject do
     targets =
       case Mix.env() do
         :dev ->
-          [macos: [os: :darwin, cpu: :aarch64]]
+          [macos_arm: [os: :darwin, cpu: :aarch64]]
 
         _ ->
           [

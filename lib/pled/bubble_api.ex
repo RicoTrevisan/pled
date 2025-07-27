@@ -72,6 +72,57 @@ defmodule Pled.BubbleApi do
     end
   end
 
+  @doc """
+  Uploads a file to Bubble.io.
+
+  ## Parameters
+  - `file_path`: Path to the file to upload
+  - `file_type`: MIME type of the file (optional, defaults to "text/javascript")
+
+  Requires environment variable:
+  - COOKIE: Authentication cookie for Bubble.io
+
+  Returns `{:ok, cdn_url}` on success or `{:error, reason}` on failure.
+
+  The successful response contains a CDN URL string where the uploaded file can be accessed,
+  e.g., "//meta-q.cdn.bubble.io/f1753595499566x160973835258829250/dist.js"
+  """
+  def upload_file(file_path, file_type \\ "text/javascript") do
+    with {:ok, cookie} <- get_env_var("COOKIE"),
+         {:ok, file_contents} <- File.read(file_path) do
+      url = "https://bubble.io/fileupload"
+
+      headers = [
+        {"cookie", cookie},
+        {"content-type", "application/json; charset=utf-8"}
+      ]
+
+      filename = Path.basename(file_path)
+      encoded_contents = Base.encode64(file_contents)
+
+      body = %{
+        "app_version" => "live",
+        "type" => file_type,
+        "appname" => "meta",
+        "contents" => encoded_contents,
+        "name" => filename
+      }
+
+      case Req.post(url, headers: headers, body: Jason.encode!(body)) do
+        {:ok, %{status: 200, body: response_body}} ->
+          {:ok, response_body}
+
+        {:ok, %{status: status, body: body}} ->
+          {:error, "HTTP #{status}: #{inspect(body)}"}
+
+        {:error, reason} ->
+          {:error, "Request failed: #{inspect(reason)}"}
+      end
+    else
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
   defp get_env_var(name) do
     case System.get_env(name) do
       nil -> {:error, "Environment variable #{name} is not set"}

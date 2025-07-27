@@ -13,6 +13,7 @@ defmodule Pled.CLI do
       ["push"] -> {:push, []}
       ["push" | opts] -> {:push, opts}
       ["encode"] -> {:encode, []}
+      ["upload", file_path] -> {:upload, file_path}
       [] -> {:help, []}
       _ -> {:help, []}
     end
@@ -47,6 +48,17 @@ defmodule Pled.CLI do
 
       {:error, reason} ->
         IO.warn("Push failed, #{inspect(reason)}")
+        System.halt(1)
+    end
+  end
+
+  def handle_command({:upload, file_path}) do
+    case Commands.Upload.run(file_path) do
+      :ok ->
+        :ok
+
+      {:error, reason} ->
+        IO.warn("Upload failed: #{inspect(reason)}")
         System.halt(1)
     end
   end
