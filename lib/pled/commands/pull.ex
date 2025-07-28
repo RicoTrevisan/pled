@@ -2,19 +2,24 @@ defmodule Pled.Commands.Pull do
   require Logger
   alias Pled.Commands.Decoder
 
-  def run() do
+  def run(opts) do
     IO.puts("Fetching plugin from Bubble.io...")
-    IO.puts("Wiping src and dist directories...")
 
-    with {:ok, dist} <- File.rm_rf("dist"),
-         {:ok, src} <- File.rm_rf("src") do
-      IO.puts("removed:")
-      Enum.each(dist, &IO.puts(&1))
-      Enum.each(src, &IO.puts(&1))
-    else
-      {:error, reason, _file} ->
-        Logger.error(reason)
-        {:error, reason}
+    wipe? = Keyword.get(opts, :wipe, false)
+
+    if wipe? do
+      IO.puts("Wiping src and dist directories...")
+
+      with {:ok, dist} <- File.rm_rf("dist"),
+           {:ok, src} <- File.rm_rf("src") do
+        IO.puts("removed:")
+        Enum.each(dist, &IO.puts(&1))
+        Enum.each(src, &IO.puts(&1))
+      else
+        {:error, reason, _file} ->
+          Logger.error(reason)
+          {:error, reason}
+      end
     end
 
     case Pled.BubbleApi.fetch_plugin() do

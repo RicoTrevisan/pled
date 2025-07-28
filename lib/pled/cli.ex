@@ -8,14 +8,35 @@ defmodule Pled.CLI do
 
   def parse_args(args) do
     case args do
-      ["pull"] -> {:pull, []}
-      ["pull" | opts] -> {:pull, opts}
-      ["push"] -> {:push, []}
-      ["push" | opts] -> {:push, opts}
-      ["encode"] -> {:encode, []}
-      ["upload", file_path] -> {:upload, file_path}
-      [] -> {:help, []}
-      _ -> {:help, []}
+      ["pull" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [wipe: :boolean, help: :boolean],
+            aliases: [w: :wipe, h: :help]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:pull, parsed}
+
+      ["push" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean],
+            aliases: [h: :help]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:push, parsed}
+
+      ["encode"] ->
+        {:encode, []}
+
+      ["upload", file_path] ->
+        {:upload, file_path}
+
+      [] ->
+        {:help, []}
+
+      _ ->
+        {:help, []}
     end
   end
 
@@ -30,8 +51,8 @@ defmodule Pled.CLI do
     end
   end
 
-  def handle_command({:pull, _opts}) do
-    case Commands.Pull.run() do
+  def handle_command({:pull, opts}) do
+    case Commands.Pull.run(opts) do
       :ok ->
         :ok
 
