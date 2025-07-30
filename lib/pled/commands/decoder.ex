@@ -160,5 +160,6 @@ defmodule Pled.Commands.Decoder do
     string
     |> String.replace(~r/(async )?function\([^)]+\) \{/, "")
     |> String.replace(~r/\}\n*$/, "")
+    |> String.trim()
   end
 end
