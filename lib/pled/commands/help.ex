@@ -10,7 +10,7 @@ defmodule Pled.Commands.Help do
     Usage:
       pled pull             Fetch plugin from Bubble.io and save to src/plugin.json
       pled push             Encodes and then upload plugin to Bubble.io (not yet implemented)
-      pled encode           Prepares the files to upload.
+      pled encode           Prepares the files to upload
       pled upload <file>    Upload a file to Bubble.io CDN
       pled start            Starts the server that watches the `src/` directory for changes and pushes it to Bubble.
 
