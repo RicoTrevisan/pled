@@ -4,7 +4,7 @@ defmodule Pled.MixProject do
   def project do
     [
       app: :pled,
-      version: "0.0.7-beta",
+      version: "0.0.9-beta",
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -29,7 +29,8 @@ defmodule Pled.MixProject do
     [
       {:req, "~> 0.5.4"},
       {:burrito, "~> 1.0"},
-      {:slugify, "~> 1.3"}
+      {:slugify, "~> 1.3"},
+      {:file_system, "~> 1.0"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
