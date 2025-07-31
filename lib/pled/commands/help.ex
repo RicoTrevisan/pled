@@ -1,7 +1,10 @@
 defmodule Pled.Commands.Help do
   def run do
+    logo()
+
     IO.puts("""
-    Pled - Bubble.io Plugin Development Tool
+
+    Bubble.io Plugin Development Tool
     version #{Application.get_env(:pled, :version)}
 
     Usage:
@@ -9,6 +12,7 @@ defmodule Pled.Commands.Help do
       pled push             Encodes and then upload plugin to Bubble.io (not yet implemented)
       pled encode           Prepares the files to upload.
       pled upload <file>    Upload a file to Bubble.io CDN
+      pled start            Starts the server that watches the `src/` directory for changes and pushes it to Bubble.
 
     Required Environment Variables:
       PLUGIN_ID         The ID of the plugin to fetch
@@ -16,5 +20,17 @@ defmodule Pled.Commands.Help do
     """)
 
     :ok
+  end
+
+  def logo do
+    IO.puts(~S(
+        __________________________________________________________
+       ___/\/\/\/\/\____/\/\________/\/\/\/\/\/\__/\/\/\/\/\_____
+      ___/\/\____/\/\__/\/\________/\____________/\/\____/\/\___
+     ___/\/\/\/\/\____/\/\________/\/\/\/\/\____/\/\____/\/\___
+    ___/\/\__________/\/\________/\/\__________/\/\____/\/\___
+   ___/\/\__________/\/\/\/\/\__/\/\/\/\/\/\__/\/\/\/\/\_____
+  __________________________________________________________
+        ))
   end
 end

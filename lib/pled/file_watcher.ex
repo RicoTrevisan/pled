@@ -104,8 +104,9 @@ defmodule Pled.FileWatcher do
 
   # Private functions
 
-  defp should_handle_file?(path, events) do
-    is_js_file?(path) and has_relevant_events?(events)
+  defp should_handle_file?(_path, events) do
+    # is_js_file?(path) and
+    has_relevant_events?(events)
   end
 
   defp is_js_file?(path) do

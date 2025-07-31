@@ -4,6 +4,7 @@ defmodule Pled do
   """
   require Logger
 
+  alias Pled.Commands.Help
   alias Pled.Commands
 
   @spec main([String.t()]) :: no_return()
@@ -47,6 +48,7 @@ defmodule Pled do
         {:upload, file_path}
 
       ["start"] ->
+        Help.logo()
         IO.puts(IO.ANSI.blue_background() <> "Starting file watcher" <> IO.ANSI.reset())
         IO.puts("hit Ctrl+C twice to stop")
         {:start, []}
