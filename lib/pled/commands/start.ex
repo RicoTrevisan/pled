@@ -3,6 +3,7 @@ defmodule Pled.Commands.Start do
   Command to start the file watcher that automatically runs `pled push`
   when JavaScript files in the src/ directory are changed.
   """
+  alias Pled.Commands.Help
 
   def run() do
     try do
@@ -12,6 +13,7 @@ defmodule Pled.Commands.Start do
           Process.sleep(:infinity)
 
         {:error, {:already_started, _pid}} ->
+          Help.logo()
           IO.puts("File watcher is already running")
           Process.sleep(:infinity)
 
