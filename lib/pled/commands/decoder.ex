@@ -3,7 +3,22 @@ defmodule Pled.Commands.Decoder do
     decode_elements(plugin_data, base_dir)
     decode_actions(plugin_data, base_dir)
     decode_html_header(plugin_data, base_dir)
+    clean_plugin_data(base_dir)
     :ok
+  end
+
+  def clean_plugin_data(base_dir) do
+    keys_to_drop = ["html_header", "plugin_actions", "plugin_elements"]
+
+    plugin_path = Path.join([base_dir, "src", "plugin.json"])
+
+    updated_json =
+      plugin_path
+      |> File.read!()
+      |> Jason.decode!()
+      |> Map.drop(keys_to_drop)
+
+    File.write!(plugin_path, Jason.encode!(updated_json, pretty: true))
   end
 
   def decode_html_header(plugin_data, base_dir) do
