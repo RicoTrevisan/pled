@@ -93,15 +93,19 @@ defmodule Pled.Commands.Decoder do
     File.mkdir_p!(element_dir)
 
     # write the key name to the directory
-    File.write("#{element_dir}/.key", key)
-    File.write("#{element_dir}/#{key}.json", Jason.encode!(element_data, pretty: true))
+    # File.write("#{element_dir}/.key", key)
 
     decode_element_html_header(element_data, element_dir)
     decode_element_functions(element_data, element_dir)
     decode_element_actions_js(element_data, element_dir)
     decode_element_fields(element_data, element_dir)
-    decode_element_fields(element_data, element_dir)
-    :ok
+
+    write_cleaned_element_data("#{element_dir}/#{key}.json", element_data)
+  end
+
+  def write_cleaned_element_data(path, element_data) do
+    cleaned_element_data = Map.drop(element_data, ["code", "actions", "headers", "fields"])
+    File.write(path, Jason.encode!(cleaned_element_data, pretty: true))
   end
 
   def decode_element_fields(element_data, element_dir) do

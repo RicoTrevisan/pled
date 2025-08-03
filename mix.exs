@@ -30,7 +30,8 @@ defmodule Pled.MixProject do
       {:req, "~> 0.5.4"},
       {:burrito, "~> 1.0"},
       {:slugify, "~> 1.3"},
-      {:file_system, "~> 1.0"}
+      {:file_system, "~> 1.0"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]

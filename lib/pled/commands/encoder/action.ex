@@ -22,15 +22,11 @@ defmodule Pled.Commands.Encoder.Action do
 
   def encode_action(action_dir) do
     IO.puts("encoding action #{action_dir}")
-
-    key =
-      action_dir
-      |> Path.join(".key")
-      |> File.read!()
+    key = action_dir |> String.split("-") |> List.last()
 
     json =
-      action_dir
-      |> Path.join("#{key}.json")
+      Path.wildcard(action_dir <> "/*.json")
+      |> List.first()
       |> File.read!()
       |> Jason.decode!()
 
@@ -63,7 +59,7 @@ defmodule Pled.Commands.Encoder.Action do
         # Get existing server code block or create empty one
         existing_server = Map.get(original_code, "server", %{})
 
-        IO.puts("  ✏️  Using modified server function from server.js")
+        IO.puts("Using modified server function from server.js")
 
         # Update only the server function
         Map.put(
@@ -87,7 +83,7 @@ defmodule Pled.Commands.Encoder.Action do
         # Get existing client code block or create empty one
         existing_client = Map.get(original_code, "client", %{})
 
-        IO.puts("  ✏️  Using modified client function from client.js")
+        IO.puts("Using modified client function from client.js")
 
         # Update only the client function
         Map.put(

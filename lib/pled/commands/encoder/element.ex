@@ -2,9 +2,7 @@ defmodule Pled.Commands.Encoder.Element do
   def encode_elements(%{} = src_json, opts) do
     IO.puts("checking if plugin has elements...")
 
-    elements_dir =
-      opts
-      |> Keyword.get(:elements_dir)
+    elements_dir = Keyword.get(opts, :elements_dir)
 
     if File.exists?(elements_dir) do
       IO.puts("encoding elements...")
@@ -13,7 +11,9 @@ defmodule Pled.Commands.Encoder.Element do
         elements_dir
         |> File.ls!()
 
-      IO.puts("found elements: #{Enum.map(found_elements, &(&1 <> ", "))}")
+      IO.puts(
+        "found #{Enum.count(found_elements)} element#{if Enum.count(found_elements) == 1, do: "", else: "s"}: #{Enum.join(found_elements, ", ")}"
+      )
 
       # Process elements and check for errors
       result =
@@ -36,7 +36,7 @@ defmodule Pled.Commands.Encoder.Element do
           {:ok, Map.merge(src_json, %{"plugin_elements" => elements})}
 
         {:error, reason} ->
-          IO.puts("\n❌ Element encoding failed: #{reason}")
+          IO.puts("\nElement encoding failed: #{reason}")
           {:error, reason}
       end
     else
@@ -48,10 +48,7 @@ defmodule Pled.Commands.Encoder.Element do
   def encode_element(element_dir) do
     IO.puts("encoding element #{element_dir}")
 
-    key =
-      element_dir
-      |> Path.join(".key")
-      |> File.read!()
+    key = element_dir |> String.split("-") |> List.last()
 
     json =
       element_dir
@@ -218,7 +215,7 @@ defmodule Pled.Commands.Encoder.Element do
       end
     else
       if File.exists?(actions_dir) and not Map.has_key?(json, "actions") do
-        IO.puts("⚠️  Warning: Actions directory exists but no actions found in JSON")
+        IO.puts("Warning: Actions directory exists but no actions found in JSON")
       end
 
       json
@@ -386,7 +383,7 @@ defmodule Pled.Commands.Encoder.Element do
                   "function(instance, properties, context) {\n" <> js_content <> "\n}"
                 )
 
-              IO.puts("✅ Updated action #{key} from #{js_file}")
+              # IO.puts("✅ Updated action #{key} from #{js_file}")
               Map.put(actions, key, updated_action)
             else
               IO.puts(

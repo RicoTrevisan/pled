@@ -1,4 +1,4 @@
-defmodule Pled.IntegrationTest do
+defmodule Pled.EndToEndTest do
   use ExUnit.Case, async: true
 
   alias Pled.Commands.Encoder
@@ -13,6 +13,7 @@ defmodule Pled.IntegrationTest do
     File.cp(example_path, Path.join([tmp_dir, "src", "plugin.json"]))
 
     src_path = Path.join([tmp_dir, "src"])
+    dist_path = Path.join([tmp_dir, "dist"])
     plugin_data = File.read!(Path.join(src_path, "plugin.json"))
 
     cwd = File.cwd!()
@@ -22,9 +23,13 @@ defmodule Pled.IntegrationTest do
     |> Jason.decode!()
     |> Decoder.decode()
 
+    Encoder.encode()
+
     File.cd!(cwd)
 
-    {:ok, src_path: src_path}
+    dist_json = dist_path |> Path.join("plugin.json") |> File.read!() |> Jason.decode!()
+
+    {:ok, src_path: src_path, dist_path: dist_path, dist_json: dist_json}
   end
 
   test "decode/1 extracts 4 root files", %{src_path: src_path} do
@@ -36,15 +41,28 @@ defmodule Pled.IntegrationTest do
            ]
   end
 
-  describe "decode/1 actions" do
-    test "src/actions has 1 action", %{src_path: src_path} do
+  describe "plugin_actions" do
+    test "src/actions has 1 action", %{src_path: src_path, dist_json: dist_json} do
       actions_path = Path.join(src_path, "actions")
       assert File.ls!(actions_path) == ["generate-jwt-key-AEK"]
+
+      assert Map.has_key?(dist_json, "plugin_actions") == true
+      assert Map.has_key?(dist_json["plugin_actions"], "AEK") == true
+      assert Enum.count(dist_json["plugin_actions"]) == 1
     end
 
-    test "src/actions/action has only json and js in action ", %{src_path: src_path} do
+    test "src/actions/action decoded action exists in encoded json ", %{
+      src_path: src_path,
+      dist_json: dist_json
+    } do
       action_path = Path.join([src_path, "actions", "generate-jwt-key-AEK"])
       assert File.ls!(action_path) == ["server.js", "generate-jwt-key.json"]
+      src_server_js = action_path |> Path.join("server.js") |> File.read!()
+
+      server_js = get_in(dist_json, ["plugin_actions", "AEK", "code", "server", "fn"])
+      assert String.starts_with?(server_js, "async function(properties, context)")
+
+      assert server_js =~ String.slice(src_server_js, 0..10)
     end
 
     test "src/actions/action/action.json doesn't have server key", %{src_path: src_path} do
@@ -60,27 +78,59 @@ defmodule Pled.IntegrationTest do
     end
   end
 
-  describe "decode/1 elements" do
-    test "decode less files", %{src_path: src_path} do
+  describe "plugin_elements" do
+    test "src/elements has element", %{src_path: src_path} do
       elements_path = Path.join(src_path, "elements")
       assert File.ls!(elements_path) == ["tiptap-AAC"]
+    end
 
-      element_path = Path.join(elements_path, "tiptap-AAC")
+    test "src/elements/element has the correct amount of files", %{src_path: src_path} do
+      element_path = Path.join([src_path, "elements", "tiptap-AAC"])
 
       assert File.ls!(element_path) == [
                "reset.js",
                "preview.js",
-               # ".key",
                "update.js",
                "initialize.js",
                "fields.txt",
                "actions",
                "AAC.json"
              ]
+    end
 
-      # TODO: assert that JSON doesn't have code
+    test "src/elements/element/.json doesn't have repeated keys", %{src_path: src_path} do
+      element_path = Path.join([src_path, "elements", "tiptap-AAC"])
 
-      element_actions_path = Path.join(element_path, "actions")
+      json =
+        Path.wildcard(element_path <> "/*.json")
+        |> List.first()
+        |> File.read!()
+        |> Jason.decode!()
+
+      refute Map.has_key?(json, "code")
+    end
+
+    test "dist/plugin.json has element code", %{src_path: src_path, dist_json: dist_json} do
+      actions = ["initialize", "update", "reset", "preview"]
+      element_map = get_in(dist_json, ["plugin_elements", "AAC", "code"])
+
+      decoded_element_path = Path.join([src_path, "elements", "tiptap-AAC"])
+
+      Enum.each(actions, fn action ->
+        assert Map.has_key?(element_map, action)
+        assert Map.has_key?(element_map[action], "fn")
+        action_js = get_in(element_map, [action, "fn"])
+
+        decoded_action_js =
+          Path.join(decoded_element_path, action <> ".js") |> File.read!()
+
+        assert String.starts_with?(action_js, "function(")
+        assert action_js =~ String.slice(decoded_action_js, 0..10)
+      end)
+    end
+
+    test "src/elements/element/* doesn't have repeated keys", %{src_path: src_path} do
+      element_actions_path = Path.join([src_path, "elements", "tiptap-AAC", "actions"])
 
       assert File.ls!(element_actions_path) == [
                "task-list-ABS.js",
@@ -132,12 +182,6 @@ defmodule Pled.IntegrationTest do
                "h4-AAy.js",
                "code-block-ABN.js"
              ]
-
-      # test "encode" do
-      #   Encoder.encode()
-
-      #   dist_path = File.cwd!() |> File.join("dist")
-      #   File.ls!(dist_path) |> dbg()
     end
   end
 end

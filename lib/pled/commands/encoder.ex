@@ -48,7 +48,7 @@ defmodule Pled.Commands.Encoder do
 
         dist_dir
         |> Path.join("plugin.json")
-        |> File.write(output_json |> Jason.encode!())
+        |> File.write(output_json |> Jason.encode!(pretty: true))
 
         IO.puts("dist/plugin.json generated")
         :ok
