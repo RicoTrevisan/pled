@@ -49,10 +49,6 @@ defmodule Pled.Commands.Decoder do
     action_dir = Path.join(actions_dir, "#{name}-#{key}")
     File.mkdir_p!(action_dir)
 
-    # write the key name to the directory
-    File.write("#{action_dir}/.key", key)
-    File.write("#{action_dir}/#{key}.json", Jason.encode!(action_data, pretty: true))
-
     ["client", "server"]
     |> Enum.each(fn func ->
       content =
@@ -64,6 +60,18 @@ defmodule Pled.Commands.Decoder do
       |> Path.join("#{func}.js")
       |> File.write(content)
     end)
+
+    clean_action_data(name, action_data, action_dir)
+  end
+
+  def clean_action_data(name, action_data, action_dir) do
+    file_path = Path.join(action_dir, "#{name}.json")
+    code_data = Map.drop(action_data["code"], ["server", "client"])
+
+    updated_action_data =
+      Map.put(action_data, "code", code_data)
+
+    File.write(file_path, Jason.encode!(updated_action_data, pretty: true))
   end
 
   #
