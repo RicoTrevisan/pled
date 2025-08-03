@@ -116,10 +116,9 @@ jobs:
 
             - name: Create Release
               uses: softprops/action-gh-release@v2
-              if: startsWith(github.ref, 'refs/tags/')
               with:
-                  tag_name: ${{ github.ref_name }}
-                  name: Release ${{ github.ref_name }}
+                  tag_name: v${{ steps.version.outputs.VERSION }}
+                  name: Release v${{ steps.version.outputs.VERSION }}
                   body: |
                       ## Changes
 
