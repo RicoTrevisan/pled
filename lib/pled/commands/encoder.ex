@@ -7,15 +7,8 @@ defmodule Pled.Commands.Encoder do
 
   def encode do
     if not File.exists?("src/") do
-      IO.puts(" ")
-      IO.puts(" ")
-
       IO.puts(IO.ANSI.red() <> "No src directory found." <> IO.ANSI.reset())
-      IO.puts("Run `pled push` first.")
-
-      IO.puts(" ")
-      IO.puts(" ")
-
+      IO.puts("Run `pled pull` first.")
       System.halt(1)
     end
 
