@@ -104,7 +104,24 @@ defmodule Pled.Commands.Decoder do
   end
 
   def write_cleaned_element_data(path, element_data) do
-    cleaned_element_data = Map.drop(element_data, ["code", "actions", "headers", "fields"])
+    actions =
+      case Map.get(element_data, "actions", nil) do
+        nil ->
+          %{}
+
+        actions ->
+          Enum.reduce(actions, %{}, fn {key, value}, acc ->
+            updated_value = Map.drop(value, ["code"])
+
+            Map.merge(acc, %{key => updated_value})
+          end)
+      end
+
+    cleaned_element_data =
+      element_data
+      |> Map.drop(["code", "headers", "fields"])
+      |> Map.put("actions", actions)
+
     File.write(path, Jason.encode!(cleaned_element_data, pretty: true))
   end
 

@@ -378,10 +378,9 @@ defmodule Pled.Commands.Encoder.Element do
             if Map.has_key?(actions, key) do
               updated_action =
                 actions[key]
-                |> put_in(
-                  ["code", "fn"],
-                  "function(instance, properties, context) {\n" <> js_content <> "\n}"
-                )
+                |> Map.put("code", %{
+                  "fn" => "function(instance, properties, context) {\n" <> js_content <> "\n}"
+                })
 
               # IO.puts("✅ Updated action #{key} from #{js_file}")
               Map.put(actions, key, updated_action)

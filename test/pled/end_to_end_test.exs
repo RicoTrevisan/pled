@@ -129,6 +129,43 @@ defmodule Pled.EndToEndTest do
       end)
     end
 
+    test "plugin actions work", %{src_path: src_path, dist_json: dist_json} do
+      element_json =
+        Path.join([
+          src_path,
+          "elements",
+          "tiptap-AAC",
+          "AAC.json"
+        ])
+        |> File.read!()
+        |> Jason.decode!()
+        |> dbg()
+
+      action_path =
+        Path.join([
+          src_path,
+          "elements",
+          "tiptap-AAC",
+          "actions",
+          "table-toggle-header-row-ACp.js"
+        ])
+
+      action_js = File.read!(action_path)
+      assert String.starts_with?(action_js, "if (!instance.data.editor_is_ready)\n ")
+
+      assert element_json["actions"]["ACp"] == %{
+               "caption" => "Table toggle header row"
+             }
+
+      action =
+        get_in(dist_json, ["plugin_elements", "AAC", "actions", "ACp"])
+
+      assert action["caption"] == "Table toggle header row"
+      code = action["code"]["fn"] |> dbg()
+      assert String.starts_with?(code, "function(instance, properties, context) {")
+      assert code =~ "instance.data.editor.chain().focus().toggleHeaderRow().run();"
+    end
+
     test "src/elements/element/* doesn't have repeated keys", %{src_path: src_path} do
       element_actions_path = Path.join([src_path, "elements", "tiptap-AAC", "actions"])
 
