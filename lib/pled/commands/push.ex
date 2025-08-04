@@ -1,9 +1,8 @@
 defmodule Pled.Commands.Push do
   alias Pled.Commands.Encoder
-  alias Pled.UI
 
   def run(opts) do
-    verbose? = Keyword.get(opts, :verbose, false)
+    # verbose? = Keyword.get(opts, :verbose, false)
     IO.puts("pushing")
 
     case Encoder.encode(opts) do
