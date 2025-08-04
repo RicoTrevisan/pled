@@ -19,13 +19,19 @@ concurrency:
 
 jobs:
     build:
+        name: Build (${{ matrix.target }})
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                target: [macos_x86, macos_arm, linux_arm, linux_x86, windows]
 
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
 
             - name: Set up Elixir
+              id: beam
               uses: erlef/setup-beam@v1
               with:
                   elixir-version: "1.18"
@@ -37,6 +43,14 @@ jobs:
                   path: deps
                   key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
                   restore-keys: ${{ runner.os }}-mix-
+
+            - name: Cache _build
+              uses: actions/cache@v4
+              with:
+                  path: _build
+                  key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ steps.beam.outputs.otp-version || '27.0' }}-${{ steps.beam.outputs.elixir-version || '1.18' }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-
 
             - name: Install Zig
               uses: mlugg/setup-zig@v2
@@ -51,8 +65,47 @@ jobs:
             - name: Install dependencies
               run: mix deps.get
 
-            - name: Build release binaries
-              run: MIX_ENV=prod mix release
+            - name: Fetch tags
+              run: |
+                  git fetch --tags --force --prune --depth=1
+
+            - name: Verify version is greater than latest tag
+              if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+              run: |
+                  MIX_VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
+                  echo "mix.exs version: $MIX_VERSION"
+
+                  LATEST_TAG=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
+                  if [ -z "$LATEST_TAG" ]; then
+                    echo "No version tags found. Skipping comparison."
+                    exit 0
+                  fi
+                  echo "Latest git tag: $LATEST_TAG"
+
+                  node -v >/dev/null 2>&1 || (curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs)
+                  npm -g list semver >/dev/null 2>&1 || sudo npm i -g semver
+
+                  TAG_VERSION="${LATEST_TAG#v}"
+
+                  node -e "require('semver'); if(!require('semver').valid(process.argv[1]))process.exit(1)" "$TAG_VERSION"
+                  node -e "require('semver'); if(!require('semver').valid(process.argv[1]))process.exit(1)" "$MIX_VERSION"
+
+                  node -e "const semver=require('semver'); const mix=process.argv[1], tag=process.argv[2]; if(!semver.gt(mix, tag)){console.error(`Version in mix.exs (${mix}) must be greater than latest tag (${tag}).`); process.exit(1)} else { console.log(`Version OK: ${mix} > ${tag}`) }" "$MIX_VERSION" "$TAG_VERSION"
+
+            - name: Check formatting
+              if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+              run: mix format --check-formatted
+
+            - name: Run tests
+              if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+              run: mix test
+
+            - name: Build release binaries (all)
+              env:
+                  MIX_ENV: prod
+              run: |
+                  mix release
+                  ls -la burrito_out || true
 
             - name: Extract version
               id: version
@@ -66,45 +119,86 @@ jobs:
                   fi
                   echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
-            - name: Prepare release assets
+            - name: Prepare single-target release asset
               run: |
                   mkdir -p release-assets
                   cd burrito_out
-                  for file in *; do
-                    if [ -f "$file" ]; then
-                      if [[ "$file" == *.exe ]]; then
-                        ext=".exe"
-                        base_name="${file%.*}"
-                      else
-                        ext=""
-                        base_name="$file"
-                      fi
 
-                      case "$base_name" in
-                        *macos_x86*|*darwin_x86*)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
-                          ;;
-                        *macos_arm*|*darwin_arm*|*macos)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-arm64${ext}"
-                          ;;
-                        *linux_x86*)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64${ext}"
-                          ;;
-                        *linux_arm*)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-arm64${ext}"
-                          ;;
-                        *windows*)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64${ext}"
-                          ;;
-                        *)
-                          new_name="pled-v${{ steps.version.outputs.VERSION }}-${base_name}${ext}"
-                          ;;
-                      esac
+                  # Try to find the artifact corresponding to the current matrix target
+                  case "${{ matrix.target }}" in
+                    macos_x86)
+                      file=$(ls | grep -E "macos_x86|darwin_x86" | head -n 1 || true)
+                      ;;
+                    macos_arm)
+                      file=$(ls | grep -E "macos_arm|darwin_arm|macos$" | head -n 1 || true)
+                      ;;
+                    linux_x86)
+                      file=$(ls | grep -E "linux_x86" | head -n 1 || true)
+                      ;;
+                    linux_arm)
+                      file=$(ls | grep -E "linux_arm" | head -n 1 || true)
+                      ;;
+                    windows)
+                      file=$(ls | grep -E "windows" | head -n 1 || true)
+                      ;;
+                  esac
 
-                      cp "$file" "../release-assets/$new_name"
-                      echo "Prepared: $new_name"
-                    fi
-                  done
+                  if [ -z "$file" ]; then
+                    echo "No artifact found for target ${{ matrix.target }}"
+                    ls -la
+                    exit 1
+                  fi
+
+                  if [[ "$file" == *.exe ]]; then
+                    ext=".exe"
+                    base_name="${file%.*}"
+                  else
+                    ext=""
+                    base_name="$file"
+                  fi
+
+                  case "$base_name" in
+                    *macos_x86*|*darwin_x86*)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
+                      ;;
+                    *macos_arm*|*darwin_arm*|*macos)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-arm64${ext}"
+                      ;;
+                    *linux_x86*)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64${ext}"
+                      ;;
+                    *linux_arm*)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-linux-arm64${ext}"
+                      ;;
+                    *windows*)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64${ext}"
+                      ;;
+                    *)
+                      new_name="pled-v${{ steps.version.outputs.VERSION }}-${base_name}${ext}"
+                      ;;
+                  esac
+
+                  cp "$file" "../release-assets/$new_name"
+                  echo "Prepared: $new_name"
+
+            - name: Upload single-target artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: pled-${{ matrix.target }}
+                  path: release-assets/
+                  retention-days: 30
+
+    publish:
+        name: Publish Release
+        needs: [build]
+        if: startsWith(github.ref, 'refs/tags/v')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download artifacts from all targets
+              uses: actions/download-artifact@v4
+              with:
+                  path: release-assets
+                  merge-multiple: true
 
             - name: Generate checksums
               run: |
@@ -113,15 +207,7 @@ jobs:
                   echo "Generated checksums:"
                   cat checksums.txt
 
-            - name: Upload build artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: pled-binaries-v${{ steps.version.outputs.VERSION }}
-                  path: release-assets/
-                  retention-days: 30
-
-            - name: Create GitHub Release (only on tag)
-              if: startsWith(github.ref, 'refs/tags/v')
+            - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: ${{ github.ref_name }}
