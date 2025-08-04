@@ -24,14 +24,6 @@ defmodule Pled.BubbleApiTest do
       System.put_env("PLUGIN_ID", "test_plugin_123")
       System.put_env("COOKIE", "session=abc123")
 
-      # Mock Req.get to verify the request
-      expected_url = "https://bubble.io/appeditor/get_plugin?id=test_plugin_123"
-
-      expected_headers = [
-        {"cookie", "session=abc123"},
-        {"user-agent", "Pled/0.1.0"}
-      ]
-
       # For now, this test will actually make a real HTTP request
       # In a real test suite, you'd want to mock this
       case BubbleApi.fetch_plugin() do
