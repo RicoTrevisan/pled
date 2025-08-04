@@ -2,9 +2,6 @@ defmodule Pled do
   @moduledoc """
   Pled - Bubble.io Plugin Development Tool
   """
-  require Logger
-
-  alias Pled.Commands.Help
   alias Pled.Commands
 
   @spec main([String.t()]) :: no_return()
@@ -16,7 +13,7 @@ defmodule Pled do
         System.halt(0)
 
       {:error, reason} ->
-        IO.warn("Command failed, #{inspect(reason)}")
+        IO.puts("Command failed: #{inspect(reason)}")
         System.halt(1)
     end
   end
@@ -26,8 +23,8 @@ defmodule Pled do
       ["pull" | rest] ->
         {parsed, remaining, invalid} =
           OptionParser.parse(rest,
-            strict: [wipe: :boolean, help: :boolean],
-            aliases: [w: :wipe, h: :help]
+            strict: [wipe: :boolean, help: :boolean, verbose: :boolean],
+            aliases: [w: :wipe, h: :help, v: :verbose]
           )
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:pull, parsed}
@@ -35,23 +32,38 @@ defmodule Pled do
       ["push" | rest] ->
         {parsed, remaining, invalid} =
           OptionParser.parse(rest,
-            strict: [help: :boolean],
-            aliases: [h: :help]
+            strict: [help: :boolean, verbose: :boolean],
+            aliases: [h: :help, v: :verbose]
           )
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:push, parsed}
 
-      ["encode"] ->
-        {:encode, []}
+      ["encode" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean, verbose: :boolean],
+            aliases: [h: :help, v: :verbose]
+          )
 
-      ["upload", file_path] ->
-        {:upload, file_path}
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:encode, parsed}
 
-      ["start"] ->
-        Help.logo()
-        IO.puts(IO.ANSI.blue_background() <> "Starting file watcher" <> IO.ANSI.reset())
-        IO.puts("hit Ctrl+C twice to stop")
-        {:start, []}
+      ["upload", file_path | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean, verbose: :boolean],
+            aliases: [h: :help, v: :verbose]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:upload, {file_path, parsed}}
+
+      ["start" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean, verbose: :boolean],
+            aliases: [h: :help, v: :verbose]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:start, parsed}
 
       [] ->
         {:help, []}
@@ -61,10 +73,10 @@ defmodule Pled do
     end
   end
 
-  def handle_command({:encode, _opts}), do: Commands.Encoder.encode()
+  def handle_command({:encode, opts}), do: Commands.Encoder.encode(opts)
   def handle_command({:pull, opts}), do: Commands.Pull.run(opts)
-  def handle_command({:push, _opts}), do: Commands.Push.run()
-  def handle_command({:upload, file_path}), do: Commands.Upload.run(file_path)
-  def handle_command({:start, _opts}), do: Commands.Start.run()
+  def handle_command({:push, opts}), do: Commands.Push.run(opts)
+  def handle_command({:upload, {file_path, opts}}), do: Commands.Upload.run(file_path, opts)
+  def handle_command({:start, opts}), do: Commands.Start.run(opts)
   def handle_command({:help, _opts}), do: Commands.Help.run()
 end

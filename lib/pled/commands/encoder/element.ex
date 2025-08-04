@@ -1,18 +1,22 @@
 defmodule Pled.Commands.Encoder.Element do
+  alias Pled.UI
+
   def encode_elements(%{} = src_json, opts) do
-    IO.puts("checking if plugin has elements...")
+    verbose? = Keyword.get(opts, :verbose, false)
+    UI.info("checking if plugin has elements...", verbose?)
 
     elements_dir = Keyword.get(opts, :elements_dir)
 
     if File.exists?(elements_dir) do
-      IO.puts("encoding elements...")
+      UI.info("encoding elements...", verbose?)
 
       found_elements =
         elements_dir
         |> File.ls!()
 
-      IO.puts(
-        "found #{Enum.count(found_elements)} element#{if Enum.count(found_elements) == 1, do: "", else: "s"}: #{Enum.join(found_elements, ", ")}"
+      UI.info(
+        "found #{Enum.count(found_elements)} element#{if Enum.count(found_elements) == 1, do: "", else: "s"}: #{Enum.join(found_elements, ", ")}",
+        verbose?
       )
 
       # Process elements and check for errors
@@ -21,7 +25,7 @@ defmodule Pled.Commands.Encoder.Element do
           found_elements,
           {:ok, %{}},
           fn element_dir, {:ok, acc} ->
-            case encode_element(Path.join(elements_dir, element_dir)) do
+            case encode_element(Path.join(elements_dir, element_dir), opts) do
               {:ok, {key, json}} ->
                 {:cont, {:ok, Map.put(acc, key, json)}}
 
@@ -40,13 +44,14 @@ defmodule Pled.Commands.Encoder.Element do
           {:error, reason}
       end
     else
-      IO.puts("no elements found")
+      UI.info("no elements found", verbose?)
       {:ok, src_json}
     end
   end
 
-  def encode_element(element_dir) do
-    IO.puts("encoding element #{element_dir}")
+  def encode_element(element_dir, opts \\ []) do
+    verbose? = Keyword.get(opts, :verbose, false)
+    UI.info("encoding element #{element_dir}", verbose?)
 
     key = element_dir |> String.split("-") |> List.last()
 
@@ -176,7 +181,7 @@ defmodule Pled.Commands.Encoder.Element do
           Map.put(json, "actions", updated_actions)
 
         {:error, :mismatch, details} ->
-          IO.puts("\n❌ VALIDATION FAILED: Action count mismatch detected!")
+          IO.puts("\nVALIDATION FAILED: Action count mismatch detected!")
           IO.puts("JSON actions: #{map_size(existing_actions)}")
           IO.puts("JS files: #{length(js_files)}")
           IO.puts("\nDetails:")
@@ -208,7 +213,6 @@ defmodule Pled.Commands.Encoder.Element do
           end
 
         {:error, :validation_failed, errors} ->
-          IO.puts("\n❌ VALIDATION FAILED: Critical errors detected!")
           Enum.each(errors, fn error -> IO.puts("  • #{error}") end)
           IO.puts("\nEncoding stopped. Please fix these issues first.")
           {:error, "validation_failed"}
@@ -330,7 +334,7 @@ defmodule Pled.Commands.Encoder.Element do
   # Helper function to print validation details
   defp print_validation_details(details) do
     if length(details.orphaned_files) > 0 do
-      IO.puts("  🔸 Orphaned JS files (no matching JSON action):")
+      IO.puts("  Orphaned JS files (no matching JSON action):")
 
       Enum.each(details.orphaned_files, fn key ->
         IO.puts("    - #{key}")
@@ -338,14 +342,14 @@ defmodule Pled.Commands.Encoder.Element do
     end
 
     if length(details.orphaned_json) > 0 do
-      IO.puts("  🔸 Orphaned JSON actions (no matching JS file):")
+      IO.puts("  Orphaned JSON actions (no matching JS file):")
 
       Enum.each(details.orphaned_json, fn key ->
         IO.puts("    - #{key}")
       end)
     end
 
-    IO.puts("  📊 Summary:")
+    IO.puts("  Summary:")
     IO.puts("    - Valid matches: #{details.valid_matches}")
     IO.puts("    - Total JSON actions: #{details.json_count}")
     IO.puts("    - Total JS files: #{details.file_count}")
@@ -357,7 +361,7 @@ defmodule Pled.Commands.Encoder.Element do
       key = extract_key_from_filename(js_file)
 
       if is_nil(key) do
-        IO.puts("⚠️  Skipping malformed filename: #{js_file}")
+        IO.puts("Skipping malformed filename: #{js_file}")
         actions
       else
         # Read the JavaScript content
@@ -368,7 +372,7 @@ defmodule Pled.Commands.Encoder.Element do
             # Validate content is not empty
             js_content =
               if String.trim(js_content) == "" do
-                IO.puts("⚠️  Warning: Empty content in #{js_file}, using placeholder")
+                IO.puts("Warning: Empty content in #{js_file}, using placeholder")
                 "// Empty action file"
               else
                 js_content
@@ -386,20 +390,20 @@ defmodule Pled.Commands.Encoder.Element do
               Map.put(actions, key, updated_action)
             else
               IO.puts(
-                "⚠️  Warning: Action with key '#{key}' not found in element JSON, skipping #{js_file}"
+                "Warning: Action with key '#{key}' not found in element JSON, skipping #{js_file}"
               )
 
               actions
             end
 
           {:error, reason} ->
-            IO.puts("❌ Error reading #{js_file}: #{reason}")
+            IO.puts("Error reading #{js_file}: #{reason}")
             actions
         end
       end
     rescue
       e ->
-        IO.puts("❌ Error processing #{js_file}: #{inspect(e)}")
+        IO.puts("Error processing #{js_file}: #{inspect(e)}")
         IO.puts("Skipping this action...")
         actions
     end
@@ -407,13 +411,11 @@ defmodule Pled.Commands.Encoder.Element do
 
   # Auto-fix function to handle orphaned JSON actions and JS files
   defp auto_fix_action_mismatches(existing_actions, details, js_files) do
-    IO.puts("\n🔧 Auto-fixing action mismatches...")
+    IO.puts("Auto-fixing action mismatches...")
 
     # Remove orphaned JSON actions (actions without matching JS files)
     actions_after_deletion =
       if length(details.orphaned_json) > 0 do
-        IO.puts("  🗑️  Removing orphaned JSON actions:")
-
         Enum.each(details.orphaned_json, fn key ->
           IO.puts("    - Removing action: #{key}")
         end)
@@ -426,8 +428,6 @@ defmodule Pled.Commands.Encoder.Element do
     # Add missing JSON actions for orphaned JS files
     actions_after_addition =
       if length(details.orphaned_files) > 0 do
-        IO.puts("  ➕ Creating JSON actions for orphaned JS files:")
-
         Enum.reduce(details.orphaned_files, actions_after_deletion, fn key, acc ->
           # Find the corresponding JS file to extract the name
           js_file =
@@ -472,12 +472,6 @@ defmodule Pled.Commands.Encoder.Element do
       else
         actions_after_deletion
       end
-
-    IO.puts("✅ Auto-fix completed!")
-    IO.puts("  📊 Final summary:")
-    IO.puts("    - Removed #{length(details.orphaned_json)} orphaned JSON actions")
-    IO.puts("    - Added #{length(details.orphaned_files)} missing JSON actions")
-    IO.puts("    - Total actions: #{map_size(actions_after_addition)}")
 
     actions_after_addition
   end
