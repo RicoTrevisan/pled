@@ -139,7 +139,6 @@ defmodule Pled.EndToEndTest do
         ])
         |> File.read!()
         |> Jason.decode!()
-        |> dbg()
 
       action_path =
         Path.join([
@@ -161,7 +160,7 @@ defmodule Pled.EndToEndTest do
         get_in(dist_json, ["plugin_elements", "AAC", "actions", "ACp"])
 
       assert action["caption"] == "Table toggle header row"
-      code = action["code"]["fn"] |> dbg()
+      code = action["code"]["fn"]
       assert String.starts_with?(code, "function(instance, properties, context) {")
       assert code =~ "instance.data.editor.chain().focus().toggleHeaderRow().run();"
     end

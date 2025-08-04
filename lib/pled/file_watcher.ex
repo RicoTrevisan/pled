@@ -4,7 +4,6 @@ defmodule Pled.FileWatcher do
   and automatically runs `pled push` when changes are detected.
   """
   use GenServer
-  require Logger
 
   @debounce_ms 500
   @src_dir "src"
@@ -63,17 +62,15 @@ defmodule Pled.FileWatcher do
 
   @impl true
   def handle_info({:file_event, watcher_pid, :stop}, %{watcher_pid: watcher_pid} = state) do
-    Logger.info("File watcher stopped")
+    IO.puts("File watcher stopped")
     {:stop, :normal, state}
   end
 
   @impl true
   def handle_info(:run_push, state) do
-    IO.puts("Running pled push...")
-
-    case Pled.Commands.Push.run() do
+    case Pled.Commands.Push.run([]) do
       :ok ->
-        IO.puts("Push completed successfully")
+        :ok
 
       {:error, reason} ->
         IO.puts("Push failed: #{inspect(reason)} - retrying on next change")
@@ -92,25 +89,20 @@ defmodule Pled.FileWatcher do
   @impl true
   def terminate(reason, %{watcher_pid: watcher_pid}) when is_pid(watcher_pid) do
     GenServer.stop(watcher_pid)
-    Logger.info("FileWatcher terminated: #{inspect(reason)}")
+    IO.puts("FileWatcher terminated: #{inspect(reason)}")
     :ok
   end
 
   @impl true
   def terminate(reason, _state) do
-    Logger.info("FileWatcher terminated: #{inspect(reason)}")
+    IO.puts("FileWatcher terminated: #{inspect(reason)}")
     :ok
   end
 
   # Private functions
 
   defp should_handle_file?(_path, events) do
-    # is_js_file?(path) and
     has_relevant_events?(events)
-  end
-
-  defp is_js_file?(path) do
-    String.ends_with?(path, ".js")
   end
 
   defp has_relevant_events?(events) do

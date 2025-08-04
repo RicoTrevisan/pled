@@ -2,34 +2,42 @@ defmodule Pled.Commands.Upload do
   @moduledoc """
   Command for uploading files to Bubble.io CDN.
   """
+  alias Pled.UI
 
-  def run(file_path) do
+  def run(file_path, opts \\ []) do
+    verbose? = Keyword.get(opts, :verbose, false)
+    IO.puts("uploading")
+
+    UI.info("Uploading file: #{file_path}", verbose?)
+
     plugin_file = "src/plugin.json"
 
     case File.exists?(plugin_file) do
       false ->
+        IO.puts("Upload failed: src/plugin.json not found")
         {:error, "src/plugin.json not found"}
 
       true ->
         case File.exists?(file_path) do
           false ->
-            IO.puts("Error: File '#{file_path}' does not exist")
+            IO.puts("Upload failed: File '#{file_path}' does not exist")
             {:error, :file_not_found}
 
           true ->
             case Pled.BubbleApi.upload_file(file_path) do
               {:ok, cdn_url} ->
-                IO.puts("File uploaded successfully!")
-                IO.puts("CDN URL: #{cdn_url}")
+                UI.info("File uploaded successfully!", verbose?)
+                UI.info("CDN URL: #{cdn_url}", verbose?)
 
                 case add_asset_to_plugin(file_path, cdn_url) do
                   :ok ->
-                    IO.puts("Asset added to plugin.json")
+                    UI.info("Asset added to plugin.json", verbose?)
+                    IO.puts("Upload completed")
                     :ok
 
                   {:error, reason} ->
-                    IO.puts("Warning: Failed to update plugin.json: #{reason}")
-                    # Still consider upload successful
+                    UI.warn("Warning: Failed to update plugin.json: #{reason}", verbose?)
+                    IO.puts("Upload completed")
                     :ok
                 end
 
@@ -39,8 +47,6 @@ defmodule Pled.Commands.Upload do
             end
         end
     end
-
-    IO.puts("Uploading file: #{file_path}")
   end
 
   defp add_asset_to_plugin(file_path, cdn_url) do
@@ -73,13 +79,10 @@ defmodule Pled.Commands.Upload do
 
   defp generate_asset_key(plugin_data) do
     existing_keys = Map.keys(plugin_data["assets"] || %{})
-
-    # Generate a 3-letter key that doesn't exist
     generate_unique_key(existing_keys)
   end
 
   defp generate_unique_key(existing_keys) do
-    # Generate random 3-letter combinations until we find one that doesn't exist
     key = for _ <- 1..3, into: "", do: <<Enum.random(?A..?Z)>>
 
     if key in existing_keys do

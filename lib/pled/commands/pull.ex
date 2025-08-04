@@ -1,23 +1,26 @@
 defmodule Pled.Commands.Pull do
-  require Logger
   alias Pled.Commands.Decoder
+  alias Pled.UI
 
   def run(opts) do
-    IO.puts("Fetching plugin from Bubble.io...")
+    verbose? = Keyword.get(opts, :verbose, false)
+    IO.puts("pulling")
+
+    UI.info("Fetching plugin from Bubble.io...", verbose?)
 
     wipe? = Keyword.get(opts, :wipe, false)
 
     if wipe? do
-      IO.puts("Wiping src and dist directories...")
+      UI.info("Wiping src and dist directories...", verbose?)
 
       with {:ok, dist} <- File.rm_rf("dist"),
            {:ok, src} <- File.rm_rf("src") do
-        IO.puts("removed:")
-        Enum.each(dist, &IO.puts(&1))
-        Enum.each(src, &IO.puts(&1))
+        UI.info("removed:", verbose?)
+        Enum.each(dist, &UI.info(&1, verbose?))
+        Enum.each(src, &UI.info(&1, verbose?))
       else
         {:error, reason, _file} ->
-          Logger.error(reason)
+          IO.puts("Pull failed: #{inspect(reason)}")
           {:error, reason}
       end
     end
@@ -33,16 +36,17 @@ defmodule Pled.Commands.Pull do
         case File.write(plugin_file, json_content) do
           :ok ->
             Decoder.decode(plugin_data, File.cwd!())
-            IO.puts(" Plugin data saved to #{plugin_file}")
+            UI.info("Plugin data saved to #{plugin_file}", verbose?)
+            IO.puts("Pull completed")
             :ok
 
           {:error, reason} ->
-            IO.puts(" Failed to save plugin data: #{reason}")
+            IO.puts("Pull failed: #{reason}")
             {:error, reason}
         end
 
       {:error, reason} ->
-        IO.puts(" Failed to fetch plugin: #{reason}")
+        IO.puts("Pull failed: #{reason}")
         {:error, reason}
     end
   end

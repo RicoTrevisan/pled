@@ -1,6 +1,9 @@
 defmodule Pled.Commands.Encoder.Action do
+  alias Pled.UI
+
   def encode_actions(%{} = src_json, opts) do
     actions_dir = opts |> Keyword.get(:actions_dir)
+    verbose? = Keyword.get(opts, :verbose, false)
 
     actions =
       if File.exists?(actions_dir) do
@@ -9,7 +12,7 @@ defmodule Pled.Commands.Encoder.Action do
         |> Enum.reduce(
           %{},
           fn action_dir, acc ->
-            {key, json} = encode_action(Path.join(actions_dir, action_dir))
+            {key, json} = encode_action(Path.join(actions_dir, action_dir), verbose?)
             Map.put(acc, key, json)
           end
         )
@@ -20,8 +23,8 @@ defmodule Pled.Commands.Encoder.Action do
     Map.put(src_json, "plugin_actions", actions)
   end
 
-  def encode_action(action_dir) do
-    IO.puts("encoding action #{action_dir}")
+  def encode_action(action_dir, verbose?) do
+    UI.info("encoding action #{action_dir}", verbose?)
     key = action_dir |> String.split("-") |> List.last()
 
     json =
@@ -30,13 +33,13 @@ defmodule Pled.Commands.Encoder.Action do
       |> File.read!()
       |> Jason.decode!()
 
-    code_block = generate_code_block(action_dir, json)
+    code_block = generate_code_block(action_dir, json, verbose?)
     json = Map.merge(json, code_block)
 
     {key, json}
   end
 
-  def generate_code_block(action_dir, original_json) do
+  def generate_code_block(action_dir, original_json, verbose?) do
     # Get original functions from JSON if they exist
     original_code = Map.get(original_json, "code", %{})
 
@@ -59,7 +62,7 @@ defmodule Pled.Commands.Encoder.Action do
         # Get existing server code block or create empty one
         existing_server = Map.get(original_code, "server", %{})
 
-        IO.puts("Using modified server function from server.js")
+        UI.info("Using modified server function from server.js", verbose?)
 
         # Update only the server function
         Map.put(
@@ -83,7 +86,7 @@ defmodule Pled.Commands.Encoder.Action do
         # Get existing client code block or create empty one
         existing_client = Map.get(original_code, "client", %{})
 
-        IO.puts("Using modified client function from client.js")
+        UI.info("Using modified client function from client.js", verbose?)
 
         # Update only the client function
         Map.put(

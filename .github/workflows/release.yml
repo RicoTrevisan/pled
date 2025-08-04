@@ -1,17 +1,24 @@
 name: Build and Release
 
 on:
+    push:
+        branches:
+            - main
+        tags:
+            - "v*"
     pull_request:
-        types:
-            - closed
         branches:
             - main
 
 permissions:
     contents: write
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
-    build-and-release:
+    build:
         runs-on: ubuntu-latest
 
         steps:
@@ -47,21 +54,15 @@ jobs:
             - name: Build release binaries
               run: MIX_ENV=prod mix release
 
-            - name: Extract version from tag or mix.exs
+            - name: Extract version
               id: version
               run: |
-                  if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-                    # Extract version from the pushed tag
+                  if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
                     VERSION=${GITHUB_REF#refs/tags/v}
                     echo "Using version from tag: $VERSION"
                   else
-                    # Extract version from mix.exs and create tag
                     VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
-                    echo "Extracted version from mix.exs: $VERSION"
-                    git config user.name "github-actions[bot]"
-                    git config user.email "github-actions[bot]@users.noreply.github.com"
-                    git tag v$VERSION
-                    git push origin v$VERSION
+                    echo "Using version from mix.exs: $VERSION"
                   fi
                   echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
@@ -71,7 +72,6 @@ jobs:
                   cd burrito_out
                   for file in *; do
                     if [ -f "$file" ]; then
-                      # Get file extension if it exists
                       if [[ "$file" == *.exe ]]; then
                         ext=".exe"
                         base_name="${file%.*}"
@@ -80,7 +80,6 @@ jobs:
                         base_name="$file"
                       fi
 
-                      # Create descriptive name based on original filename
                       case "$base_name" in
                         *macos_x86*|*darwin_x86*)
                           new_name="pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64${ext}"
@@ -114,33 +113,32 @@ jobs:
                   echo "Generated checksums:"
                   cat checksums.txt
 
-            - name: Create Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: v${{ steps.version.outputs.VERSION }}
-                  name: Release v${{ steps.version.outputs.VERSION }}
-                  body: |
-                      ## Changes
-
-                      Auto-generated release with cross-platform binaries.
-
-                      ## Downloads
-
-                      - **macOS (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-arm64`
-                      - **macOS (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-macos-x86_64`
-                      - **Linux (ARM64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-arm64`
-                      - **Linux (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-linux-x86_64`
-                      - **Windows (x86_64)**: `pled-v${{ steps.version.outputs.VERSION }}-windows-x86_64.exe`
-
-                      Verify downloads using `checksums.txt`.
-                  files: release-assets/*
-                  draft: false
-                  prerelease: false
-                  token: ${{ secrets.GITHUB_TOKEN }}
-
             - name: Upload build artifacts
               uses: actions/upload-artifact@v4
               with:
                   name: pled-binaries-v${{ steps.version.outputs.VERSION }}
                   path: release-assets/
                   retention-days: 30
+
+            - name: Create GitHub Release (only on tag)
+              if: startsWith(github.ref, 'refs/tags/v')
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: ${{ github.ref_name }}
+                  name: Release ${{ github.ref_name }}
+                  body: |
+                      ## Changes
+                      Auto-generated release with cross-platform binaries.
+
+                      ## Downloads
+                      - macOS (ARM64): `pled-${{ github.ref_name }}-macos-arm64`
+                      - macOS (x86_64): `pled-${{ github.ref_name }}-macos-x86_64`
+                      - Linux (ARM64): `pled-${{ github.ref_name }}-linux-arm64`
+                      - Linux (x86_64): `pled-${{ github.ref_name }}-linux-x86_64`
+                      - Windows (x86_64): `pled-${{ github.ref_name }}-windows-x86_64.exe`
+
+                      Verify downloads using `checksums.txt`.
+                  files: release-assets/*
+                  draft: false
+                  prerelease: false
+                  token: ${{ secrets.GITHUB_TOKEN }}

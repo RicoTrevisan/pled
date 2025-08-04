@@ -4,10 +4,14 @@ defmodule Pled.Commands.Encoder do
   """
   alias Pled.Commands.Encoder.Element
   alias Pled.Commands.Encoder.Action
+  alias Pled.UI
 
-  def encode do
+  def encode(opts \\ []) do
+    verbose? = Keyword.get(opts, :verbose, false)
+    IO.puts("encoding")
+
     if not File.exists?("src/") do
-      IO.puts(IO.ANSI.red() <> "No src directory found." <> IO.ANSI.reset())
+      IO.puts("Encoding failed: No src directory found.")
       IO.puts("Run `pled pull` first.")
       System.halt(1)
     end
@@ -27,7 +31,8 @@ defmodule Pled.Commands.Encoder do
       src_dir: src_dir,
       dist_dir: dist_dir,
       elements_dir: Path.join(src_dir, "elements"),
-      actions_dir: Path.join(src_dir, "actions")
+      actions_dir: Path.join(src_dir, "actions"),
+      verbose: verbose?
     ]
 
     case Element.encode_elements(src_json, opts) do
@@ -37,7 +42,7 @@ defmodule Pled.Commands.Encoder do
           |> Action.encode_actions(opts)
           |> encode_html(opts)
 
-        IO.puts("generated output json, writing it to dist/plugin.json")
+        UI.info("generated output json, writing it to dist/plugin.json", verbose?)
 
         dist_dir
         |> Path.join("plugin.json")
@@ -47,14 +52,14 @@ defmodule Pled.Commands.Encoder do
         :ok
 
       {:error, reason} ->
-        IO.puts("\n❌ Encoding failed: #{reason}")
-        IO.puts("Please fix the issues and try again.")
+        IO.puts("Encoding failed: #{reason}")
         {:error, reason}
     end
   end
 
   def encode_html(json, opts \\ []) do
-    IO.puts("reading shared html...")
+    verbose? = Keyword.get(opts, :verbose, false)
+    UI.info("reading shared html...", verbose?)
     src_dir = Keyword.get(opts, :src_dir)
     html_path = Path.join(src_dir, "shared.html")
 
