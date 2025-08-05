@@ -1,4 +1,4 @@
-defmodule Pled.Commands.Start do
+defmodule Pled.Commands.Watch do
   @moduledoc """
   Command to start the file watcher that automatically runs `pled push`
   when JavaScript files in the src/ directory are changed.
@@ -22,12 +22,12 @@ defmodule Pled.Commands.Start do
           Process.sleep(:infinity)
 
         {:error, reason} ->
-          IO.puts("Start failed: #{inspect(reason)}")
+          IO.puts("Watch failed: #{inspect(reason)}")
           {:error, "Failed to start file watcher: #{inspect(reason)}"}
       end
     catch
       :exit, reason ->
-        IO.puts("Start failed: #{inspect(reason)}")
+        IO.puts("Watch failed: #{inspect(reason)}")
         {:error, "Failed to start file watcher: #{inspect(reason)}"}
     end
   end

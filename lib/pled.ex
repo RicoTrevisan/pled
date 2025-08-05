@@ -77,6 +77,6 @@ defmodule Pled do
   def handle_command({:pull, opts}), do: Commands.Pull.run(opts)
   def handle_command({:push, opts}), do: Commands.Push.run(opts)
   def handle_command({:upload, {file_path, opts}}), do: Commands.Upload.run(file_path, opts)
-  def handle_command({:start, opts}), do: Commands.Start.run(opts)
+  def handle_command({:watch, opts}), do: Commands.Watch.run(opts)
   def handle_command({:help, _opts}), do: Commands.Help.run()
 end
