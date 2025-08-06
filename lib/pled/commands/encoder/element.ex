@@ -480,17 +480,79 @@ defmodule Pled.Commands.Encoder.Element do
   def update_element_fields(json, element_dir) do
     fields_path = Path.join(element_dir, "fields.txt")
 
-    if File.exists?(fields_path) and Map.has_key?(json, "fields") do
+    if File.exists?(fields_path) do
       IO.puts("updating element fields from #{fields_path}")
 
       case File.read(fields_path) do
         {:ok, fields_content} ->
-          process_fields_update(json, fields_content, json["fields"])
+          # Check if fields exist in JSON, if not, restore from original plugin data
+          existing_fields = Map.get(json, "fields", %{})
+
+          if map_size(existing_fields) == 0 do
+            # Fields were cleaned out, need to restore from original plugin data
+            restore_fields_from_original(json, fields_content, element_dir)
+          else
+            process_fields_update(json, fields_content, existing_fields)
+          end
 
         {:error, reason} ->
           {:error, "Failed to read fields.txt: #{reason}"}
       end
     else
+      json
+    end
+  end
+
+  defp restore_fields_from_original(json, fields_content, element_dir) do
+    # Read the preserved original plugin.json to get the full field definitions
+    # element_dir is like "src/elements/tiptap-AAC", so we need to go up to "src" level
+    plugin_path =
+      element_dir
+      |> Path.dirname()
+      |> Path.dirname()
+      |> Path.join("plugin.original.json")
+
+    if File.exists?(plugin_path) do
+      # Get the element key from the directory name
+      element_key = element_dir |> String.split("-") |> List.last()
+
+      case File.read(plugin_path) do
+        {:ok, plugin_content} ->
+          case Jason.decode(plugin_content) do
+            {:ok, plugin_data} ->
+              original_fields = get_in(plugin_data, ["plugin_elements", element_key, "fields"])
+
+              if original_fields do
+                IO.puts("Restoring fields from original plugin data for element #{element_key}")
+                process_fields_update(json, fields_content, original_fields)
+              else
+                IO.puts(
+                  "Warning: Could not find original fields data for element #{element_key}, skipping field restoration"
+                )
+
+                json
+              end
+
+            {:error, decode_error} ->
+              IO.puts(
+                "Warning: Could not parse original plugin.json (#{inspect(decode_error)}), skipping field restoration"
+              )
+
+              json
+          end
+
+        {:error, read_error} ->
+          IO.puts(
+            "Warning: Could not read original plugin.json (#{inspect(read_error)}), skipping field restoration"
+          )
+
+          json
+      end
+    else
+      IO.puts(
+        "Warning: Original plugin.json not found at #{plugin_path}, skipping field restoration"
+      )
+
       json
     end
   end

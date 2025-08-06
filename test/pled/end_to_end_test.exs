@@ -32,12 +32,13 @@ defmodule Pled.EndToEndTest do
     {:ok, src_path: src_path, dist_path: dist_path, dist_json: dist_json}
   end
 
-  test "decode/1 extracts 4 root files", %{src_path: src_path} do
+  test "decode/1 extracts 5 root files", %{src_path: src_path} do
     assert File.ls!(src_path) == [
              "plugin.json",
              "shared.html",
              "elements",
-             "actions"
+             "actions",
+             "plugin.original.json"
            ]
   end
 
@@ -218,6 +219,42 @@ defmodule Pled.EndToEndTest do
                "h4-AAy.js",
                "code-block-ABN.js"
              ]
+    end
+
+    test "element fields are preserved through encode/decode cycle", %{
+      src_path: src_path,
+      dist_json: dist_json
+    } do
+      # Check that fields.txt was created during decode
+      fields_txt_path = Path.join([src_path, "elements", "tiptap-AAC", "fields.txt"])
+      assert File.exists?(fields_txt_path)
+
+      # Check that the encoded JSON has the fields key
+      assert Map.has_key?(dist_json, "plugin_elements")
+      assert Map.has_key?(dist_json["plugin_elements"], "AAC")
+      assert Map.has_key?(dist_json["plugin_elements"]["AAC"], "fields")
+
+      element_fields = dist_json["plugin_elements"]["AAC"]["fields"]
+
+      # Verify we have fields (should be many fields in the tiptap element)
+      assert map_size(element_fields) > 0
+
+      # Check that specific known fields exist (from the example plugin.json)
+      assert Map.has_key?(element_fields, "AFz")
+      assert element_fields["AFz"]["caption"] == "Allowed MIME Types"
+
+      # Verify that fields have proper structure with rank, caption, etc.
+      Enum.each(element_fields, fn {_key, field_data} ->
+        assert is_map(field_data)
+        assert Map.has_key?(field_data, "caption")
+        assert Map.has_key?(field_data, "rank")
+        assert is_binary(field_data["caption"])
+        assert is_integer(field_data["rank"])
+      end)
+
+      # Test that fields.txt content matches some of the actual fields
+      fields_txt_content = File.read!(fields_txt_path)
+      assert fields_txt_content =~ "Allowed MIME Types (AFz)"
     end
   end
 end
