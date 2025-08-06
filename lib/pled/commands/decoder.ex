@@ -1,7 +1,6 @@
 defmodule Pled.Commands.Decoder do
   def decode(plugin_data, base_dir \\ File.cwd!()) do
     # Preserve original plugin data for field restoration
-    preserve_original_plugin_data(plugin_data, base_dir)
 
     decode_elements(plugin_data, base_dir)
     decode_actions(plugin_data, base_dir)
@@ -22,11 +21,6 @@ defmodule Pled.Commands.Decoder do
       |> Map.drop(keys_to_drop)
 
     File.write!(plugin_path, Jason.encode!(updated_json, pretty: true))
-  end
-
-  def preserve_original_plugin_data(plugin_data, base_dir) do
-    original_path = Path.join([base_dir, "src", "plugin.json"])
-    File.write!(original_path, Jason.encode!(plugin_data, pretty: true))
   end
 
   def decode_html_header(plugin_data, base_dir) do
@@ -127,7 +121,7 @@ defmodule Pled.Commands.Decoder do
 
     cleaned_element_data =
       element_data
-      |> Map.drop(["code", "headers", "fields"])
+      |> Map.drop(["code", "headers"])
       |> Map.put("actions", actions)
 
     File.write(path, Jason.encode!(cleaned_element_data, pretty: true))

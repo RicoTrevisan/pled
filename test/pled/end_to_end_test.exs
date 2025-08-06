@@ -37,8 +37,7 @@ defmodule Pled.EndToEndTest do
              "plugin.json",
              "shared.html",
              "elements",
-             "actions",
-             "plugin.json"
+             "actions"
            ]
   end
 
@@ -228,6 +227,15 @@ defmodule Pled.EndToEndTest do
       # Check that fields.txt was created during decode
       fields_txt_path = Path.join([src_path, "elements", "tiptap-AAC", "fields.txt"])
       assert File.exists?(fields_txt_path)
+
+      element_json =
+        Path.join([src_path, "elements", "tiptap-AAC", "AAC.json"])
+        |> File.read!()
+        |> Jason.decode!()
+
+      assert Map.has_key?(element_json, "actions")
+      assert Map.has_key?(element_json, "fields")
+      refute Map.has_key?(element_json, "plugin_elements")
 
       # Check that the encoded JSON has the fields key
       assert Map.has_key?(dist_json, "plugin_elements")
