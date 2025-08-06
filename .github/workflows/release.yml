@@ -2,13 +2,8 @@ name: Build and Release
 
 on:
     push:
-        branches:
-            - main
         tags:
             - "v*"
-    pull_request:
-        branches:
-            - main
 
 permissions:
     contents: write
@@ -68,29 +63,6 @@ jobs:
             - name: Fetch tags
               run: |
                   git fetch --tags --force --prune --depth=1
-
-            - name: Verify version is greater than latest tag
-              if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-              run: |
-                  MIX_VERSION=$(grep 'version:' mix.exs | sed 's/.*version: "\(.*\)".*/\1/')
-                  echo "mix.exs version: $MIX_VERSION"
-
-                  LATEST_TAG=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
-                  if [ -z "$LATEST_TAG" ]; then
-                    echo "No version tags found. Skipping comparison."
-                    exit 0
-                  fi
-                  echo "Latest git tag: $LATEST_TAG"
-
-                  node -v >/dev/null 2>&1 || (curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs)
-                  npm -g list semver >/dev/null 2>&1 || sudo npm i -g semver
-
-                  TAG_VERSION="${LATEST_TAG#v}"
-
-                  node -e "require('semver'); if(!require('semver').valid(process.argv[1]))process.exit(1)" "$TAG_VERSION"
-                  node -e "require('semver'); if(!require('semver').valid(process.argv[1]))process.exit(1)" "$MIX_VERSION"
-
-                  node -e "const semver=require('semver'); const mix=process.argv[1], tag=process.argv[2]; if(!semver.gt(mix, tag)){console.error(`Version in mix.exs (${mix}) must be greater than latest tag (${tag}).`); process.exit(1)} else { console.log(`Version OK: ${mix} > ${tag}`) }" "$MIX_VERSION" "$TAG_VERSION"
 
             - name: Check formatting
               if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'

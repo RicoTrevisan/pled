@@ -25,7 +25,7 @@ defmodule Pled.Commands.Decoder do
   end
 
   def preserve_original_plugin_data(plugin_data, base_dir) do
-    original_path = Path.join([base_dir, "src", "plugin.original.json"])
+    original_path = Path.join([base_dir, "src", "plugin.json"])
     File.write!(original_path, Jason.encode!(plugin_data, pretty: true))
   end
 

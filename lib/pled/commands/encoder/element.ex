@@ -510,7 +510,7 @@ defmodule Pled.Commands.Encoder.Element do
       element_dir
       |> Path.dirname()
       |> Path.dirname()
-      |> Path.join("plugin.original.json")
+      |> Path.join("plugin.json")
 
     if File.exists?(plugin_path) do
       # Get the element key from the directory name

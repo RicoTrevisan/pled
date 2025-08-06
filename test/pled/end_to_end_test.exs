@@ -38,7 +38,7 @@ defmodule Pled.EndToEndTest do
              "shared.html",
              "elements",
              "actions",
-             "plugin.original.json"
+             "plugin.json"
            ]
   end
 
