@@ -13,12 +13,12 @@ defmodule Pled.Commands.Push do
             :ok
 
           {:error, reason} ->
-            IO.puts("Push failed: #{reason}")
+            IO.puts("Push failed: #{inspect(reason)}")
             {:error, reason}
         end
 
       {:error, reason} ->
-        IO.puts("Push failed: #{reason}")
+        IO.puts("Push failed: #{inspect(reason)}")
         {:error, reason}
     end
   end

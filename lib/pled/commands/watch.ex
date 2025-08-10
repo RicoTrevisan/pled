@@ -26,8 +26,8 @@ defmodule Pled.Commands.Watch do
           {:error, "Failed to start file watcher: #{inspect(reason)}"}
       end
     catch
-      :exit, reason ->
-        IO.puts("Watch failed: #{inspect(reason)}")
+      kind, reason ->
+        IO.puts("Watch failed with #{kind}: #{inspect(reason)}")
         {:error, "Failed to start file watcher: #{inspect(reason)}"}
     end
   end

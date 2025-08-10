@@ -56,14 +56,14 @@ defmodule Pled do
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:upload, {file_path, parsed}}
 
-      ["start" | rest] ->
+      ["watch" | rest] ->
         {parsed, remaining, invalid} =
           OptionParser.parse(rest,
             strict: [help: :boolean, verbose: :boolean],
             aliases: [h: :help, v: :verbose]
           )
 
-        if invalid != [] or remaining != [], do: {:help, []}, else: {:start, parsed}
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:watch, parsed}
 
       [] ->
         {:help, []}

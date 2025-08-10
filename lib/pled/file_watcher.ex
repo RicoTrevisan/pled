@@ -68,12 +68,19 @@ defmodule Pled.FileWatcher do
 
   @impl true
   def handle_info(:run_push, state) do
-    case Pled.Commands.Push.run([]) do
-      :ok ->
-        :ok
+    # Wrap in try/catch to handle any unexpected errors
+    try do
+      case Pled.Commands.Push.run([]) do
+        :ok ->
+          :ok
 
-      {:error, reason} ->
-        IO.puts("Push failed: #{inspect(reason)} - retrying on next change")
+        {:error, reason} ->
+          # Use inspect to safely display any error type
+          IO.puts("Push failed: #{format_error(reason)} - retrying on next change")
+      end
+    catch
+      kind, reason ->
+        IO.puts("Push failed with #{kind}: #{inspect(reason)} - retrying on next change")
     end
 
     {:noreply, %{state | debounce_timer: nil}}
@@ -109,4 +116,11 @@ defmodule Pled.FileWatcher do
     relevant_events = [:created, :modified, :removed]
     Enum.any?(events, &(&1 in relevant_events))
   end
+
+  # Helper to format errors for display
+  defp format_error(%Req.TransportError{reason: reason}),
+    do: "Transport error: #{inspect(reason)}"
+
+  defp format_error(error) when is_binary(error), do: error
+  defp format_error(error), do: inspect(error)
 end
