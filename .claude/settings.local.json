@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cat:*)",
       "Bash(mix test:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(/Users/rico/dev/_wip/pled/burrito_out/pled_macos_arm init)"
     ],
     "deny": []
   }

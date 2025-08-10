@@ -65,6 +65,15 @@ defmodule Pled do
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:watch, parsed}
 
+      ["init" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean, verbose: :boolean, react: :boolean],
+            aliases: [h: :help, v: :verbose, r: :react]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:init, parsed}
+
       [] ->
         {:help, []}
 
@@ -78,5 +87,6 @@ defmodule Pled do
   def handle_command({:push, opts}), do: Commands.Push.run(opts)
   def handle_command({:upload, {file_path, opts}}), do: Commands.Upload.run(file_path, opts)
   def handle_command({:watch, opts}), do: Commands.Watch.run(opts)
+  def handle_command({:init, opts}), do: Commands.Init.run(opts)
   def handle_command({:help, _opts}), do: Commands.Help.run()
 end

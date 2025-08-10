@@ -8,6 +8,7 @@ defmodule Pled.Commands.Help do
     version #{Application.get_env(:pled, :version)}
 
     Usage:
+      pled init             Initialize a new Pled project structure
       pled pull             Fetch plugin from Bubble.io and save to src/plugin.json
       pled push             Encodes and then upload plugin to Bubble.io
       pled encode           Prepares the files to upload. Compiles src/ files into dist/plugin.json
