@@ -78,17 +78,6 @@ defmodule Pled.Commands.Upload do
   end
 
   defp generate_asset_key(plugin_data) do
-    existing_keys = Map.keys(plugin_data["assets"] || %{})
-    generate_unique_key(existing_keys)
-  end
-
-  defp generate_unique_key(existing_keys) do
-    key = for _ <- 1..3, into: "", do: <<Enum.random(?A..?Z)>>
-
-    if key in existing_keys do
-      generate_unique_key(existing_keys)
-    else
-      key
-    end
+    Pled.AssetKey.generate_from_plugin_data(plugin_data)
   end
 end
