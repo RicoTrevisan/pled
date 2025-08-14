@@ -46,6 +46,8 @@ defmodule Pled.Commands.Init do
     export COOKIE=""
 
     # add the url of the Bubble app that you use to test this plugin
+    # if your app has username and password, you can add it
+    # `https://USERNAME:PASSWORD@BUBBLE_ID.bubbleapps.io/version-test/PAGE_NAME`
     export TEST_URL=
     """
 
