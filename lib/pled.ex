@@ -32,8 +32,8 @@ defmodule Pled do
       ["push" | rest] ->
         {parsed, remaining, invalid} =
           OptionParser.parse(rest,
-            strict: [help: :boolean, verbose: :boolean],
-            aliases: [h: :help, v: :verbose]
+            strict: [help: :boolean, verbose: :boolean, force: :boolean],
+            aliases: [h: :help, v: :verbose, f: :force]
           )
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:push, parsed}
@@ -74,6 +74,15 @@ defmodule Pled do
 
         if invalid != [] or remaining != [], do: {:help, []}, else: {:init, parsed}
 
+      ["check-remote" | rest] ->
+        {parsed, remaining, invalid} =
+          OptionParser.parse(rest,
+            strict: [help: :boolean, verbose: :boolean],
+            aliases: [h: :help, v: :verbose]
+          )
+
+        if invalid != [] or remaining != [], do: {:help, []}, else: {:check_remote, parsed}
+
       [] ->
         {:help, []}
 
@@ -88,5 +97,6 @@ defmodule Pled do
   def handle_command({:upload, {file_path, opts}}), do: Commands.Upload.run(file_path, opts)
   def handle_command({:watch, opts}), do: Commands.Watch.run(opts)
   def handle_command({:init, opts}), do: Commands.Init.run(opts)
+  def handle_command({:check_remote, opts}), do: Commands.CheckRemote.run(opts)
   def handle_command({:help, _opts}), do: Commands.Help.run()
 end

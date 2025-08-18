@@ -1,5 +1,6 @@
 defmodule Pled.Commands.Pull do
   alias Pled.Commands.Decoder
+  alias Pled.RemoteChecker
   alias Pled.UI
 
   def run(opts) do
@@ -35,6 +36,14 @@ defmodule Pled.Commands.Pull do
 
         case File.write(plugin_file, json_content) do
           :ok ->
+            # Save remote snapshot for change detection
+            case RemoteChecker.save_remote_snapshot(plugin_data) do
+              :ok ->
+                UI.info("Remote snapshot saved", verbose?)
+              {:error, reason} ->
+                UI.info("Warning: Failed to save remote snapshot: #{reason}", verbose?)
+            end
+            
             Decoder.decode(plugin_data, File.cwd!())
             UI.info("Plugin data saved to #{plugin_file}", verbose?)
             IO.puts("Pull completed")

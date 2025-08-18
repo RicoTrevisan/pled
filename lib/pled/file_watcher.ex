@@ -6,9 +6,10 @@ defmodule Pled.FileWatcher do
   use GenServer
 
   @debounce_ms 500
+  @remote_check_interval_ms 2000
   @src_dir "src"
 
-  defstruct [:watcher_pid, :debounce_timer]
+  defstruct [:watcher_pid, :debounce_timer, :remote_check_timer]
 
   # Client API
 
@@ -30,10 +31,14 @@ defmodule Pled.FileWatcher do
       {:ok, watcher_pid} = FileSystem.start_link(dirs: [dir], name: :file_watcher)
       FileSystem.subscribe(:file_watcher)
 
+      # Start periodic remote checking
+      remote_timer = Process.send_after(self(), :check_remote, @remote_check_interval_ms)
+      
       state = %{
         watcher_pid: watcher_pid,
         directory_path: dir,
-        debounce_timer: nil
+        debounce_timer: nil,
+        remote_check_timer: remote_timer
       }
 
       {:ok, state}
@@ -87,6 +92,42 @@ defmodule Pled.FileWatcher do
   end
 
   @impl true
+  def handle_info(:check_remote, state) do
+    # Check for remote changes and pull if needed
+    try do
+      case Pled.RemoteChecker.check_remote_changes() do
+        :no_changes ->
+          :ok
+
+        {:changes_detected, changes} ->
+          IO.puts("")
+          IO.puts(IO.ANSI.cyan() <> "🔄 Remote changes detected during watch mode" <> IO.ANSI.reset())
+          format_remote_changes(changes)
+          IO.puts("Pulling remote changes...")
+          
+          case Pled.Commands.Pull.run([]) do
+            :ok ->
+              IO.puts(IO.ANSI.green() <> "✓ Remote changes pulled successfully" <> IO.ANSI.reset())
+            {:error, reason} ->
+              IO.puts(IO.ANSI.red() <> "✗ Failed to pull remote changes: #{inspect(reason)}" <> IO.ANSI.reset())
+          end
+
+        {:error, _reason} ->
+          # Silently ignore remote check errors in watch mode
+          :ok
+      end
+    catch
+      _kind, _reason ->
+        # Silently ignore any errors during remote checking in watch mode
+        :ok
+    end
+
+    # Schedule next remote check
+    remote_timer = Process.send_after(self(), :check_remote, @remote_check_interval_ms)
+    {:noreply, %{state | remote_check_timer: remote_timer}}
+  end
+
+  @impl true
   def handle_info(msg, state) do
     IO.puts(IO.ANSI.red() <> "Unhandled message: #{inspect(msg)}\nstate: #{inspect(state)}")
 
@@ -123,4 +164,34 @@ defmodule Pled.FileWatcher do
 
   defp format_error(error) when is_binary(error), do: error
   defp format_error(error), do: inspect(error)
+
+  defp format_remote_changes(changes) do
+    Enum.each(changes, fn change ->
+      case change do
+        {:metadata_changed, field, _old_val, _new_val} ->
+          IO.puts("  • Metadata '#{field}' changed")
+        
+        {:element_added, name} ->
+          IO.puts("  • Element added: #{name}")
+        
+        {:element_removed, name} ->
+          IO.puts("  • Element removed: #{name}")
+        
+        {:element_modified, name} ->
+          IO.puts("  • Element modified: #{name}")
+        
+        {:action_added, name} ->
+          IO.puts("  • Action added: #{name}")
+        
+        {:action_removed, name} ->
+          IO.puts("  • Action removed: #{name}")
+        
+        {:action_modified, name} ->
+          IO.puts("  • Action modified: #{name}")
+        
+        _ ->
+          IO.puts("  • Change detected")
+      end
+    end)
+  end
 end

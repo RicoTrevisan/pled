@@ -114,6 +114,7 @@ defmodule Pled.Commands.Init do
   defp create_gitignore do
     gitignore_content = """
     .envrc
+    .src.json
     lib/node_modules
     lib/dist*
     dist*
@@ -123,12 +124,18 @@ defmodule Pled.Commands.Init do
       true ->
         existing_content = File.read!(".gitignore")
 
-        if String.contains?(existing_content, ".envrc") do
-          IO.puts("⚠ .gitignore already contains .envrc, skipping...")
+        entries_to_add = String.split(gitignore_content, "\n", trim: true)
+        missing_entries = Enum.filter(entries_to_add, fn entry ->
+          not String.contains?(existing_content, entry)
+        end)
+        
+        if missing_entries == [] do
+          IO.puts("⚠ .gitignore already contains all required entries, skipping...")
           :ok
         else
-          File.write(".gitignore", existing_content <> gitignore_content)
-          IO.puts("✓ Updated .gitignore")
+          new_content = existing_content <> "\n" <> Enum.join(missing_entries, "\n") <> "\n"
+          File.write(".gitignore", new_content)
+          IO.puts("✓ Updated .gitignore with missing entries: #{Enum.join(missing_entries, ", ")}")
           :ok
         end
 
