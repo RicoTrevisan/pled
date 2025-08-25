@@ -106,6 +106,7 @@ Verify:
   - find the "Cookie"
   - copy the entire value or just the pairs where the key starts with `meta_`
   - add that in your `.envrc` as `export COOKIE="..."`
+  !["get_bubble_cookie.png"]
 
   !["get_bubble_cookie.png"]
 

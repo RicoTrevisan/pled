@@ -23,7 +23,7 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
 
             - name: Set up Elixir
               id: beam
@@ -167,7 +167,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Download artifacts from all targets
-              uses: actions/download-artifact@v4
+              uses: actions/download-artifact@v5
               with:
                   path: release-assets
                   merge-multiple: true
