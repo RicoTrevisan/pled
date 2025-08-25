@@ -107,7 +107,7 @@ Verify:
   - scroll down to "Request Headers"
   - find the "Cookie"
   - copy the entire value or just the pairs where the key starts with `meta_`
-  - put that in your `.envrc` as `export COOKIE="..."`
+  - add that in your `.envrc` as `export COOKIE="..."`
 
 - Using direnv (recommended per-plugin):
     # .envrc
