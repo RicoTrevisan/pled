@@ -6,7 +6,7 @@ defmodule Pled.FileWatcher do
   use GenServer
 
   @debounce_ms 500
-  @remote_check_interval_ms 5000
+  @remote_check_interval_ms 2000
   @src_dir "src"
 
   defstruct [:watcher_pid, :debounce_timer, :remote_check_timer]
@@ -75,7 +75,7 @@ defmodule Pled.FileWatcher do
   def handle_info(:run_push, state) do
     # Wrap in try/catch to handle any unexpected errors
     try do
-      case Pled.Commands.Push.run([force: true]) do
+      case Pled.Commands.Push.run(force: true) do
         :ok ->
           :ok
 
