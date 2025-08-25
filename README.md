@@ -100,12 +100,14 @@ Verify:
 
 - How to get COOKIE:
   - Go to https://bubble.io and log in
-  - Open the browser console on that domain and run:
-      document.cookie?.split(';')
-          .map(item => item.trim())
-          .filter(item => item.startsWith('meta_'))
-          .join(";");
-  - Copy the result into your `.envrc` as `export COOKIE="..."`
+  - Open the browser dev tools
+  - go to the network tab,
+  - find a call to `bubble.io`
+  - go to "Headers"
+  - scroll down to "Request Headers"
+  - find the "Cookie"
+  - copy the entire value or just the pairs where the key starts with `meta_`
+  - put that in your `.envrc` as `export COOKIE="..."`
 
 - Using direnv (recommended per-plugin):
     # .envrc
