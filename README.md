@@ -10,10 +10,14 @@ Pled pulls your plugin from Bubble, decodes it into a clean `src/` tree (JS file
 - You want to edit JS locally and keep your plugin in Git.
 
 1) Initialize a Pled project
-- Create a directory per plugin and initialize it:
-    mkdir my-bubble-plugin
-    cd my-bubble-plugin
-    pled init
+Create a directory per plugin and initialize it:
+
+```sh
+mkdir my-bubble-plugin
+cd my-bubble-plugin
+pled init
+```
+
 - This creates helpful scaffolding:
   - .envrc (where you’ll put PLUGIN_ID and COOKIE)
   - .gitignore
@@ -25,18 +29,12 @@ Pled pulls your plugin from Bubble, decodes it into a clean `src/` tree (JS file
   - COOKIE: Your authenticated Bubble cookie string
 
 - Edit the generated `.envrc` and add:
-    export PLUGIN_ID="plug_xxxxxxxxxxxxxxxx"
-
-    # From a logged-in browser session on https://bubble.io
-    # Open DevTools Console and run:
-    # document.cookie?.split(';')
-    #   .map(item => item.trim())
-    #   .filter(item => item.startsWith('meta_'))
-    #   .join(";");
-
-    export COOKIE="meta_xxx=...; meta_yyy=...; ..."
+    export PLUGIN_ID="YOUR_PLUGIN_ID"
+    export COOKIE="meta_xxx=...; meta_yyy=...; ..." (see below for instructions)
   - Allow it:
-      direnv allow
+  ```sh
+  direnv allow
+  ```
 
 Security reminder: Your COOKIE grants access to your Bubble account. Treat it like a secret. Rotate it if needed.
 
@@ -108,6 +106,7 @@ Verify:
   - find the "Cookie"
   - copy the entire value or just the pairs where the key starts with `meta_`
   - add that in your `.envrc` as `export COOKIE="..."`
+  !["get_bubble_cookie.png"]
 
 - Using direnv (recommended per-plugin):
     # .envrc
