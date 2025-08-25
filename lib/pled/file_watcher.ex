@@ -6,7 +6,7 @@ defmodule Pled.FileWatcher do
   use GenServer
 
   @debounce_ms 500
-  @remote_check_interval_ms 2000
+  @remote_check_interval_ms 5000
   @src_dir "src"
 
   defstruct [:watcher_pid, :debounce_timer, :remote_check_timer]
@@ -33,7 +33,7 @@ defmodule Pled.FileWatcher do
 
       # Start periodic remote checking
       remote_timer = Process.send_after(self(), :check_remote, @remote_check_interval_ms)
-      
+
       state = %{
         watcher_pid: watcher_pid,
         directory_path: dir,
@@ -75,7 +75,7 @@ defmodule Pled.FileWatcher do
   def handle_info(:run_push, state) do
     # Wrap in try/catch to handle any unexpected errors
     try do
-      case Pled.Commands.Push.run([]) do
+      case Pled.Commands.Push.run([force: true]) do
         :ok ->
           :ok
 
@@ -101,15 +101,25 @@ defmodule Pled.FileWatcher do
 
         {:changes_detected, changes} ->
           IO.puts("")
-          IO.puts(IO.ANSI.cyan() <> "🔄 Remote changes detected during watch mode" <> IO.ANSI.reset())
+
+          IO.puts(
+            IO.ANSI.cyan() <> "🔄 Remote changes detected during watch mode" <> IO.ANSI.reset()
+          )
+
           format_remote_changes(changes)
           IO.puts("Pulling remote changes...")
-          
+
           case Pled.Commands.Pull.run([]) do
             :ok ->
-              IO.puts(IO.ANSI.green() <> "✓ Remote changes pulled successfully" <> IO.ANSI.reset())
+              IO.puts(
+                IO.ANSI.green() <> "✓ Remote changes pulled successfully" <> IO.ANSI.reset()
+              )
+
             {:error, reason} ->
-              IO.puts(IO.ANSI.red() <> "✗ Failed to pull remote changes: #{inspect(reason)}" <> IO.ANSI.reset())
+              IO.puts(
+                IO.ANSI.red() <>
+                  "✗ Failed to pull remote changes: #{inspect(reason)}" <> IO.ANSI.reset()
+              )
           end
 
         {:error, _reason} ->
@@ -170,25 +180,25 @@ defmodule Pled.FileWatcher do
       case change do
         {:metadata_changed, field, _old_val, _new_val} ->
           IO.puts("  • Metadata '#{field}' changed")
-        
+
         {:element_added, name} ->
           IO.puts("  • Element added: #{name}")
-        
+
         {:element_removed, name} ->
           IO.puts("  • Element removed: #{name}")
-        
+
         {:element_modified, name} ->
           IO.puts("  • Element modified: #{name}")
-        
+
         {:action_added, name} ->
           IO.puts("  • Action added: #{name}")
-        
+
         {:action_removed, name} ->
           IO.puts("  • Action removed: #{name}")
-        
+
         {:action_modified, name} ->
           IO.puts("  • Action modified: #{name}")
-        
+
         _ ->
           IO.puts("  • Change detected")
       end
