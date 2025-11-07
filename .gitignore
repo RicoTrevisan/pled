@@ -31,3 +31,5 @@ burrito_out/
 # Environment files with sensitive data
 .env.exs
 .claude*
+CLAUDE.md
+GEMINI.md
