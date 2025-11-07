@@ -57,7 +57,7 @@ defmodule PledTest do
     end
 
     test "parses upload command with file path" do
-      assert Pled.parse_args(["upload", "test.json"]) == {:upload, "test.json"}
+      assert {:upload, {"test.json", []}} = Pled.parse_args(["upload", "test.json"])
       assert Pled.parse_args(["upload", "/path/to/file.json"]) == {:upload, "/path/to/file.json"}
     end
 
@@ -83,19 +83,19 @@ defmodule PledTest do
       # The actual command execution is tested in individual command modules
 
       # Test that encode command structure is correct
-      assert match?({:encode, []}, Pled.parse_args(["encode"]))
+      assert {:encode, []} = Pled.parse_args(["encode"])
 
       # Test that pull command structure is correct
-      assert match?({:pull, [wipe: true]}, Pled.parse_args(["pull", "-w"]))
+      assert {:pull, [wipe: true]} = Pled.parse_args(["pull", "-w"])
 
       # Test that push command structure is correct
-      assert match?({:push, []}, Pled.parse_args(["push"]))
+      assert {:push, []} = Pled.parse_args(["push"])
 
       # Test that upload command structure is correct
-      assert match?({:upload, "file.json"}, Pled.parse_args(["upload", "file.json"]))
+      assert {:upload, {"file.json", []}} = Pled.parse_args(["upload", "file.json"])
 
       # Test that help command structure is correct
-      assert match?({:help, []}, Pled.parse_args(["help"]))
+      assert {:help, []} = Pled.parse_args(["help"])
     end
   end
 end

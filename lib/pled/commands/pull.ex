@@ -40,10 +40,11 @@ defmodule Pled.Commands.Pull do
             case RemoteChecker.save_remote_snapshot(plugin_data) do
               :ok ->
                 UI.info("Remote snapshot saved", verbose?)
+
               {:error, reason} ->
                 UI.info("Warning: Failed to save remote snapshot: #{reason}", verbose?)
             end
-            
+
             Decoder.decode(plugin_data, File.cwd!())
             UI.info("Plugin data saved to #{plugin_file}", verbose?)
             IO.puts("Pull completed")

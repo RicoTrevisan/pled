@@ -36,12 +36,14 @@ defmodule TestElementActions do
     if File.exists?(actions_dir) do
       action_files = File.ls!(actions_dir)
       IO.puts("Action files created: #{length(action_files)}")
+
       Enum.each(action_files, fn file ->
         IO.puts("  - #{file}")
       end)
 
       # Show content of one action file
       js_files = Enum.filter(action_files, &String.ends_with?(&1, ".js"))
+
       if length(js_files) > 0 do
         sample_file = hd(js_files)
         content = File.read!(Path.join(actions_dir, sample_file))
@@ -70,6 +72,7 @@ defmodule TestElementActions do
 
     # Compare results
     IO.puts("\n=== COMPARISON ===")
+
     encoded_data =
       "test_output/dist/plugin.json"
       |> File.read!()
@@ -95,11 +98,12 @@ defmodule TestElementActions do
         IO.puts("✅ All action keys preserved!")
 
         # Check captions
-        captions_match = Enum.all?(original_keys, fn key ->
-          original_caption = get_in(original_actions, [key, "caption"])
-          encoded_caption = get_in(encoded_actions, [key, "caption"])
-          original_caption == encoded_caption
-        end)
+        captions_match =
+          Enum.all?(original_keys, fn key ->
+            original_caption = get_in(original_actions, [key, "caption"])
+            encoded_caption = get_in(encoded_actions, [key, "caption"])
+            original_caption == encoded_caption
+          end)
 
         if captions_match do
           IO.puts("✅ All captions match!")
@@ -108,27 +112,26 @@ defmodule TestElementActions do
         end
 
         # Check that JavaScript was preserved
-        js_preserved = Enum.all?(original_keys, fn key ->
-          original_fn = get_in(original_actions, [key, "code", "fn"])
-          encoded_fn = get_in(encoded_actions, [key, "code", "fn"])
+        js_preserved =
+          Enum.all?(original_keys, fn key ->
+            original_fn = get_in(original_actions, [key, "code", "fn"])
+            encoded_fn = get_in(encoded_actions, [key, "code", "fn"])
 
-          # The function should be preserved, but may have different whitespace
-          original_fn != nil and encoded_fn != nil and
-          String.contains?(encoded_fn, "function(instance, properties, context)")
-        end)
+            # The function should be preserved, but may have different whitespace
+            original_fn != nil and encoded_fn != nil and
+              String.contains?(encoded_fn, "function(instance, properties, context)")
+          end)
 
         if js_preserved do
           IO.puts("✅ JavaScript functions preserved!")
         else
           IO.puts("❌ JavaScript functions not properly preserved")
         end
-
       else
         IO.puts("❌ Action keys don't match!")
         IO.puts("Original keys: #{inspect(MapSet.to_list(original_keys))}")
         IO.puts("Encoded keys: #{inspect(MapSet.to_list(encoded_keys))}")
       end
-
     else
       IO.puts("❌ Action count mismatch!")
     end

@@ -1,0 +1,12 @@
+{
+  "name": "pled-js-parser",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vendored JS parser dependencies for Pled AST generation",
+  "scripts": {
+    "install": "npm install --no-save acorn@^8"
+  },
+  "dependencies": {
+    "acorn": "^8.12.1"
+  }
+}

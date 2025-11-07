@@ -90,42 +90,46 @@ defmodule Pled.Integration.ElementActionsTest do
       # Check that JS files were created
       expected_js_files = [
         "table-toggle-header-row-ACp.js",
-        "remove-link-ACR.js", 
+        "remove-link-ACR.js",
         "custom-action-NEW.js"
       ]
 
       action_files = File.ls!(actions_dir)
+
       Enum.each(expected_js_files, fn file ->
         assert file in action_files, "Missing file: #{file}"
       end)
-      
+
       # Should only have JS files (no JSON or key files)
       assert length(action_files) == 3
 
       # Verify JS files contain cleaned JavaScript (without function wrapper)
       table_js = File.read!(Path.join(actions_dir, "table-toggle-header-row-ACp.js"))
+
       assert String.contains?(
                table_js,
                "instance.data.editor.chain().focus().toggleHeaderRow().run();"
              )
+
       refute String.contains?(table_js, "function(instance, properties, context) {")
 
       # Actions should also be preserved in the element JSON file
       element_json_path = Path.join(element_dir, "ABC.json")
       assert File.exists?(element_json_path)
-      
+
       element_data = element_json_path |> File.read!() |> Jason.decode!()
       assert Map.has_key?(element_data, "actions")
-      
+
       actions = element_data["actions"]
       assert Map.has_key?(actions, "ACp")
-      assert Map.has_key?(actions, "ACR") 
+      assert Map.has_key?(actions, "ACR")
       assert Map.has_key?(actions, "NEW")
-      
+
       # Verify action data is complete and preserved
       table_action = actions["ACp"]
       assert table_action["caption"] == "Table toggle header row"
       assert Map.has_key?(table_action["code"], "fn")
+
       assert String.contains?(
                table_action["code"]["fn"],
                "instance.data.editor.chain().focus().toggleHeaderRow().run();"
@@ -210,7 +214,8 @@ defmodule Pled.Integration.ElementActionsTest do
             "caption" => "Custom Action",
             "type" => "element_action",
             "code" => %{
-              "fn" => "function(instance, properties, context) {\n  console.log('original action');\n}"
+              "fn" =>
+                "function(instance, properties, context) {\n  console.log('original action');\n}"
             }
           }
         }
@@ -270,7 +275,7 @@ defmodule Pled.Integration.ElementActionsTest do
       assert action["caption"] == "Custom Action"
       assert action["type"] == "element_action"
       assert Map.has_key?(action["code"], "fn")
-      
+
       # JavaScript should be updated from the file
       assert String.contains?(action["code"]["fn"], "console.log('modified action code');")
       refute String.contains?(action["code"]["fn"], "console.log('original action');")

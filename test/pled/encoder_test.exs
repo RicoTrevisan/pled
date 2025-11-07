@@ -115,14 +115,17 @@ defmodule Pled.EncoderTest do
       Header font color (ADe)
       Allowed MIME Types (AFz)
       """
+
       File.write!(Path.join(tmp_dir, "fields.txt"), fields_content)
 
       {:ok, {_key, result}} = Encoder.Element.encode_element(tmp_dir)
-      
+
       fields = result["fields"]
-      assert fields["ADe"]["rank"] == 0  # Was 56, now should be 0
-      assert fields["AFz"]["rank"] == 1  # Was 101, now should be 1
-      
+      # Was 56, now should be 0
+      assert fields["ADe"]["rank"] == 0
+      # Was 101, now should be 1
+      assert fields["AFz"]["rank"] == 1
+
       # Captions should remain unchanged
       assert fields["ADe"]["caption"] == "Header font color"
       assert fields["AFz"]["caption"] == "Allowed MIME Types"
@@ -131,27 +134,29 @@ defmodule Pled.EncoderTest do
     test "field reordering with caption changes", %{tmp_dir: tmp_dir} do
       # Mock IO.gets to automatically confirm changes
       import ExUnit.CaptureIO
-      
+
       fields_content = """
       Modified Header Color (ADe)
       Custom MIME Types (AFz)
       """
+
       File.write!(Path.join(tmp_dir, "fields.txt"), fields_content)
 
       # Capture the output and provide 'y' as input to confirm changes
-      result = capture_io([input: "y\n"], fn ->
-        {:ok, {_key, encoded}} = Encoder.Element.encode_element(tmp_dir)
-        send(self(), {:result, encoded})
-      end)
-      
+      result =
+        capture_io([input: "y\n"], fn ->
+          {:ok, {_key, encoded}} = Encoder.Element.encode_element(tmp_dir)
+          send(self(), {:result, encoded})
+        end)
+
       assert_received {:result, encoded}
-      
+
       fields = encoded["fields"]
       assert fields["ADe"]["caption"] == "Modified Header Color"
       assert fields["AFz"]["caption"] == "Custom MIME Types"
       assert fields["ADe"]["rank"] == 0
       assert fields["AFz"]["rank"] == 1
-      
+
       # Should show change detection
       assert result =~ "Field changes detected"
       assert result =~ "Caption changes"
@@ -162,6 +167,7 @@ defmodule Pled.EncoderTest do
       Header font color (ADe)
       Duplicate field (ADe)
       """
+
       File.write!(Path.join(tmp_dir, "fields.txt"), fields_content)
 
       assert {:error, error_msg} = Encoder.Element.encode_element(tmp_dir)
@@ -174,6 +180,7 @@ defmodule Pled.EncoderTest do
       Header font color (ADe)
       This line is malformed
       """
+
       File.write!(Path.join(tmp_dir, "fields.txt"), fields_content)
 
       assert {:error, error_msg} = Encoder.Element.encode_element(tmp_dir)

@@ -7,15 +7,15 @@ defmodule Pled.RemoteCheckerTest do
   setup do
     # Clean up test snapshot
     File.rm(@test_snapshot_file)
-    
+
     # Replace snapshot file path for testing
     Application.put_env(:pled, :src_snapshot_file, @test_snapshot_file)
-    
+
     on_exit(fn ->
       File.rm(@test_snapshot_file)
       Application.delete_env(:pled, :src_snapshot_file)
     end)
-    
+
     :ok
   end
 
@@ -30,10 +30,10 @@ defmodule Pled.RemoteCheckerTest do
 
       assert :ok = RemoteChecker.save_remote_snapshot(plugin_data)
       assert File.exists?(@test_snapshot_file)
-      
+
       {:ok, content} = File.read(@test_snapshot_file)
       {:ok, saved_data} = Jason.decode(content)
-      
+
       assert saved_data == plugin_data
     end
 
@@ -41,13 +41,13 @@ defmodule Pled.RemoteCheckerTest do
       # Test with invalid path
       old_file = @test_snapshot_file
       Application.put_env(:pled, :src_snapshot_file, "/invalid/path/file.json")
-      
+
       plugin_data = %{"name" => "Test"}
-      
+
       result = RemoteChecker.save_remote_snapshot(plugin_data)
       assert {:error, msg} = result
       assert String.contains?(msg, "Failed to save snapshot")
-      
+
       Application.put_env(:pled, :src_snapshot_file, old_file)
     end
   end
@@ -77,7 +77,7 @@ defmodule Pled.RemoteCheckerTest do
 
     test "returns false when snapshot file doesn't exist" do
       File.rm(@test_snapshot_file)
-      assert false = RemoteChecker.snapshot_exists?()
+      refute RemoteChecker.snapshot_exists?()
     end
   end
 
@@ -96,11 +96,11 @@ defmodule Pled.RemoteCheckerTest do
       # Test the private function indirectly by checking save/read cycle
       original = %{"name" => "Test", "version" => "1.0"}
       updated = %{"name" => "Updated", "version" => "1.0"}
-      
+
       # Save original
       assert :ok = RemoteChecker.save_remote_snapshot(original)
-      
-      # Verify file was saved correctly  
+
+      # Verify file was saved correctly
       {:ok, content} = File.read(@test_snapshot_file)
       {:ok, parsed} = Jason.decode(content)
       assert parsed == original
