@@ -8,7 +8,7 @@ defmodule Pled.Commands.Init do
 
     with :ok <- create_envrc(),
          :ok <- create_gitignore(),
-         :ok <- create_llm_md(),
+         :ok <- create_agents_md(),
          :ok <- create_lib_directory(),
          :ok <- create_package_json(),
          :ok <- create_index_js(opts) do
@@ -63,50 +63,25 @@ defmodule Pled.Commands.Init do
     end
   end
 
-  defp create_llm_md do
-    content = """
-    # working with Pled
+  defp create_agents_md do
+    content = File.read!("priv/AGENTS.md.template")
 
-    ## Essential Context
-
-    - Project purpose: this is a Bubble.io plugin
-    - Core workflow: Pull → Edit locally → Push back to Bubble.
-    - You can run `pled watch` to automatically encode and push when there are changes to the `src/` directory.
-    - File structure: src/ contains decoded human-readable files, dist/ contains encoded Bubble JSON, lib/ contains any libraries that you might want to add to your project
-
-    ## Key Commands & Usage
-
-    - Environment setup requirements (PLUGIN_ID, COOKIE, TEST_URL)
-    - Main commands: pull, push, watch, encode, init
-    - Testing commands and patterns
-
-    ## Development Guidelines
-
-    - when changing `lib/index.js`, run `npm run build` in the `lib/` directory, then rename the `lib/dist.js` file to the latest version (start at `dist-v01.js` and go up from there), the run `pled upload lib/dist-vVERSION.js`
-    - when making changes to an element's `initialize.js` or `update.js`, in order to verify if the changes are working, use the Playwright MCP server and open the page listed in env var "TEST_URL"
-    - in initialize and update, you never have to add the standard bubble `function(properties...)`. Pled will do that automatically.
-    - `initialize.js` runs with `instance` and `context`
-    - `update.js` runs with `instance`, `properties`, and `context`
-    - if a `shared_keys` is `secure`, it is never available in the elements, only in server-side actions.
-
-    """
-
-    case File.exists?("llm.md") do
+    case File.exists?("AGENTS.md") do
       true ->
-        existing_content = File.read!("llm.md")
+        existing_content = File.read!("AGENTS.md")
 
         if String.contains?(existing_content, "# working with Pled") do
-          IO.puts("llm.md already contains # working with Pled, skipping...")
+          IO.puts("AGENTS.md already contains # working with Pled, skipping...")
           :ok
         else
-          File.write("llm.md", existing_content <> content)
-          IO.puts("✓ Updated llm.md")
+          File.write("AGENTS.md", existing_content <> content)
+          IO.puts("✓ Updated AGENTS.md")
           :ok
         end
 
       false ->
-        File.write("llm.md", content)
-        IO.puts("✓ Created llm.md")
+        File.write("AGENTS.md", content)
+        IO.puts("✓ Created AGENTS.md")
         :ok
     end
   end
@@ -125,17 +100,23 @@ defmodule Pled.Commands.Init do
         existing_content = File.read!(".gitignore")
 
         entries_to_add = String.split(gitignore_content, "\n", trim: true)
-        missing_entries = Enum.filter(entries_to_add, fn entry ->
-          not String.contains?(existing_content, entry)
-        end)
-        
+
+        missing_entries =
+          Enum.filter(entries_to_add, fn entry ->
+            not String.contains?(existing_content, entry)
+          end)
+
         if missing_entries == [] do
           IO.puts("⚠ .gitignore already contains all required entries, skipping...")
           :ok
         else
           new_content = existing_content <> "\n" <> Enum.join(missing_entries, "\n") <> "\n"
           File.write(".gitignore", new_content)
-          IO.puts("✓ Updated .gitignore with missing entries: #{Enum.join(missing_entries, ", ")}")
+
+          IO.puts(
+            "✓ Updated .gitignore with missing entries: #{Enum.join(missing_entries, ", ")}"
+          )
+
           :ok
         end
 
