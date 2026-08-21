@@ -4,6 +4,7 @@ defmodule Pled.SyncCommandsTest do
   import ExUnit.CaptureIO
 
   alias Pled.Commands.{CheckRemote, Decoder, Status}
+  alias Pled.{PluginDiff, Sync}
 
   @moduletag :tmp_dir
 
@@ -101,6 +102,26 @@ defmodule Pled.SyncCommandsTest do
         refute status_output =~ "Element field changed"
         refute status_output =~ "Action field changed"
       end
+    end
+  end
+
+  for {operation, expected_type} <- [
+        {:add, :asset_added},
+        {:change, :asset_field_changed},
+        {:delete, :asset_removed}
+      ] do
+    test "local asset #{operation} is classified as local ahead", %{
+      tmp_dir: tmp_dir,
+      base: base
+    } do
+      apply_local_asset_change(tmp_dir, unquote(operation))
+      stub_remote(base)
+
+      assert {:ok, sync} = File.cd!(tmp_dir, fn -> Sync.status() end)
+      assert sync.state == :local_ahead
+      assert %{local: diff} = sync.diffs
+      assert PluginDiff.changed?(diff)
+      assert diff.summary[unquote(expected_type)] == 1
     end
   end
 
@@ -233,6 +254,29 @@ defmodule Pled.SyncCommandsTest do
     File.mkdir_p!(src_dir)
     File.write!(Path.join(src_dir, "plugin.json"), Jason.encode!(plugin, pretty: true))
     capture_io(fn -> assert :ok = Decoder.decode(plugin, tmp_dir) end)
+  end
+
+  defp apply_local_asset_change(tmp_dir, operation) do
+    path = Path.join([tmp_dir, "src", "plugin.json"])
+    plugin = path |> File.read!() |> Jason.decode!()
+
+    assets =
+      case operation do
+        :add ->
+          Map.put(
+            plugin["assets"],
+            "ZZZ",
+            %{"name" => "local.js", "url" => "//cdn.example.com/local.js"}
+          )
+
+        :change ->
+          put_in(plugin["assets"], ["AFp", "url"], "//cdn.example.com/changed.js")
+
+        :delete ->
+          Map.delete(plugin["assets"], "AFp")
+      end
+
+    File.write!(path, plugin |> Map.put("assets", assets) |> Jason.encode!(pretty: true))
   end
 
   defp apply_local_change(_tmp_dir, nil), do: :ok

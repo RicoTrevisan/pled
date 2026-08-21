@@ -50,6 +50,35 @@ defmodule Pled.PluginDiffTest do
              end)
     end
 
+    for {operation, expected_type, expected_path} <- [
+          {:add, :asset_added, ["assets", "AAC"]},
+          {:change, :asset_field_changed, ["assets", "AAA", "url"]},
+          {:delete, :asset_removed, ["assets", "AAA"]}
+        ] do
+      test "reports asset #{operation}" do
+        a = base_plugin()
+        b = change_asset(a, unquote(operation))
+
+        diff = PluginDiff.diff(a, b)
+
+        assert PluginDiff.changed?(diff)
+        assert diff.summary[unquote(expected_type)] == 1
+
+        assert Enum.any?(diff.changes, fn change ->
+                 change.type == unquote(expected_type) and
+                   change.path == unquote(expected_path)
+               end)
+      end
+    end
+
+    test "ignores asset map reordering" do
+      a = base_plugin()
+      reordered_assets = a["assets"] |> Enum.reverse() |> Map.new()
+      b = Map.put(a, "assets", reordered_assets)
+
+      refute PluginDiff.changed?(PluginDiff.diff(a, b))
+    end
+
     test "emits deep paths for code edits" do
       a = base_plugin()
 
@@ -101,9 +130,29 @@ defmodule Pled.PluginDiffTest do
     %{
       "name" => "Sample",
       "description" => "Base",
+      "assets" => %{
+        "AAA" => %{"name" => "bundle.js", "url" => "//cdn.example.com/bundle.js"},
+        "AAB" => %{"name" => "icon.png", "url" => "//cdn.example.com/icon.png"}
+      },
       "plugin_elements" => %{"alpha" => sample_element("Alpha")},
       "plugin_actions" => %{"run" => sample_action("Run")}
     }
+  end
+
+  defp change_asset(plugin, :add) do
+    put_in(
+      plugin,
+      ["assets", "AAC"],
+      %{"name" => "worker.js", "url" => "//cdn.example.com/worker.js"}
+    )
+  end
+
+  defp change_asset(plugin, :change) do
+    put_in(plugin, ["assets", "AAA", "url"], "//cdn.example.com/bundle-v2.js")
+  end
+
+  defp change_asset(plugin, :delete) do
+    update_in(plugin, ["assets"], &Map.delete(&1, "AAA"))
   end
 
   defp sample_element(display) do

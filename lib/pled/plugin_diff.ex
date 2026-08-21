@@ -36,6 +36,7 @@ defmodule Pled.PluginDiff do
 
     changes = []
     changes = diff_metadata(changes, left_map["metadata"], right_map["metadata"])
+    changes = diff_assets(changes, left_map["assets"], right_map["assets"])
     changes = diff_html_header(changes, left_map["html_header"], right_map["html_header"])
     changes = diff_entities(changes, left_map["elements"], right_map["elements"], :element)
     changes = diff_entities(changes, left_map["actions"], right_map["actions"], :action)
@@ -74,6 +75,32 @@ defmodule Pled.PluginDiff do
       :metadata_field_changed,
       %{}
     )
+  end
+
+  defp diff_assets(changes, left, right) do
+    left = left || %{}
+    right = right || %{}
+
+    keys =
+      (Map.keys(left) ++ Map.keys(right))
+      |> Enum.uniq()
+      |> Enum.sort()
+
+    Enum.reduce(keys, changes, fn key, acc ->
+      path = ["assets", key]
+      meta = %{entity: :asset, key: key}
+
+      case {Map.fetch(left, key), Map.fetch(right, key)} do
+        {{:ok, before}, :error} ->
+          [change(:asset_removed, path, before, nil, meta) | acc]
+
+        {:error, {:ok, after_value}} ->
+          [change(:asset_added, path, nil, after_value, meta) | acc]
+
+        {{:ok, before}, {:ok, after_value}} ->
+          diff_value(acc, before, after_value, path, :asset_field_changed, meta)
+      end
+    end)
   end
 
   defp diff_html_header(changes, left, right) do

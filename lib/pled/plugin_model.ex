@@ -8,8 +8,9 @@ defmodule Pled.PluginModel do
   alias Pled.CodeBlock
   alias Slug
 
-  @enforce_keys [:metadata, :elements, :actions, :html_header, :raw, :canonical]
+  @enforce_keys [:metadata, :assets, :elements, :actions, :html_header, :raw, :canonical]
   defstruct metadata: %{},
+            assets: %{},
             elements: [],
             actions: [],
             html_header: nil,
@@ -18,6 +19,7 @@ defmodule Pled.PluginModel do
 
   @type t :: %__MODULE__{
           metadata: map(),
+          assets: map(),
           elements: [Element.t()],
           actions: [Action.t()],
           html_header: map() | nil,
@@ -64,6 +66,7 @@ defmodule Pled.PluginModel do
   def to_serializable_map(%__MODULE__{} = model) do
     %{
       "metadata" => model.metadata,
+      "assets" => model.assets,
       "elements" => Enum.map(model.elements, &Element.serializable/1),
       "actions" => Enum.map(model.actions, &Action.serializable/1),
       "html_header" => model.html_header
@@ -74,6 +77,7 @@ defmodule Pled.PluginModel do
 
   defp build_model(%{} = plugin) do
     metadata = extract_metadata(plugin)
+    assets = Map.get(plugin, "assets") || %{}
     elements = plugin |> Map.get("plugin_elements", %{}) |> build_elements()
     actions = plugin |> Map.get("plugin_actions", %{}) |> build_actions()
     html_header = plugin |> Map.get("html_header") |> sanitize_term()
@@ -81,6 +85,7 @@ defmodule Pled.PluginModel do
     canonical =
       %{
         "metadata" => metadata,
+        "assets" => assets,
         "elements" => Enum.map(elements, &Element.serializable/1),
         "actions" => Enum.map(actions, &Action.serializable/1),
         "html_header" => html_header
@@ -89,6 +94,7 @@ defmodule Pled.PluginModel do
 
     %__MODULE__{
       metadata: metadata,
+      assets: assets,
       elements: elements,
       actions: actions,
       html_header: html_header,

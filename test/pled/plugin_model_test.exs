@@ -34,6 +34,18 @@ defmodule Pled.PluginModelTest do
       {:ok, model} = PluginModel.from_remote(plugin)
       assert Enum.map(model.elements, & &1.key) == ["a", "b"]
     end
+
+    test "preserves remote-compatible top-level assets" do
+      assets = %{
+        "AAA" => %{"name" => "bundle.js", "url" => "//cdn.example.com/bundle.js"},
+        "AAB" => %{"name" => "icon.png", "url" => "https://cdn.example.com/icon.png"}
+      }
+
+      {:ok, model} = PluginModel.from_remote(%{"assets" => assets})
+
+      assert model.assets == assets
+      assert PluginModel.to_serializable_map(model)["assets"] == assets
+    end
   end
 
   describe "fingerprint/1" do
@@ -46,6 +58,18 @@ defmodule Pled.PluginModelTest do
         "name" => plugin_a["name"],
         "description" => plugin_a["description"]
       }
+
+      assert PluginModel.equal?(plugin_a, plugin_b)
+    end
+
+    test "ignores asset map ordering differences" do
+      assets = [
+        {"AAA", %{"name" => "bundle.js", "url" => "//cdn.example.com/bundle.js"}},
+        {"AAB", %{"name" => "icon.png", "url" => "//cdn.example.com/icon.png"}}
+      ]
+
+      plugin_a = %{"assets" => Map.new(assets)}
+      plugin_b = %{"assets" => assets |> Enum.reverse() |> Map.new()}
 
       assert PluginModel.equal?(plugin_a, plugin_b)
     end
